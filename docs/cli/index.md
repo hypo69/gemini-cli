@@ -1,28 +1,28 @@
 # Gemini CLI
 
-Within Gemini CLI, `packages/cli` is the frontend for users to send and receive prompts with the Gemini AI model and its associated tools. For a general overview of Gemini CLI, see the [main documentation page](../index.md).
+В Gemini CLI `packages/cli` является интерфейсом для пользователей, позволяющим отправлять и получать запросы с моделью Gemini AI и связанными с ней инструментами. Общий обзор Gemini CLI см. на [главной странице документации](../index.md).
 
-## Navigating this section
+## Навигация по этому разделу
 
-- **[Authentication](./authentication.md):** A guide to setting up authentication with Google's AI services.
-- **[Commands](./commands.md):** A reference for Gemini CLI commands (e.g., `/help`, `/tools`, `/theme`).
-- **[Configuration](./configuration.md):** A guide to tailoring Gemini CLI behavior using configuration files.
-- **[Token Caching](./token-caching.md):** Optimize API costs through token caching.
-- **[Themes](./themes.md)**: A guide to customizing the CLI's appearance with different themes.
-- **[Tutorials](tutorials.md)**: A tutorial showing how to use Gemini CLI to automate a development task.
+- **[Аутентификация](./authentication.md):** Руководство по настройке аутентификации в службах Google AI.
+- **[Команды](./commands.md):** Справочник по командам Gemini CLI (например, `/help`, `/tools`, `/theme`).
+- **[Конфигурация](./configuration.md):** Руководство по настройке поведения Gemini CLI с помощью файлов конфигурации.
+- **[Кэширование токенов](./token-caching.md):** Оптимизация затрат на API с помощью кэширования токенов.
+- **[Темы](./themes.md)**: Руководство по настройке внешнего вида CLI с помощью различных тем.
+- **[Учебники](tutorials.md)**: Учебник, показывающий, как использовать Gemini CLI для автоматизации задачи разработки.
 
-## Non-interactive mode
+## Неинтерактивный режим
 
-Gemini CLI can be run in a non-interactive mode, which is useful for scripting and automation. In this mode, you pipe input to the CLI, it executes the command, and then it exits.
+Gemini CLI может работать в неинтерактивном режиме, что полезно для написания сценариев и автоматизации. В этом режиме вы передаете ввод в CLI, он выполняет команду, а затем выходит.
 
-The following example pipes a command to Gemini CLI from your terminal:
+Следующий пример передает команду в Gemini CLI из вашего терминала:
 
 ```bash
-echo "What is fine tuning?" | gemini
+echo "Что такое тонкая настройка?" | gemini
 ```
 
-Gemini CLI executes the command and prints the output to your terminal. Note that you can achieve the same behavior by using the `--prompt` or `-p` flag. For example:
+Gemini CLI выполняет команду и выводит результат в ваш терминал. Обратите внимание, что вы можете добиться того же поведения, используя флаг `--prompt` или `-p`. Например:
 
 ```bash
-gemini -p "What is fine tuning?"
+gemini -p "Что такое тонкая настройка?"
 ```

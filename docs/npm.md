@@ -1,248 +1,248 @@
-# Package Overview
+# Обзор пакетов
 
-This monorepo contains two main packages: `@google/gemini-cli` and `@google/gemini-cli-core`.
+Этот монорепозиторий содержит два основных пакета: `@google/gemini-cli` и `@google/gemini-cli-core`.
 
 ## `@google/gemini-cli`
 
-This is the main package for the Gemini CLI. It is responsible for the user interface, command parsing, and all other user-facing functionality.
+Это основной пакет для Gemini CLI. Он отвечает за пользовательский интерфейс, разбор команд и все остальные функции, ориентированные на пользователя.
 
-When this package is published, it is bundled into a single executable file. This bundle includes all of the package's dependencies, including `@google/gemini-cli-core`. This means that whether a user installs the package with `npm install -g @google/gemini-cli` or runs it directly with `npx @google/gemini-cli`, they are using this single, self-contained executable.
+Когда этот пакет публикуется, он объединяется в один исполняемый файл. Этот пакет включает все зависимости пакета, включая `@google/gemini-cli-core`. Это означает, что независимо от того, устанавливает ли пользователь пакет с помощью `npm install -g @google/gemini-cli` или запускает его напрямую с помощью `npx @google/gemini-cli`, он использует этот единый, самодостаточный исполняемый файл.
 
 ## `@google/gemini-cli-core`
 
-This package contains the core logic for interacting with the Gemini API. It is responsible for making API requests, handling authentication, and managing the local cache.
+Этот пакет содержит основную логику для взаимодействия с Gemini API. Он отвечает за выполнение запросов API, обработку аутентификации и управление локальным кэшем.
 
-This package is not bundled. When it is published, it is published as a standard Node.js package with its own dependencies. This allows it to be used as a standalone package in other projects, if needed. All transpiled js code in the `dist` folder is included in the package.
+Этот пакет не объединяется. Когда он публикуется, он публикуется как стандартный пакет Node.js со своими собственными зависимостями. Это позволяет использовать его как автономный пакет в других проектах, если это необходимо. Весь транспилированный код js в папке `dist` включается в пакет.
 
-# Release Process
+# Процесс выпуска
 
-This project follows a structured release process to ensure that all packages are versioned and published correctly. The process is designed to be as automated as possible.
+Этот проект следует структурированному процессу выпуска, чтобы гарантировать правильное версионирование и публикацию всех пакетов. Процесс разработан таким образом, чтобы быть максимально автоматизированным.
 
-## How To Release
+## Как выпускать
 
-Releases are managed through the [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) GitHub Actions workflow. To perform a manual release for a patch or hotfix:
+Выпуски управляются через рабочий процесс GitHub Actions [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml). Чтобы выполнить ручной выпуск для исправления или срочного исправления:
 
-1.  Navigate to the **Actions** tab of the repository.
-2.  Select the **Release** workflow from the list.
-3.  Click the **Run workflow** dropdown button.
-4.  Fill in the required inputs:
-    - **Version**: The exact version to release (e.g., `v0.2.1`).
-    - **Ref**: The branch or commit SHA to release from (defaults to `main`).
-    - **Dry Run**: Leave as `true` to test the workflow without publishing, or set to `false` to perform a live release.
-5.  Click **Run workflow**.
+1.  Перейдите на вкладку **Actions** репозитория.
+2.  Выберите рабочий процесс **Release** из списка.
+3.  Нажмите кнопку раскрывающегося списка **Run workflow**.
+4.  Заполните необходимые поля:
+    - **Version**: Точная версия для выпуска (например, `v0.2.1`).
+    - **Ref**: Ветка или SHA коммита, из которого будет производиться выпуск (по умолчанию `main`).
+    - **Dry Run**: Оставьте `true` для тестирования рабочего процесса без публикации или установите `false` для выполнения реального выпуска.
+5.  Нажмите **Run workflow**.
 
-## Nightly Releases
+## Ночные выпуски
 
-In addition to manual releases, this project has an automated nightly release process to provide the latest "bleeding edge" version for testing and development.
+В дополнение к ручным выпускам, этот проект имеет автоматизированный процесс ночных выпусков для предоставления самой последней "передовой" версии для тестирования и разработки.
 
-### Process
+### Процесс
 
-Every night at midnight UTC, the [Release workflow](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) runs automatically on a schedule. It performs the following steps:
+Каждую ночь в полночь по UTC рабочий процесс [Release](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) запускается автоматически по расписанию. Он выполняет следующие шаги:
 
-1.  Checks out the latest code from the `main` branch.
-2.  Installs all dependencies.
-3.  Runs the full suite of `preflight` checks and integration tests.
-4.  If all tests succeed, it calculates the next nightly version number (e.g., `v0.2.1-nightly.20230101`).
-5.  It then builds and publishes the packages to npm with the `nightly` dist-tag.
-6.  Finally, it creates a GitHub Release for the nightly version.
+1.  Извлекает последний код из ветки `main`.
+2.  Устанавливает все зависимости.
+3.  Запускает полный набор проверок `preflight` и интеграционных тестов.
+4.  Если все тесты пройдены успешно, он вычисляет следующий номер ночной версии (например, `v0.2.1-nightly.20230101`).
+5.  Затем он собирает и публикует пакеты в npm с тегом `nightly`.
+6.  Наконец, он создает выпуск GitHub для ночной версии.
 
-### Failure Handling
+### Обработка сбоев
 
-If any step in the nightly workflow fails, it will automatically create a new issue in the repository with the labels `bug` and `nightly-failure`. The issue will contain a link to the failed workflow run for easy debugging.
+Если какой-либо шаг в ночном рабочем процессе завершается сбоем, он автоматически создает новую проблему в репозитории с метками `bug` и `nightly-failure`. Проблема будет содержать ссылку на неудачный запуск рабочего процесса для легкой отладки.
 
-### How to Use the Nightly Build
+### Как использовать ночную сборку
 
-To install the latest nightly build, use the `@nightly` tag:
+Чтобы установить последнюю ночную сборку, используйте тег `@nightly`:
 
 ```bash
 npm install -g @google/gemini-cli@nightly
 ```
 
-We also run a Google cloud build called [release-docker.yml](../.gcp/release-docker.yaml). Which publishes the sandbox docker to match your release. This will also be moved to GH and combined with the main release file once service account permissions are sorted out.
+Мы также запускаем сборку Google Cloud под названием [release-docker.yml](../.gcp/release-docker.yaml), которая публикует docker-песочницу в соответствии с вашим выпуском. Это также будет перенесено в GH и объединено с основным файлом выпуска после того, как будут урегулированы разрешения учетной записи службы.
 
-### After the Release
+### После выпуска
 
-After the workflow has successfully completed, you can monitor its progress in the [GitHub Actions tab](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml). Once complete, you should:
+После успешного завершения рабочего процесса вы можете отслеживать его ход на вкладке [GitHub Actions](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml). После завершения вы должны:
 
-1.  Go to the [pull requests page](https://github.com/google-gemini/gemini-cli/pulls) of the repository.
-2.  Create a new pull request from the `release/vX.Y.Z` branch to `main`.
-3.  Review the pull request (it should only contain version updates in `package.json` files) and merge it. This keeps the version in `main` up-to-date.
+1.  Перейти на [страницу запросов на вытягивание](https://github.com/google-gemini/gemini-cli/pulls) репозитория.
+2.  Создать новый запрос на вытягивание из ветки `release/vX.Y.Z` в `main`.
+3.  Просмотреть запрос на вытягивание (он должен содержать только обновления версии в файлах `package.json`) и объединить его. Это поддерживает версию в `main` в актуальном состоянии.
 
-## Release Validation
+## Проверка выпуска
 
-After pushing a new release smoke testing should be performed to ensure that the packages are working as expected. This can be done by installing the packages locally and running a set of tests to ensure that they are functioning correctly.
+После выпуска новой версии необходимо провести дымовое тестирование, чтобы убедиться, что пакеты работают должным образом. Это можно сделать, установив пакеты локально и запустив набор тестов, чтобы убедиться, что они функционируют правильно.
 
-- `npx -y @google/gemini-cli@latest --version` to validate the push worked as expected if you were not doing a rc or dev tag
-- `npx -y @google/gemini-cli@<release tag> --version` to validate the tag pushed appropriately
-- _This is destructive locally_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force &&  npm install @google/gemini-cli@<version>`
-- Smoke testing a basic run through of exercising a few llm commands and tools is recommended to ensure that the packages are working as expected. We'll codify this more in the future.
+- `npx -y @google/gemini-cli@latest --version` для проверки того, что push сработал, как ожидалось, если вы не использовали rc или dev tag
+- `npx -y @google/gemini-cli@<release tag> --version` для проверки того, что тег был отправлен правильно
+- _Это разрушительно локально_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force && npm install @google/gemini-cli@<version>`
+- Рекомендуется провести дымовое тестирование базового прогона нескольких команд llm и инструментов, чтобы убедиться, что пакеты работают должным образом. Мы кодифицируем это в будущем.
 
-## When to merge the version change, or not?
+## Когда объединять изменение версии, а когда нет?
 
-The above pattern for creating patch or hotfix releases from current or older commits leaves the repository in the following state:
+Вышеуказанный шаблон для создания патчей или срочных исправлений из текущих или более старых коммитов оставляет репозиторий в следующем состоянии:
 
-1.  The Tag (`vX.Y.Z-patch.1`): This tag correctly points to the original commit on main
-    that contains the stable code you intended to release. This is crucial. Anyone checking
-    out this tag gets the exact code that was published.
-2.  The Branch (`release-vX.Y.Z-patch.1`): This branch contains one new commit on top of the
-    tagged commit. That new commit only contains the version number change in package.json
-    (and other related files like package-lock.json).
+1.  Тег (`vX.Y.Z-patch.1`): Этот тег правильно указывает на исходный коммит в main,
+    который содержит стабильный код, который вы намеревались выпустить. Это крайне важно. Любой, кто проверяет
+    этот тег, получает точный код, который был опубликован.
+2.  Ветка (`release-vX.Y.Z-patch.1`): Эта ветка содержит один новый коммит поверх
+    тегированного коммита. Этот новый коммит содержит только изменение номера версии в package.json
+    (и других связанных файлах, таких как package-lock.json).
 
-This separation is good. It keeps your main branch history clean of release-specific
-version bumps until you decide to merge them.
+Это разделение хорошо. Оно сохраняет историю вашей основной ветки чистой от специфичных для выпуска
+изменений версии, пока вы не решите их объединить.
 
-This is the critical decision, and it depends entirely on the nature of the release.
+Это критическое решение, и оно полностью зависит от характера выпуска.
 
-### Merge Back for Stable Patches and Hotfixes
+### Объединение обратно для стабильных патчей и срочных исправлений
 
-You almost always want to merge the `release-<tag>` branch back into `main` for any
-stable patch or hotfix release.
+Вы почти всегда хотите объединить ветку `release-<tag>` обратно в `main` для любого
+стабильного патча или срочного исправления.
 
-- Why? The primary reason is to update the version in main's package.json. If you release
-  v1.2.1 from an older commit but never merge the version bump back, your main branch's
-  package.json will still say "version": "1.2.0". The next developer who starts work for
-  the next feature release (v1.3.0) will be branching from a codebase that has an
-  incorrect, older version number. This leads to confusion and requires manual version
-  bumping later.
-- The Process: After the release-v1.2.1 branch is created and the package is successfully
-  published, you should open a pull request to merge release-v1.2.1 into main. This PR
-  will contain just one commit: "chore: bump version to v1.2.1". It's a clean, simple
-  integration that keeps your main branch in sync with the latest released version.
+- Почему? Основная причина — обновить версию в package.json main. Если вы выпускаете
+  v1.2.1 из более старого коммита, но никогда не объединяете изменение версии обратно, ваш package.json основной ветки
+  по-прежнему будет содержать "version": "1.2.0". Следующий разработчик, который начнет работу над
+  следующим выпуском функций (v1.3.0), будет ветвиться от кодовой базы, которая имеет
+  неправильный, более старый номер версии. Это приводит к путанице и требует ручного обновления версии
+  позже.
+- Процесс: После создания ветки release-v1.2.1 и успешной публикации пакета
+  вы должны открыть запрос на вытягивание для объединения release-v1.2.1 в main. Этот PR
+  будет содержать только один коммит: "chore: bump version to v1.2.1". Это чистая, простая
+  интеграция, которая поддерживает вашу основную ветку в синхронизации с последней выпущенной версией.
 
-### Do NOT Merge Back for Pre-Releases (RC, Beta, Dev)
+### НЕ объединяйте обратно для предварительных выпусков (RC, Beta, Dev)
 
-You typically do not merge release branches for pre-releases back into `main`.
+Вы обычно не объединяете ветки выпуска для предварительных выпусков обратно в `main`.
 
-- Why? Pre-release versions (e.g., v1.3.0-rc.1, v1.3.0-rc.2) are, by definition, not
-  stable and are temporary. You don't want to pollute your main branch's history with a
-  series of version bumps for release candidates. The package.json in main should reflect
-  the latest stable release version, not an RC.
-- The Process: The release-v1.3.0-rc.1 branch is created, the npm publish --tag rc happens,
-  and then... the branch has served its purpose. You can simply delete it. The code for
-  the RC is already on main (or a feature branch), so no functional code is lost. The
-  release branch was just a temporary vehicle for the version number.
+- Почему? Предварительные версии (например, v1.3.0-rc.1, v1.3.0-rc.2) по определению не
+  стабильны и являются временными. Вы не хотите загрязнять историю вашей основной ветки серией
+  изменений версии для кандидатов в релизы. package.json в main должен отражать
+  последнюю стабильную версию выпуска, а не RC.
+- Процесс: Ветка release-v1.3.0-rc.1 создается, происходит npm publish --tag rc,
+  а затем... ветка выполнила свою цель. Вы можете просто удалить ее. Код для
+  RC уже находится в main (или в ветке функций), поэтому функциональный код не теряется. Ветка
+  выпуска была лишь временным средством для номера версии.
 
-## Local Testing and Validation: Changes to the Packaging and Publishing Process
+## Локальное тестирование и проверка: изменения в процессе упаковки и публикации
 
-If you need to test the release process without actually publishing to NPM or creating a public GitHub release, you can trigger the workflow manually from the GitHub UI.
+Если вам нужно протестировать процесс выпуска без фактической публикации в NPM или создания публичного выпуска GitHub, вы можете запустить рабочий процесс вручную из пользовательского интерфейса GitHub.
 
-1.  Go to the [Actions tab](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) of the repository.
-2.  Click on the "Run workflow" dropdown.
-3.  Leave the `dry_run` option checked (`true`).
-4.  Click the "Run workflow" button.
+1.  Перейдите на вкладку [Actions](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) репозитория.
+2.  Нажмите на раскрывающийся список "Run workflow".
+3.  Оставьте опцию `dry_run` отмеченной (`true`).
+4.  Нажмите кнопку "Run workflow".
 
-This will run the entire release process but will skip the `npm publish` and `gh release create` steps. You can inspect the workflow logs to ensure everything is working as expected.
+Это запустит весь процесс выпуска, но пропустит шаги `npm publish` и `gh release create`. Вы можете просмотреть журналы рабочего процесса, чтобы убедиться, что все работает должным образом.
 
-It is crucial to test any changes to the packaging and publishing process locally before committing them. This ensures that the packages will be published correctly and that they will work as expected when installed by a user.
+Крайне важно тестировать любые изменения в процессе упаковки и публикации локально, прежде чем фиксировать их. Это гарантирует, что пакеты будут опубликованы правильно и будут работать должным образом при установке пользователем.
 
-To validate your changes, you can perform a dry run of the publishing process. This will simulate the publishing process without actually publishing the packages to the npm registry.
+Чтобы проверить свои изменения, вы можете выполнить сухой запуск процесса публикации. Это будет имитировать процесс публикации без фактической публикации пакетов в реестр npm.
 
 ```bash
 npm_package_version=9.9.9 SANDBOX_IMAGE_REGISTRY="registry" SANDBOX_IMAGE_NAME="thename" npm run publish:npm --dry-run
 ```
 
-This command will do the following:
+Эта команда сделает следующее:
 
-1.  Build all the packages.
-2.  Run all the prepublish scripts.
-3.  Create the package tarballs that would be published to npm.
-4.  Print a summary of the packages that would be published.
+1.  Соберет все пакеты.
+2.  Запустит все скрипты prepublish.
+3.  Создаст tar-архивы пакетов, которые будут опубликованы в npm.
+4.  Выведет сводку пакетов, которые будут опубликованы.
 
-You can then inspect the generated tarballs to ensure that they contain the correct files and that the `package.json` files have been updated correctly. The tarballs will be created in the root of each package's directory (e.g., `packages/cli/google-gemini-cli-0.1.6.tgz`).
+Затем вы можете проверить сгенерированные tar-архивы, чтобы убедиться, что они содержат правильные файлы и что файлы `package.json` были обновлены правильно. Tar-архивы будут созданы в корневом каталоге каждого пакета (например, `packages/cli/google-gemini-cli-0.1.6.tgz`).
 
-By performing a dry run, you can be confident that your changes to the packaging process are correct and that the packages will be published successfully.
+Выполнив сухой запуск, вы можете быть уверены, что ваши изменения в процессе упаковки верны и что пакеты будут успешно опубликованы.
 
-## Release Deep Dive
+## Подробный обзор выпуска
 
-The main goal of the release process is to take the source code from the packages/ directory, build it, and assemble a
-clean, self-contained package in a temporary `bundle` directory at the root of the project. This `bundle` directory is what
-actually gets published to NPM.
+Основная цель процесса выпуска — взять исходный код из каталога packages/, собрать его и собрать
+чистый, самодостаточный пакет во временном каталоге `bundle` в корне проекта. Этот каталог `bundle` — это то,
+что фактически публикуется в NPM.
 
-Here are the key stages:
+Вот ключевые этапы:
 
-Stage 1: Pre-Release Sanity Checks and Versioning
+Этап 1: Проверки перед выпуском и версионирование
 
-- What happens: Before any files are moved, the process ensures the project is in a good state. This involves running tests,
-  linting, and type-checking (npm run preflight). The version number in the root package.json and packages/cli/package.json
-  is updated to the new release version.
-- Why: This guarantees that only high-quality, working code is released. Versioning is the first step to signify a new
-  release.
+- Что происходит: Перед перемещением любых файлов процесс гарантирует, что проект находится в хорошем состоянии. Это включает запуск тестов,
+  линтера и проверку типов (npm run preflight). Номер версии в корневом package.json и packages/cli/package.json
+  обновляется до новой версии выпуска.
+- Почему: Это гарантирует, что выпускается только высококачественный, работающий код. Версионирование — это первый шаг к обозначению нового
+  выпуска.
 
-Stage 2: Building the Source Code
+Этап 2: Сборка исходного кода
 
-- What happens: The TypeScript source code in packages/core/src and packages/cli/src is compiled into JavaScript.
-- File movement:
-  - packages/core/src/\*_/_.ts -> compiled to -> packages/core/dist/
-  - packages/cli/src/\*_/_.ts -> compiled to -> packages/cli/dist/
-- Why: The TypeScript code written during development needs to be converted into plain JavaScript that can be run by
-  Node.js. The core package is built first as the cli package depends on it.
+- Что происходит: Исходный код TypeScript в packages/core/src и packages/cli/src компилируется в JavaScript.
+- Перемещение файлов:
+  - packages/core/src/\*_/_.ts -> компилируется в -> packages/core/dist/
+  - packages/cli/src/\*_/_.ts -> компилируется в -> packages/cli/dist/
+- Почему: Код TypeScript, написанный во время разработки, должен быть преобразован в обычный JavaScript, который может быть запущен
+  Node.js. Основной пакет собирается первым, так как пакет cli зависит от него.
 
-Stage 3: Assembling the Final Publishable Package
+Этап 3: Сборка окончательного пакета для публикации
 
-This is the most critical stage where files are moved and transformed into their final state for publishing. A temporary
-`bundle` folder is created at the project root to house the final package contents.
+Это самый критический этап, на котором файлы перемещаются и преобразуются в их окончательное состояние для публикации. Временная
+папка `bundle` создается в корне проекта для размещения содержимого окончательного пакета.
 
-1.  The `package.json` is Transformed:
-    - What happens: The package.json from packages/cli/ is read, modified, and written into the root `bundle`/ directory.
-    - File movement: packages/cli/package.json -> (in-memory transformation) -> `bundle`/package.json
-    - Why: The final package.json must be different from the one used in development. Key changes include:
-      - Removing devDependencies.
-      - Removing workspace-specific "dependencies": { "@gemini-cli/core": "workspace:\*" } and ensuring the core code is
-        bundled directly into the final JavaScript file.
-      - Ensuring the bin, main, and files fields point to the correct locations within the final package structure.
+1.  `package.json` преобразуется:
+    - Что происходит: package.json из packages/cli/ читается, изменяется и записывается в корневой каталог `bundle`/.
+    - Перемещение файлов: packages/cli/package.json -> (преобразование в памяти) -> `bundle`/package.json
+    - Почему: Окончательный package.json должен отличаться от того, который использовался в разработке. Ключевые изменения включают:
+      - Удаление devDependencies.
+      - Удаление специфичных для рабочей области "dependencies": { "@gemini-cli/core": "workspace:\*" } и обеспечение того, чтобы основной код был
+        объединен непосредственно в окончательный файл JavaScript.
+      - Обеспечение того, чтобы поля bin, main и files указывали на правильные места в окончательной структуре пакета.
 
-2.  The JavaScript Bundle is Created:
-    - What happens: The built JavaScript from both packages/core/dist and packages/cli/dist are bundled into a single,
-      executable JavaScript file.
-    - File movement: packages/cli/dist/index.js + packages/core/dist/index.js -> (bundled by esbuild) -> `bundle`/gemini.js (or a
-      similar name).
-    - Why: This creates a single, optimized file that contains all the necessary application code. It simplifies the package
-      by removing the need for the core package to be a separate dependency on NPM, as its code is now included directly.
+2.  Создается пакет JavaScript:
+    - Что происходит: Собранный JavaScript из packages/core/dist и packages/cli/dist объединяется в один,
+      исполняемый файл JavaScript.
+    - Перемещение файлов: packages/cli/dist/index.js + packages/core/dist/index.js -> (объединяется esbuild) -> `bundle`/gemini.js (или аналогичное
+      имя).
+    - Почему: Это создает единый, оптимизированный файл, который содержит весь необходимый код приложения. Это упрощает пакет,
+      устраняя необходимость в том, чтобы основной пакет был отдельной зависимостью в NPM, так как его код теперь включен напрямую.
 
-3.  Static and Supporting Files are Copied:
-    - What happens: Essential files that are not part of the source code but are required for the package to work correctly
-      or be well-described are copied into the `bundle` directory.
-    - File movement:
+3.  Копируются статические и вспомогательные файлы:
+    - Что происходит: Важные файлы, которые не являются частью исходного кода, но необходимы для правильной работы пакета
+      или для его хорошего описания, копируются в каталог `bundle`.
+    - Перемещение файлов:
       - README.md -> `bundle`/README.md
       - LICENSE -> `bundle`/LICENSE
-      - packages/cli/src/utils/\*.sb (sandbox profiles) -> `bundle`/
-    - Why:
-      - The README.md and LICENSE are standard files that should be included in any NPM package.
-      - The sandbox profiles (.sb files) are critical runtime assets required for the CLI's sandboxing feature to
-        function. They must be located next to the final executable.
+      - packages/cli/src/utils/\*.sb (профили песочницы) -> `bundle`/
+    - Почему:
+      - README.md и LICENSE — это стандартные файлы, которые должны быть включены в любой пакет NPM.
+      - Профили песочницы (.sb файлы) являются критически важными активами времени выполнения, необходимыми для работы функции песочницы CLI.
+        Они должны находиться рядом с окончательным исполняемым файлом.
 
-Stage 4: Publishing to NPM
+Этап 4: Публикация в NPM
 
-- What happens: The npm publish command is run from inside the root `bundle` directory.
-- Why: By running npm publish from within the `bundle` directory, only the files we carefully assembled in Stage 3 are uploaded
-  to the NPM registry. This prevents any source code, test files, or development configurations from being accidentally
-  published, resulting in a clean and minimal package for users.
+- Что происходит: Команда npm publish запускается из каталога `bundle`.
+- Почему: Запуская npm publish из каталога `bundle`, только файлы, которые мы тщательно собрали на этапе 3, загружаются
+  в реестр NPM. Это предотвращает случайную публикацию любого исходного кода, тестовых файлов или конфигураций разработки,
+  что приводит к чистому и минимальному пакету для пользователей.
 
-Summary of File Flow
+Сводка потока файлов
 
 ```mermaid
 graph TD
-    subgraph "Source Files"
+    subgraph "Исходные файлы"
         A["packages/core/src/*.ts<br/>packages/cli/src/*.ts"]
         B["packages/cli/package.json"]
         C["README.md<br/>LICENSE<br/>packages/cli/src/utils/*.sb"]
     end
 
-    subgraph "Process"
-        D(Build)
-        E(Transform)
-        F(Assemble)
-        G(Publish)
+    subgraph "Процесс"
+        D(Сборка)
+        E(Преобразование)
+        F(Сборка)
+        G(Публикация)
     end
 
-    subgraph "Artifacts"
-        H["Bundled JS"]
-        I["Final package.json"]
+    subgraph "Артефакты"
+        H["Связанный JS"]
+        I["Окончательный package.json"]
         J["bundle/"]
     end
 
-    subgraph "Destination"
-        K["NPM Registry"]
+    subgraph "Назначение"
+        K["Реестр NPM"]
     end
 
     A --> D --> H
@@ -254,16 +254,16 @@ graph TD
     J --> G --> K
 ```
 
-This process ensures that the final published artifact is a purpose-built, clean, and efficient representation of the
-project, rather than a direct copy of the development workspace.
+Этот процесс гарантирует, что окончательный опубликованный артефакт является специально созданным, чистым и эффективным представлением
+проекта, а не прямой копией рабочей области разработки.
 
-## NPM Workspaces
+## Рабочие области NPM
 
-This project uses [NPM Workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces) to manage the packages within this monorepo. This simplifies development by allowing us to manage dependencies and run scripts across multiple packages from the root of the project.
+Этот проект использует [рабочие области NPM](https://docs.npmjs.com/cli/v10/using-npm/workspaces) для управления пакетами в этом монорепозитории. Это упрощает разработку, позволяя нам управлять зависимостями и запускать скрипты для нескольких пакетов из корня проекта.
 
-### How it Works
+### Как это работает
 
-The root `package.json` file defines the workspaces for this project:
+Корневой файл `package.json` определяет рабочие области для этого проекта:
 
 ```json
 {
@@ -271,10 +271,10 @@ The root `package.json` file defines the workspaces for this project:
 }
 ```
 
-This tells NPM that any folder inside the `packages` directory is a separate package that should be managed as part of the workspace.
+Это сообщает NPM, что любая папка внутри каталога `packages` является отдельным пакетом, который должен управляться как часть рабочей области.
 
-### Benefits of Workspaces
+### Преимущества рабочих областей
 
-- **Simplified Dependency Management**: Running `npm install` from the root of the project will install all dependencies for all packages in the workspace and link them together. This means you don't need to run `npm install` in each package's directory.
-- **Automatic Linking**: Packages within the workspace can depend on each other. When you run `npm install`, NPM will automatically create symlinks between the packages. This means that when you make changes to one package, the changes are immediately available to other packages that depend on it.
-- **Simplified Script Execution**: You can run scripts in any package from the root of the project using the `--workspace` flag. For example, to run the `build` script in the `cli` package, you can run `npm run build --workspace @google/gemini-cli`.
+- **Упрощенное управление зависимостями**: Запуск `npm install` из корня проекта установит все зависимости для всех пакетов в рабочей области и свяжет их вместе. Это означает, что вам не нужно запускать `npm install` в каталоге каждого пакета.
+- **Автоматическое связывание**: Пакеты в рабочей области могут зависеть друг от друга. Когда вы запускаете `npm install`, NPM автоматически создаст символические ссылки между пакетами. Это означает, что когда вы вносите изменения в один пакет, изменения немедленно становятся доступными для других пакетов, которые от него зависят.
+- **Упрощенное выполнение скриптов**: Вы можете запускать скрипты в любом пакете из корня проекта, используя флаг `--workspace`. Например, чтобы запустить скрипт `build` в пакете `cli`, вы можете запустить `npm run build --workspace @google/gemini-cli`.

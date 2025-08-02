@@ -602,7 +602,7 @@ server.registerPrompt(
         role: 'user',
         content: {
           type: 'text',
-          text: `Write a haiku${mood ? ` with the mood ${mood}` : ''} called ${title}. Note that a haiku is 5 syllables followed by 7 syllables followed by 5 syllables `,
+          text: `Напишите хайку${mood ? ` с настроением ${mood}` : ''} под названием ${title}. Обратите внимание, что хайку состоит из 5 слогов, за которыми следуют 7 слогов, за которыми следуют 5 слогов `,
         },
       },
     ],

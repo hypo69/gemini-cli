@@ -1,38 +1,38 @@
-# Welcome to Gemini CLI documentation
+# Добро пожаловать в документацию Gemini CLI
 
-This documentation provides a comprehensive guide to installing, using, and developing Gemini CLI. This tool lets you interact with Gemini models through a command-line interface.
+Эта документация представляет собой всеобъемлющее руководство по установке, использованию и разработке Gemini CLI. Этот инструмент позволяет взаимодействовать с моделями Gemini через интерфейс командной строки.
 
-## Overview
+## Обзор
 
-Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
+Gemini CLI переносит возможности моделей Gemini в ваш терминал в интерактивной среде Read-Eval-Print Loop (REPL). Gemini CLI состоит из клиентского приложения (`packages/cli`), которое взаимодействует с локальным сервером (`packages/core`), который, в свою очередь, управляет запросами к Gemini API и его моделям ИИ. Gemini CLI также содержит различные инструменты для таких задач, как выполнение операций с файловой системой, запуск оболочек и получение веб-данных, которые управляются `packages/core`.
 
-## Navigating the documentation
+## Навигация по документации
 
-This documentation is organized into the following sections:
+Эта документация организована по следующим разделам:
 
-- **[Execution and Deployment](./deployment.md):** Information for running Gemini CLI.
-- **[Architecture Overview](./architecture.md):** Understand the high-level design of Gemini CLI, including its components and how they interact.
-- **CLI Usage:** Documentation for `packages/cli`.
-  - **[CLI Introduction](./cli/index.md):** Overview of the command-line interface.
-  - **[Commands](./cli/commands.md):** Description of available CLI commands.
-  - **[Configuration](./cli/configuration.md):** Information on configuring the CLI.
-  - **[Checkpointing](./checkpointing.md):** Documentation for the checkpointing feature.
-  - **[Extensions](./extension.md):** How to extend the CLI with new functionality.
-  - **[Telemetry](./telemetry.md):** Overview of telemetry in the CLI.
-- **Core Details:** Documentation for `packages/core`.
-  - **[Core Introduction](./core/index.md):** Overview of the core component.
-  - **[Tools API](./core/tools-api.md):** Information on how the core manages and exposes tools.
-- **Tools:**
-  - **[Tools Overview](./tools/index.md):** Overview of the available tools.
-  - **[File System Tools](./tools/file-system.md):** Documentation for the `read_file` and `write_file` tools.
-  - **[Multi-File Read Tool](./tools/multi-file.md):** Documentation for the `read_many_files` tool.
-  - **[Shell Tool](./tools/shell.md):** Documentation for the `run_shell_command` tool.
-  - **[Web Fetch Tool](./tools/web-fetch.md):** Documentation for the `web_fetch` tool.
-  - **[Web Search Tool](./tools/web-search.md):** Documentation for the `google_web_search` tool.
-  - **[Memory Tool](./tools/memory.md):** Documentation for the `save_memory` tool.
-- **[Contributing & Development Guide](../CONTRIBUTING.md):** Information for contributors and developers, including setup, building, testing, and coding conventions.
-- **[NPM Workspaces and Publishing](./npm.md):** Details on how the project's packages are managed and published.
-- **[Troubleshooting Guide](./troubleshooting.md):** Find solutions to common problems and FAQs.
-- **[Terms of Service and Privacy Notice](./tos-privacy.md):** Information on the terms of service and privacy notices applicable to your use of Gemini CLI.
+- **[Выполнение и развертывание](./deployment.md):** Информация для запуска Gemini CLI.
+- **[Обзор архитектуры](./architecture.md):** Понимание высокоуровневого дизайна Gemini CLI, включая его компоненты и их взаимодействие.
+- **Использование CLI:** Документация для `packages/cli`.
+  - **[Введение в CLI](./cli/index.md):** Обзор интерфейса командной строки.
+  - **[Команды](./cli/commands.md):** Описание доступных команд CLI.
+  - **[Конфигурация](./cli/configuration.md):** Информация о настройке CLI.
+  - **[Контрольные точки](./checkpointing.md):** Документация по функции контрольных точек.
+  - **[Расширения](./extension.md):** Как расширить CLI новой функциональностью.
+  - **[Телеметрия](./telemetry.md):** Обзор телеметрии в CLI.
+- **Основные сведения:** Документация для `packages/core`.
+  - **[Введение в ядро](./core/index.md):** Обзор основного компонента.
+  - **[API инструментов](./core/tools-api.md):** Информация о том, как ядро управляет и предоставляет инструменты.
+- **Инструменты:**
+  - **[Обзор инструментов](./tools/index.md):** Обзор доступных инструментов.
+  - **[Инструменты файловой системы](./tools/file-system.md):** Документация по инструментам `read_file` и `write_file`.
+  - **[Инструмент чтения нескольких файлов](./tools/multi-file.md):** Документация по инструменту `read_many_files`.
+  - **[Инструмент оболочки](./tools/shell.md):** Документация по инструменту `run_shell_command`.
+  - **[Инструмент веб-запросов](./tools/web-fetch.md):** Документация по инструменту `web_fetch`.
+  - **[Инструмент веб-поиска](./tools/web-search.md):** Документация по инструменту `google_web_search`.
+  - **[Инструмент памяти](./tools/memory.md):** Документация по инструменту `save_memory`.
+- **[Руководство по участию и разработке](../CONTRIBUTING.md):** Информация для участников и разработчиков, включая настройку, сборку, тестирование и соглашения о кодировании.
+- **[Рабочие области NPM и публикация](./npm.md):** Подробная информация о том, как управляются и публикуются пакеты проекта.
+- **[Руководство по устранению неполадок](./troubleshooting.md):** Найдите решения распространенных проблем и часто задаваемые вопросы.
+- **[Условия обслуживания и уведомление о конфиденциальности](./tos-privacy.md):** Информация об условиях обслуживания и уведомлениях о конфиденциальности, применимых к использованию вами Gemini CLI.
 
-We hope this documentation helps you make the most of the Gemini CLI!
+Надеемся, эта документация поможет вам максимально эффективно использовать Gemini CLI!

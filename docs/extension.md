@@ -1,23 +1,23 @@
-# Gemini CLI Extensions
+# Расширения Gemini CLI
 
-Gemini CLI supports extensions that can be used to configure and extend its functionality.
+Gemini CLI поддерживает расширения, которые могут быть использованы для настройки и расширения его функциональности.
 
-## How it works
+## Как это работает
 
-On startup, Gemini CLI looks for extensions in two locations:
+При запуске Gemini CLI ищет расширения в двух местах:
 
 1.  `<workspace>/.gemini/extensions`
 2.  `<home>/.gemini/extensions`
 
-Gemini CLI loads all extensions from both locations. If an extension with the same name exists in both locations, the extension in the workspace directory takes precedence.
+Gemini CLI загружает все расширения из обоих мест. Если расширение с тем же именем существует в обоих местах, расширение в каталоге рабочей области имеет приоритет.
 
-Within each location, individual extensions exist as a directory that contains a `gemini-extension.json` file. For example:
+В каждом месте отдельные расширения существуют как каталог, который содержит файл `gemini-extension.json`. Например:
 
 `<workspace>/.gemini/extensions/my-extension/gemini-extension.json`
 
 ### `gemini-extension.json`
 
-The `gemini-extension.json` file contains the configuration for the extension. The file has the following structure:
+Файл `gemini-extension.json` содержит конфигурацию для расширения. Файл имеет следующую структуру:
 
 ```json
 {
@@ -33,21 +33,21 @@ The `gemini-extension.json` file contains the configuration for the extension. T
 }
 ```
 
-- `name`: The name of the extension. This is used to uniquely identify the extension and for conflict resolution when extension commands have the same name as user or project commands.
-- `version`: The version of the extension.
-- `mcpServers`: A map of MCP servers to configure. The key is the name of the server, and the value is the server configuration. These servers will be loaded on startup just like MCP servers configured in a [`settings.json` file](./cli/configuration.md). If both an extension and a `settings.json` file configure an MCP server with the same name, the server defined in the `settings.json` file takes precedence.
-- `contextFileName`: The name of the file that contains the context for the extension. This will be used to load the context from the workspace. If this property is not used but a `GEMINI.md` file is present in your extension directory, then that file will be loaded.
-- `excludeTools`: An array of tool names to exclude from the model. You can also specify command-specific restrictions for tools that support it, like the `run_shell_command` tool. For example, `"excludeTools": ["run_shell_command(rm -rf)"]` will block the `rm -rf` command.
+- `name`: Имя расширения. Используется для уникальной идентификации расширения и для разрешения конфликтов, когда команды расширения имеют то же имя, что и пользовательские или проектные команды.
+- `version`: Версия расширения.
+- `mcpServers`: Карта серверов MCP для настройки. Ключ — это имя сервера, а значение — конфигурация сервера. Эти серверы будут загружены при запуске так же, как серверы MCP, настроенные в файле [`settings.json`](./cli/configuration.md). Если и расширение, и файл `settings.json` настраивают сервер MCP с тем же именем, сервер, определенный в файле `settings.json`, имеет приоритет.
+- `contextFileName`: Имя файла, который содержит контекст для расширения. Он будет использоваться для загрузки контекста из рабочей области. Если это свойство не используется, но файл `GEMINI.md` присутствует в каталоге вашего расширения, то этот файл будет загружен.
+- `excludeTools`: Массив имен инструментов, которые нужно исключить из модели. Вы также можете указать ограничения для конкретных команд для инструментов, которые это поддерживают, например, для инструмента `run_shell_command`. Например, `"excludeTools": ["run_shell_command(rm -rf)"]` заблокирует команду `rm -rf`.
 
-When Gemini CLI starts, it loads all the extensions and merges their configurations. If there are any conflicts, the workspace configuration takes precedence.
+Когда Gemini CLI запускается, он загружает все расширения и объединяет их конфигурации. Если есть какие-либо конфликты, конфигурация рабочей области имеет приоритет.
 
-## Extension Commands
+## Команды расширений
 
-Extensions can provide [custom commands](./cli/commands.md#custom-commands) by placing TOML files in a `commands/` subdirectory within the extension directory. These commands follow the same format as user and project custom commands and use standard naming conventions.
+Расширения могут предоставлять [пользовательские команды](./cli/commands.md#custom-commands), размещая файлы TOML в подкаталоге `commands/` внутри каталога расширения. Эти команды следуют тому же формату, что и пользовательские и проектные пользовательские команды, и используют стандартные соглашения об именовании.
 
-### Example
+### Пример
 
-An extension named `gcp` with the following structure:
+Расширение с именем `gcp` со следующей структурой:
 
 ```
 .gemini/extensions/gcp/
@@ -58,19 +58,19 @@ An extension named `gcp` with the following structure:
         └── sync.toml
 ```
 
-Would provide these commands:
+Предоставит следующие команды:
 
-- `/deploy` - Shows as `[gcp] Custom command from deploy.toml` in help
-- `/gcs:sync` - Shows as `[gcp] Custom command from sync.toml` in help
+- `/deploy` - Отображается как `[gcp] Пользовательская команда из deploy.toml` в справке
+- `/gcs:sync` - Отображается как `[gcp] Пользовательская команда из sync.toml` в справке
 
-### Conflict Resolution
+### Разрешение конфликтов
 
-Extension commands have the lowest precedence. When a conflict occurs with user or project commands:
+Команды расширений имеют самый низкий приоритет. При возникновении конфликта с пользовательскими или проектными командами:
 
-1. **No conflict**: Extension command uses its natural name (e.g., `/deploy`)
-2. **With conflict**: Extension command is renamed with the extension prefix (e.g., `/gcp.deploy`)
+1. **Нет конфликта**: Команда расширения использует свое естественное имя (например, `/deploy`)
+2. **С конфликтом**: Команда расширения переименовывается с префиксом расширения (например, `/gcp.deploy`)
 
-For example, if both a user and the `gcp` extension define a `deploy` command:
+Например, если и пользователь, и расширение `gcp` определяют команду `deploy`:
 
-- `/deploy` - Executes the user's deploy command
-- `/gcp.deploy` - Executes the extension's deploy command (marked with `[gcp]` tag)
+- `/deploy` - Выполняет команду развертывания пользователя
+- `/gcp.deploy` - Выполняет команду развертывания расширения (помечена тегом `[gcp]`)

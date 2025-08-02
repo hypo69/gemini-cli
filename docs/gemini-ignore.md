@@ -1,59 +1,59 @@
-# Ignoring Files
+# Игнорирование файлов
 
-This document provides an overview of the Gemini Ignore (`.geminiignore`) feature of the Gemini CLI.
+Этот документ содержит обзор функции Gemini Ignore (`.geminiignore`) в Gemini CLI.
 
-The Gemini CLI includes the ability to automatically ignore files, similar to `.gitignore` (used by Git) and `.aiexclude` (used by Gemini Code Assist). Adding paths to your `.geminiignore` file will exclude them from tools that support this feature, although they will still be visible to other services (such as Git).
+Gemini CLI включает возможность автоматически игнорировать файлы, аналогично `.gitignore` (используемому Git) и `.aiexclude` (используемому Gemini Code Assist). Добавление путей в файл `.geminiignore` исключит их из инструментов, которые поддерживают эту функцию, хотя они по-прежнему будут видны другим службам (таким как Git).
 
-## How it works
+## Как это работает
 
-When you add a path to your `.geminiignore` file, tools that respect this file will exclude matching files and directories from their operations. For example, when you use the [`read_many_files`](./tools/multi-file.md) command, any paths in your `.geminiignore` file will be automatically excluded.
+Когда вы добавляете путь в файл `.geminiignore`, инструменты, которые учитывают этот файл, будут исключать соответствующие файлы и каталоги из своих операций. Например, при использовании команды [`read_many_files`](./tools/multi-file.md) любые пути в файле `.geminiignore` будут автоматически исключены.
 
-For the most part, `.geminiignore` follows the conventions of `.gitignore` files:
+По большей части `.geminiignore` следует соглашениям файлов `.gitignore`:
 
-- Blank lines and lines starting with `#` are ignored.
-- Standard glob patterns are supported (such as `*`, `?`, and `[]`).
-- Putting a `/` at the end will only match directories.
-- Putting a `/` at the beginning anchors the path relative to the `.geminiignore` file.
-- `!` negates a pattern.
+- Пустые строки и строки, начинающиеся с `#`, игнорируются.
+- Поддерживаются стандартные шаблоны glob (такие как `*`, `?` и `[]`).
+- Добавление `/` в конце будет соответствовать только каталогам.
+- Добавление `/` в начале привязывает путь относительно файла `.geminiignore`.
+- `!` инвертирует шаблон.
 
-You can update your `.geminiignore` file at any time. To apply the changes, you must restart your Gemini CLI session.
+Вы можете обновить файл `.geminiignore` в любое время. Чтобы применить изменения, необходимо перезапустить сеанс Gemini CLI.
 
-## How to use `.geminiignore`
+## Как использовать `.geminiignore`
 
-To enable `.geminiignore`:
+Чтобы включить `.geminiignore`:
 
-1. Create a file named `.geminiignore` in the root of your project directory.
+1. Создайте файл с именем `.geminiignore` в корневом каталоге вашего проекта.
 
-To add a file or directory to `.geminiignore`:
+Чтобы добавить файл или каталог в `.geminiignore`:
 
-1. Open your `.geminiignore` file.
-2. Add the path or file you want to ignore, for example: `/archive/` or `apikeys.txt`.
+1. Откройте файл `.geminiignore`.
+2. Добавьте путь или файл, который вы хотите игнорировать, например: `/archive/` или `apikeys.txt`.
 
-### `.geminiignore` examples
+### Примеры `.geminiignore`
 
-You can use `.geminiignore` to ignore directories and files:
+Вы можете использовать `.geminiignore` для игнорирования каталогов и файлов:
 
 ```
-# Exclude your /packages/ directory and all subdirectories
+# Исключить каталог /packages/ и все подкаталоги
 /packages/
 
-# Exclude your apikeys.txt file
+# Исключить файл apikeys.txt
 apikeys.txt
 ```
 
-You can use wildcards in your `.geminiignore` file with `*`:
+Вы можете использовать подстановочные знаки в файле `.geminiignore` с `*`:
 
 ```
-# Exclude all .md files
+# Исключить все файлы .md
 *.md
 ```
 
-Finally, you can exclude files and directories from exclusion with `!`:
+Наконец, вы можете исключить файлы и каталоги из исключения с помощью `!`:
 
 ```
-# Exclude all .md files except README.md
+# Исключить все файлы .md, кроме README.md
 *.md
 !README.md
 ```
 
-To remove paths from your `.geminiignore` file, delete the relevant lines.
+Чтобы удалить пути из файла `.geminiignore`, удалите соответствующие строки.

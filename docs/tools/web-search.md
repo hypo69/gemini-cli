@@ -1,36 +1,36 @@
-# Web Search Tool (`google_web_search`)
+# Инструмент веб-поиска (`google_web_search`)
 
-This document describes the `google_web_search` tool.
+Этот документ описывает инструмент `google_web_search`.
 
-## Description
+## Описание
 
-Use `google_web_search` to perform a web search using Google Search via the Gemini API. The `google_web_search` tool returns a summary of web results with sources.
+Используйте `google_web_search` для выполнения веб-поиска с использованием Google Search через Gemini API. Инструмент `google_web_search` возвращает сводку результатов веб-поиска с источниками.
 
-### Arguments
+### Аргументы
 
-`google_web_search` takes one argument:
+`google_web_search` принимает один аргумент:
 
-- `query` (string, required): The search query.
+- `query` (строка, обязательный): Поисковый запрос.
 
-## How to use `google_web_search` with the Gemini CLI
+## Как использовать `google_web_search` с Gemini CLI
 
-The `google_web_search` tool sends a query to the Gemini API, which then performs a web search. `google_web_search` will return a generated response based on the search results, including citations and sources.
+Инструмент `google_web_search` отправляет запрос в Gemini API, который затем выполняет веб-поиск. `google_web_search` вернет сгенерированный ответ на основе результатов поиска, включая цитаты и источники.
 
-Usage:
-
-```
-google_web_search(query="Your query goes here.")
-```
-
-## `google_web_search` examples
-
-Get information on a topic:
+Использование:
 
 ```
-google_web_search(query="latest advancements in AI-powered code generation")
+google_web_search(query="Ваш запрос здесь.")
 ```
 
-## Important notes
+## Примеры `google_web_search`
 
-- **Response returned:** The `google_web_search` tool returns a processed summary, not a raw list of search results.
-- **Citations:** The response includes citations to the sources used to generate the summary.
+Получить информацию по теме:
+
+```
+google_web_search(query="последние достижения в области генерации кода с помощью ИИ")
+```
+
+## Важные примечания
+
+- **Возвращаемый ответ:** Инструмент `google_web_search` возвращает обработанную сводку, а не необработанный список результатов поиска.
+- **Цитаты:** Ответ включает цитаты на источники, использованные для генерации сводки.

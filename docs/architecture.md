@@ -1,54 +1,54 @@
-# Gemini CLI Architecture Overview
+# Обзор архитектуры Gemini CLI
 
-This document provides a high-level overview of the Gemini CLI's architecture.
+Этот документ предоставляет высокоуровневый обзор архитектуры Gemini CLI.
 
-## Core components
+## Основные компоненты
 
-The Gemini CLI is primarily composed of two main packages, along with a suite of tools that can be used by the system in the course of handling command-line input:
+Gemini CLI в основном состоит из двух основных пакетов, а также набора инструментов, которые могут использоваться системой в процессе обработки ввода из командной строки:
 
-1.  **CLI package (`packages/cli`):**
-    - **Purpose:** This contains the user-facing portion of the Gemini CLI, such as handling the initial user input, presenting the final output, and managing the overall user experience.
-    - **Key functions contained in the package:**
-      - [Input processing](./cli/commands.md)
-      - History management
-      - Display rendering
-      - [Theme and UI customization](./cli/themes.md)
-      - [CLI configuration settings](./cli/configuration.md)
+1.  **Пакет CLI (`packages/cli`):**
+    - **Назначение:** Содержит пользовательскую часть Gemini CLI, такую как обработка первоначального ввода пользователя, представление окончательного вывода и управление общим пользовательским опытом.
+    - **Ключевые функции, содержащиеся в пакете:**
+      - [Обработка ввода](./cli/commands.md)
+      - Управление историей
+      - Рендеринг отображения
+      - [Настройка темы и пользовательского интерфейса](./cli/themes.md)
+      - [Настройки конфигурации CLI](./cli/configuration.md)
 
-2.  **Core package (`packages/core`):**
-    - **Purpose:** This acts as the backend for the Gemini CLI. It receives requests sent from `packages/cli`, orchestrates interactions with the Gemini API, and manages the execution of available tools.
-    - **Key functions contained in the package:**
-      - API client for communicating with the Google Gemini API
-      - Prompt construction and management
-      - Tool registration and execution logic
-      - State management for conversations or sessions
-      - Server-side configuration
+2.  **Основной пакет (`packages/core`):**
+    - **Назначение:** Действует как бэкенд для Gemini CLI. Он получает запросы, отправленные из `packages/cli`, организует взаимодействие с Gemini API и управляет выполнением доступных инструментов.
+    - **Ключевые функции, содержащиеся в пакете:**
+      - Клиент API для связи с Google Gemini API
+      - Построение и управление запросами
+      - Регистрация и логика выполнения инструментов
+      - Управление состоянием для разговоров или сессий
+      - Конфигурация на стороне сервера
 
-3.  **Tools (`packages/core/src/tools/`):**
-    - **Purpose:** These are individual modules that extend the capabilities of the Gemini model, allowing it to interact with the local environment (e.g., file system, shell commands, web fetching).
-    - **Interaction:** `packages/core` invokes these tools based on requests from the Gemini model.
+3.  **Инструменты (`packages/core/src/tools/`):**
+    - **Назначение:** Это отдельные модули, которые расширяют возможности модели Gemini, позволяя ей взаимодействовать с локальной средой (например, файловой системой, командами оболочки, веб-запросами).
+    - **Взаимодействие:** `packages/core` вызывает эти инструменты на основе запросов от модели Gemini.
 
-## Interaction Flow
+## Поток взаимодействия
 
-A typical interaction with the Gemini CLI follows this flow:
+Типичное взаимодействие с Gemini CLI происходит следующим образом:
 
-1.  **User input:** The user types a prompt or command into the terminal, which is managed by `packages/cli`.
-2.  **Request to core:** `packages/cli` sends the user's input to `packages/core`.
-3.  **Request processed:** The core package:
-    - Constructs an appropriate prompt for the Gemini API, possibly including conversation history and available tool definitions.
-    - Sends the prompt to the Gemini API.
-4.  **Gemini API response:** The Gemini API processes the prompt and returns a response. This response might be a direct answer or a request to use one of the available tools.
-5.  **Tool execution (if applicable):**
-    - When the Gemini API requests a tool, the core package prepares to execute it.
-    - If the requested tool can modify the file system or execute shell commands, the user is first given details of the tool and its arguments, and the user must approve the execution.
-    - Read-only operations, such as reading files, might not require explicit user confirmation to proceed.
-    - Once confirmed, or if confirmation is not required, the core package executes the relevant action within the relevant tool, and the result is sent back to the Gemini API by the core package.
-    - The Gemini API processes the tool result and generates a final response.
-6.  **Response to CLI:** The core package sends the final response back to the CLI package.
-7.  **Display to user:** The CLI package formats and displays the response to the user in the terminal.
+1.  **Ввод пользователя:** Пользователь вводит запрос или команду в терминал, который управляется `packages/cli`.
+2.  **Запрос к ядру:** `packages/cli` отправляет ввод пользователя в `packages/core`.
+3.  **Обработка запроса:** Основной пакет:
+    - Создает соответствующий запрос для Gemini API, возможно, включая историю разговоров и определения доступных инструментов.
+    - Отправляет запрос в Gemini API.
+4.  **Ответ Gemini API:** Gemini API обрабатывает запрос и возвращает ответ. Этот ответ может быть прямым ответом или запросом на использование одного из доступных инструментов.
+5.  **Выполнение инструмента (если применимо):**
+    - Когда Gemini API запрашивает инструмент, основной пакет готовится к его выполнению.
+    - Если запрошенный инструмент может изменять файловую систему или выполнять команды оболочки, пользователю сначала предоставляются подробные сведения об инструменте и его аргументах, и пользователь должен одобрить выполнение.
+    - Операции только для чтения, такие как чтение файлов, могут не требовать явного подтверждения пользователя для продолжения.
+    - После подтверждения или если подтверждение не требуется, основной пакет выполняет соответствующее действие в рамках соответствующего инструмента, и результат отправляется обратно в Gemini API основным пакетом.
+    - Gemini API обрабатывает результат инструмента и генерирует окончательный ответ.
+6.  **Ответ CLI:** Основной пакет отправляет окончательный ответ обратно в пакет CLI.
+7.  **Отображение пользователю:** Пакет CLI форматирует и отображает ответ пользователю в терминале.
 
-## Key Design Principles
+## Ключевые принципы проектирования
 
-- **Modularity:** Separating the CLI (frontend) from the Core (backend) allows for independent development and potential future extensions (e.g., different frontends for the same backend).
-- **Extensibility:** The tool system is designed to be extensible, allowing new capabilities to be added.
-- **User experience:** The CLI focuses on providing a rich and interactive terminal experience.
+- **Модульность:** Разделение CLI (интерфейса) и Core (бэкенда) позволяет осуществлять независимую разработку и потенциальные будущие расширения (например, различные интерфейсы для одного и того же бэкенда).
+- **Расширяемость:** Система инструментов разработана таким образом, чтобы быть расширяемой, позволяя добавлять новые возможности.
+- **Пользовательский опыт:** CLI ориентирован на предоставление богатого и интерактивного опыта работы с терминалом.

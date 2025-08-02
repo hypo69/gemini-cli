@@ -1,51 +1,51 @@
-# Integration Tests
+# Интеграционные тесты
 
-This document provides information about the integration testing framework used in this project.
+Этот документ содержит информацию о фреймворке интеграционного тестирования, используемом в этом проекте.
 
-## Overview
+## Обзор
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They execute the built binary in a controlled environment and verify that it behaves as expected when interacting with the file system.
+Интеграционные тесты предназначены для проверки сквозной функциональности Gemini CLI. Они выполняют собранный бинарный файл в контролируемой среде и проверяют, что он ведет себя так, как ожидается, при взаимодействии с файловой системой.
 
-These tests are located in the `integration-tests` directory and are run using a custom test runner.
+Эти тесты расположены в каталоге `integration-tests` и запускаются с использованием пользовательского тестового запускатора.
 
-## Running the tests
+## Запуск тестов
 
-The integration tests are not run as part of the default `npm run test` command. They must be run explicitly using the `npm run test:integration:all` script.
+Интеграционные тесты не запускаются как часть команды `npm run test` по умолчанию. Они должны быть запущены явно с использованием скрипта `npm run test:integration:all`.
 
-The integration tests can also be run using the following shortcut:
+Интеграционные тесты также могут быть запущены с использованием следующего сокращения:
 
 ```bash
 npm run test:e2e
 ```
 
-## Running a specific set of tests
+## Запуск определенного набора тестов
 
-To run a subset of test files, you can use `npm run <integration test command> <file_name1> ....` where <integration test command> is either `test:e2e` or `test:integration*` and `<file_name>` is any of the `.test.js` files in the `integration-tests/` directory. For example, the following command runs `list_directory.test.js` and `write_file.test.js`:
+Чтобы запустить подмножество тестовых файлов, вы можете использовать `npm run <команда интеграционного теста> <имя_файла1> ....`, где <команда интеграционного теста> — это либо `test:e2e`, либо `test:integration*`, а `<имя_файла>` — любой из файлов `.test.js` в каталоге `integration-tests/`. Например, следующая команда запускает `list_directory.test.js` и `write_file.test.js`:
 
 ```bash
 npm run test:e2e list_directory write_file
 ```
 
-### Running a single test by name
+### Запуск одного теста по имени
 
-To run a single test by its name, use the `--test-name-pattern` flag:
+Чтобы запустить один тест по его имени, используйте флаг `--test-name-pattern`:
 
 ```bash
 npm run test:e2e -- --test-name-pattern "reads a file"
 ```
 
-### Running all tests
+### Запуск всех тестов
 
-To run the entire suite of integration tests, use the following command:
+Чтобы запустить весь набор интеграционных тестов, используйте следующую команду:
 
 ```bash
 npm run test:integration:all
 ```
 
-### Sandbox matrix
+### Матрица песочницы
 
-The `all` command will run tests for `no sandboxing`, `docker` and `podman`.
-Each individual type can be run using the following commands:
+Команда `all` запустит тесты для `без песочницы`, `docker` и `podman`.
+Каждый отдельный тип может быть запущен с использованием следующих команд:
 
 ```bash
 npm run test:integration:sandbox:none
@@ -59,83 +59,83 @@ npm run test:integration:sandbox:docker
 npm run test:integration:sandbox:podman
 ```
 
-## Diagnostics
+## Диагностика
 
-The integration test runner provides several options for diagnostics to help track down test failures.
+Запускатор интеграционных тестов предоставляет несколько опций для диагностики, чтобы помочь отслеживать сбои тестов.
 
-### Keeping test output
+### Сохранение вывода теста
 
-You can preserve the temporary files created during a test run for inspection. This is useful for debugging issues with file system operations.
+Вы можете сохранить временные файлы, созданные во время выполнения теста, для проверки. Это полезно для отладки проблем с операциями файловой системы.
 
-To keep the test output, you can either use the `--keep-output` flag or set the `KEEP_OUTPUT` environment variable to `true`.
+Чтобы сохранить вывод теста, вы можете использовать флаг `--keep-output` или установить переменную среды `KEEP_OUTPUT` в `true`.
 
 ```bash
-# Using the flag
+# Использование флага
 npm run test:integration:sandbox:none -- --keep-output
 
-# Using the environment variable
+# Использование переменной среды
 KEEP_OUTPUT=true npm run test:integration:sandbox:none
 ```
 
-When output is kept, the test runner will print the path to the unique directory for the test run.
+Когда вывод сохраняется, запускатор тестов выводит путь к уникальному каталогу для выполнения теста.
 
-### Verbose output
+### Подробный вывод
 
-For more detailed debugging, the `--verbose` flag streams the real-time output from the `gemini` command to the console.
+Для более подробной отладки флаг `--verbose` передает вывод команды `gemini` в реальном времени в консоль.
 
 ```bash
 npm run test:integration:sandbox:none -- --verbose
 ```
 
-When using `--verbose` and `--keep-output` in the same command, the output is streamed to the console and also saved to a log file within the test's temporary directory.
+При использовании `--verbose` и `--keep-output` в одной команде вывод передается в консоль и также сохраняется в файл журнала во временном каталоге теста.
 
-The verbose output is formatted to clearly identify the source of the logs:
+Подробный вывод форматируется для четкой идентификации источника журналов:
 
 ```
---- TEST: <file-name-without-js>:<test-name> ---
-... output from the gemini command ...
---- END TEST: <file-name-without-js>:<test-name> ---
+--- TEST: <имя-файла-без-js>:<имя-теста> ---
+... вывод команды gemini ...
+--- END TEST: <имя-файла-без-js>:<имя-теста> ---
 ```
 
-## Linting and formatting
+## Линтинг и форматирование
 
-To ensure code quality and consistency, the integration test files are linted as part of the main build process. You can also manually run the linter and auto-fixer.
+Для обеспечения качества и согласованности кода файлы интеграционных тестов проверяются линтером как часть основного процесса сборки. Вы также можете вручную запустить линтер и автоисправление.
 
-### Running the linter
+### Запуск линтера
 
-To check for linting errors, run the following command:
+Чтобы проверить наличие ошибок линтинга, выполните следующую команду:
 
 ```bash
 npm run lint
 ```
 
-You can include the `--fix` flag in the command to automatically fix any fixable linting errors:
+Вы можете включить флаг `--fix` в команду, чтобы автоматически исправить любые исправляемые ошибки линтинга:
 
 ```bash
 npm run lint --fix
 ```
 
-## Directory structure
+## Структура каталогов
 
-The integration tests create a unique directory for each test run inside the `.integration-tests` directory. Within this directory, a subdirectory is created for each test file, and within that, a subdirectory is created for each individual test case.
+Интеграционные тесты создают уникальный каталог для каждого запуска теста внутри каталога `.integration-tests`. В этом каталоге создается подкаталог для каждого тестового файла, а внутри него создается подкаталог для каждого отдельного тестового случая.
 
-This structure makes it easy to locate the artifacts for a specific test run, file, or case.
+Эта структура позволяет легко найти артефакты для конкретного запуска теста, файла или случая.
 
 ```
 .integration-tests/
-└── <run-id>/
-    └── <test-file-name>.test.js/
-        └── <test-case-name>/
+└── <идентификатор-запуска>/
+    └── <имя-тестового-файла>.test.js/
+        └── <имя-тестового-случая>/
             ├── output.log
-            └── ...other test artifacts...
+            └── ...другие артефакты теста...
 ```
 
-## Continuous integration
+## Непрерывная интеграция
 
-To ensure the integration tests are always run, a GitHub Actions workflow is defined in `.github/workflows/e2e.yml`. This workflow automatically runs the integrations tests for pull requests against the `main` branch, or when a pull request is added to a merge queue.
+Для обеспечения постоянного запуска интеграционных тестов рабочий процесс GitHub Actions определен в `.github/workflows/e2e.yml`. Этот рабочий процесс автоматически запускает интеграционные тесты для запросов на вытягивание в ветку `main` или когда запрос на вытягивание добавляется в очередь слияния.
 
-The workflow runs the tests in different sandboxing environments to ensure Gemini CLI is tested across each:
+Рабочий процесс запускает тесты в различных средах песочницы, чтобы убедиться, что Gemini CLI протестирован в каждой из них:
 
-- `sandbox:none`: Runs the tests without any sandboxing.
-- `sandbox:docker`: Runs the tests in a Docker container.
-- `sandbox:podman`: Runs the tests in a Podman container.
+- `sandbox:none`: Запускает тесты без какой-либо песочницы.
+- `sandbox:docker`: Запускает тесты в контейнере Docker.
+- `sandbox:podman`: Запускает тесты в контейнере Podman.

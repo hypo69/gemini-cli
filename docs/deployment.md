@@ -1,117 +1,117 @@
-# Gemini CLI Execution and Deployment
+# Выполнение и развертывание Gemini CLI
 
-This document describes how to run Gemini CLI and explains the deployment architecture that Gemini CLI uses.
+Этот документ описывает, как запустить Gemini CLI, и объясняет архитектуру развертывания, которую использует Gemini CLI.
 
-## Running Gemini CLI
+## Запуск Gemini CLI
 
-There are several ways to run Gemini CLI. The option you choose depends on how you intend to use Gemini CLI.
+Существует несколько способов запуска Gemini CLI. Выбор зависит от того, как вы собираетесь использовать Gemini CLI.
 
 ---
 
-### 1. Standard installation (Recommended for typical users)
+### 1. Стандартная установка (рекомендуется для обычных пользователей)
 
-This is the recommended way for end-users to install Gemini CLI. It involves downloading the Gemini CLI package from the NPM registry.
+Это рекомендуемый способ установки Gemini CLI для конечных пользователей. Он включает загрузку пакета Gemini CLI из реестра NPM.
 
-- **Global install:**
+- **Глобальная установка:**
 
   ```bash
   npm install -g @google/gemini-cli
   ```
 
-  Then, run the CLI from anywhere:
+  Затем запустите CLI из любого места:
 
   ```bash
   gemini
   ```
 
-- **NPX execution:**
+- **Выполнение NPX:**
 
   ```bash
-  # Execute the latest version from NPM without a global install
+  # Выполнить последнюю версию из NPM без глобальной установки
   npx @google/gemini-cli
   ```
 
 ---
 
-### 2. Running in a sandbox (Docker/Podman)
+### 2. Запуск в песочнице (Docker/Podman)
 
-For security and isolation, Gemini CLI can be run inside a container. This is the default way that the CLI executes tools that might have side effects.
+Для безопасности и изоляции Gemini CLI может быть запущен внутри контейнера. Это стандартный способ выполнения инструментов CLI, которые могут иметь побочные эффекты.
 
-- **Directly from the Registry:**
-  You can run the published sandbox image directly. This is useful for environments where you only have Docker and want to run the CLI.
+- **Непосредственно из реестра:**
+  Вы можете запустить опубликованный образ песочницы напрямую. Это полезно для сред, где у вас есть только Docker и вы хотите запустить CLI.
   ```bash
-  # Run the published sandbox image
+  # Запустить опубликованный образ песочницы
   docker run --rm -it us-docker.pkg.dev/gemini-code-dev/gemini-cli/sandbox:0.1.1
   ```
-- **Using the `--sandbox` flag:**
-  If you have Gemini CLI installed locally (using the standard installation described above), you can instruct it to run inside the sandbox container.
+- **Использование флага `--sandbox`:**
+  Если у вас установлен Gemini CLI локально (с использованием стандартной установки, описанной выше), вы можете указать ему запускаться внутри контейнера песочницы.
   ```bash
-  gemini --sandbox -y -p "your prompt here"
+  gemini --sandbox -y -p "ваш запрос здесь"
   ```
 
 ---
 
-### 3. Running from source (Recommended for Gemini CLI contributors)
+### 3. Запуск из исходного кода (рекомендуется для участников Gemini CLI)
 
-Contributors to the project will want to run the CLI directly from the source code.
+Участники проекта захотят запускать CLI непосредственно из исходного кода.
 
-- **Development Mode:**
-  This method provides hot-reloading and is useful for active development.
+- **Режим разработки:**
+  Этот метод обеспечивает горячую перезагрузку и полезен для активной разработки.
   ```bash
-  # From the root of the repository
+  # Из корня репозитория
   npm run start
   ```
-- **Production-like mode (Linked package):**
-  This method simulates a global installation by linking your local package. It's useful for testing a local build in a production workflow.
+- **Режим, похожий на производственный (связанный пакет):**
+  Этот метод имитирует глобальную установку путем связывания вашего локального пакета. Он полезен для тестирования локальной сборки в производственном рабочем процессе.
 
   ```bash
-  # Link the local cli package to your global node_modules
+  # Связать локальный пакет cli с вашими глобальными node_modules
   npm link packages/cli
 
-  # Now you can run your local version using the `gemini` command
+  # Теперь вы можете запустить свою локальную версию с помощью команды `gemini`
   gemini
   ```
 
 ---
 
-### 4. Running the latest Gemini CLI commit from GitHub
+### 4. Запуск последней версии Gemini CLI из GitHub
 
-You can run the most recently committed version of Gemini CLI directly from the GitHub repository. This is useful for testing features still in development.
+Вы можете запустить самую последнюю закоммиченную версию Gemini CLI непосредственно из репозитория GitHub. Это полезно для тестирования функций, находящихся в разработке.
 
 ```bash
-# Execute the CLI directly from the main branch on GitHub
-npx https://github.com/google-gemini/gemini-cli
+# Выполнить CLI непосредственно из основной ветки на GitHub
+  npx https://github.com/google-gemini/gemini-cli
 ```
 
-## Deployment architecture
+## Архитектура развертывания
 
-The execution methods described above are made possible by the following architectural components and processes:
+Описанные выше методы выполнения стали возможными благодаря следующим архитектурным компонентам и процессам:
 
-**NPM packages**
+**Пакеты NPM**
 
-Gemini CLI project is a monorepo that publishes two core packages to the NPM registry:
+Проект Gemini CLI представляет собой монорепозиторий, который публикует два основных пакета в реестр NPM:
 
-- `@google/gemini-cli-core`: The backend, handling logic and tool execution.
-- `@google/gemini-cli`: The user-facing frontend.
+- `@google/gemini-cli-core`: Бэкенд, обрабатывающий логику и выполнение инструментов.
+- `@google/gemini-cli`: Пользовательский интерфейс.
 
-These packages are used when performing the standard installation and when running Gemini CLI from the source.
+Эти пакеты используются при выполнении стандартной установки и при запуске Gemini CLI из исходного кода.
 
-**Build and packaging processes**
+**Процессы сборки и упаковки**
 
-There are two distinct build processes used, depending on the distribution channel:
+Используются два различных процесса сборки, в зависимости от канала распространения:
 
-- **NPM publication:** For publishing to the NPM registry, the TypeScript source code in `@google/gemini-cli-core` and `@google/gemini-cli` is transpiled into standard JavaScript using the TypeScript Compiler (`tsc`). The resulting `dist/` directory is what gets published in the NPM package. This is a standard approach for TypeScript libraries.
+- **Публикация NPM:** Для публикации в реестре NPM исходный код TypeScript в `@google/gemini-cli-core` и `@google/gemini-cli` транспилируется в стандартный JavaScript с использованием компилятора TypeScript (`tsc`). Полученный каталог `dist/` публикуется в пакете NPM. Это стандартный подход для библиотек TypeScript.
 
-- **GitHub `npx` execution:** When running the latest version of Gemini CLI directly from GitHub, a different process is triggered by the `prepare` script in `package.json`. This script uses `esbuild` to bundle the entire application and its dependencies into a single, self-contained JavaScript file. This bundle is created on-the-fly on the user's machine and is not checked into the repository.
+- **Выполнение `npx` из GitHub:** При запуске последней версии Gemini CLI непосредственно из GitHub запускается другой процесс с помощью скрипта `prepare` в `package.json`. Этот скрипт использует `esbuild` для объединения всего приложения и его зависимостей в один автономный файл JavaScript. Этот пакет создается на лету на машине пользователя и не проверяется в репозитории.
 
-**Docker sandbox image**
+**Образ песочницы Docker**
 
-The Docker-based execution method is supported by the `gemini-cli-sandbox` container image. This image is published to a container registry and contains a pre-installed, global version of Gemini CLI.
+Метод выполнения на основе Docker поддерживается образом контейнера `gemini-cli-sandbox`. Этот образ публикуется в реестре контейнеров и содержит предварительно установленную глобальную версию Gemini CLI.
 
-## Release process
+## Процесс выпуска
 
-The release process is automated through GitHub Actions. The release workflow performs the following actions:
+Процесс выпуска автоматизирован с помощью GitHub Actions. Рабочий процесс выпуска выполняет следующие действия:
 
-1.  Build the NPM packages using `tsc`.
-2.  Publish the NPM packages to the artifact registry.
-3.  Create GitHub releases with bundled assets.
+1.  Сборка пакетов NPM с использованием `tsc`.
+2.  Публикация пакетов NPM в реестре артефактов.
+3.  Создание выпусков GitHub с bundled assets.

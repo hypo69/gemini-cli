@@ -1,58 +1,58 @@
-# Memory Import Processor
+# Процессор импорта памяти
 
-The Memory Import Processor is a feature that allows you to modularize your GEMINI.md files by importing content from other files using the `@file.md` syntax.
+Процессор импорта памяти — это функция, которая позволяет модулировать файлы GEMINI.md путем импорта содержимого из других файлов с использованием синтаксиса `@file.md`.
 
-## Overview
+## Обзор
 
-This feature enables you to break down large GEMINI.md files into smaller, more manageable components that can be reused across different contexts. The import processor supports both relative and absolute paths, with built-in safety features to prevent circular imports and ensure file access security.
+Эта функция позволяет разбивать большие файлы GEMINI.md на более мелкие, более управляемые компоненты, которые могут быть повторно использованы в различных контекстах. Процессор импорта поддерживает как относительные, так и абсолютные пути, со встроенными функциями безопасности для предотвращения циклических импортов и обеспечения безопасности доступа к файлам.
 
-## Syntax
+## Синтаксис
 
-Use the `@` symbol followed by the path to the file you want to import:
+Используйте символ `@`, за которым следует путь к файлу, который вы хотите импортировать:
 
 ```markdown
-# Main GEMINI.md file
+# Основной файл GEMINI.md
 
-This is the main content.
+Это основное содержимое.
 
 @./components/instructions.md
 
-More content here.
+Больше содержимого здесь.
 
 @./shared/configuration.md
 ```
 
-## Supported Path Formats
+## Поддерживаемые форматы путей
 
-### Relative Paths
+### Относительные пути
 
-- `@./file.md` - Import from the same directory
-- `@../file.md` - Import from parent directory
-- `@./components/file.md` - Import from subdirectory
+- `@./file.md` - Импорт из того же каталога
+- `@../file.md` - Импорт из родительского каталога
+- `@./components/file.md` - Импорт из подкаталога
 
-### Absolute Paths
+### Абсолютные пути
 
-- `@/absolute/path/to/file.md` - Import using absolute path
+- `@/absolute/path/to/file.md` - Импорт с использованием абсолютного пути
 
-## Examples
+## Примеры
 
-### Basic Import
+### Базовый импорт
 
 ```markdown
-# My GEMINI.md
+# Мой GEMINI.md
 
-Welcome to my project!
+Добро пожаловать в мой проект!
 
 @./getting-started.md
 
-## Features
+## Функции
 
 @./features/overview.md
 ```
 
-### Nested Imports
+### Вложенные импорты
 
-The imported files can themselves contain imports, creating a nested structure:
+Импортированные файлы сами могут содержать импорты, создавая вложенную структуру:
 
 ```markdown
 # main.md
@@ -65,16 +65,16 @@ The imported files can themselves contain imports, creating a nested structure:
 ```markdown
 # header.md
 
-# Project Header
+# Заголовок проекта
 
 @./shared/title.md
 ```
 
-## Safety Features
+## Функции безопасности
 
-### Circular Import Detection
+### Обнаружение циклических импортов
 
-The processor automatically detects and prevents circular imports:
+Процессор автоматически обнаруживает и предотвращает циклические импорты:
 
 ```markdown
 # file-a.md
@@ -83,78 +83,78 @@ The processor automatically detects and prevents circular imports:
 
 # file-b.md
 
-@./file-a.md <!-- This will be detected and prevented -->
+@./file-a.md <!-- Это будет обнаружено и предотвращено -->
 ```
 
-### File Access Security
+### Безопасность доступа к файлам
 
-The `validateImportPath` function ensures that imports are only allowed from specified directories, preventing access to sensitive files outside the allowed scope.
+Функция `validateImportPath` гарантирует, что импорт разрешен только из указанных каталогов, предотвращая доступ к конфиденциальным файлам за пределами разрешенной области.
 
-### Maximum Import Depth
+### Максимальная глубина импорта
 
-To prevent infinite recursion, there's a configurable maximum import depth (default: 5 levels).
+Для предотвращения бесконечной рекурсии существует настраиваемая максимальная глубина импорта (по умолчанию: 5 уровней).
 
-## Error Handling
+## Обработка ошибок
 
-### Missing Files
+### Отсутствующие файлы
 
-If a referenced file doesn't exist, the import will fail gracefully with an error comment in the output.
+Если файл, на который ссылается ссылка, не существует, импорт завершится сбоем с комментарием об ошибке в выводе.
 
-### File Access Errors
+### Ошибки доступа к файлам
 
-Permission issues or other file system errors are handled gracefully with appropriate error messages.
+Проблемы с разрешениями или другие ошибки файловой системы обрабатываются корректно с соответствующими сообщениями об ошибках.
 
-## Code Region Detection
+## Обнаружение областей кода
 
-The import processor uses the `marked` library to detect code blocks and inline code spans, ensuring that `@` imports inside these regions are properly ignored. This provides robust handling of nested code blocks and complex Markdown structures.
+Процессор импорта использует библиотеку `marked` для обнаружения блоков кода и встроенных фрагментов кода, гарантируя, что импорты `@` внутри этих областей правильно игнорируются. Это обеспечивает надежную обработку вложенных блоков кода и сложных структур Markdown.
 
-## Import Tree Structure
+## Структура дерева импорта
 
-The processor returns an import tree that shows the hierarchy of imported files, similar to Claude's `/memory` feature. This helps users debug problems with their GEMINI.md files by showing which files were read and their import relationships.
+Процессор возвращает дерево импорта, которое показывает иерархию импортированных файлов, аналогично функции `/memory` Claude. Это помогает пользователям отлаживать проблемы с файлами GEMINI.md, показывая, какие файлы были прочитаны и их отношения импорта.
 
-Example tree structure:
+Пример структуры дерева:
 
 ```
-Memory Files
- L project: GEMINI.md
+Файлы памяти
+ L проект: GEMINI.md
             L a.md
               L b.md
                 L c.md
               L d.md
                 L e.md
                   L f.md
-            L included.md
+            L включено.md
 ```
 
-The tree preserves the order that files were imported and shows the complete import chain for debugging purposes.
+Дерево сохраняет порядок импорта файлов и показывает полную цепочку импорта для целей отладки.
 
-## Comparison to Claude Code's `/memory` (`claude.md`) Approach
+## Сравнение с подходом `/memory` Claude Code (`claude.md`)
 
-Claude Code's `/memory` feature (as seen in `claude.md`) produces a flat, linear document by concatenating all included files, always marking file boundaries with clear comments and path names. It does not explicitly present the import hierarchy, but the LLM receives all file contents and paths, which is sufficient for reconstructing the hierarchy if needed.
+Функция `/memory` Claude Code (как видно в `claude.md`) создает плоский, линейный документ путем объединения всех включенных файлов, всегда отмечая границы файлов четкими комментариями и именами путей. Она не явно представляет иерархию импорта, но LLM получает все содержимое файлов и пути, что достаточно для восстановления иерархии при необходимости.
 
-Note: The import tree is mainly for clarity during development and has limited relevance to LLM consumption.
+Примечание: Дерево импорта в основном предназначено для ясности во время разработки и имеет ограниченное отношение к потреблению LLM.
 
-## API Reference
+## Справочник API
 
 ### `processImports(content, basePath, debugMode?, importState?)`
 
-Processes import statements in GEMINI.md content.
+Обрабатывает операторы импорта в содержимом GEMINI.md.
 
-**Parameters:**
+**Параметры:**
 
-- `content` (string): The content to process for imports
-- `basePath` (string): The directory path where the current file is located
-- `debugMode` (boolean, optional): Whether to enable debug logging (default: false)
-- `importState` (ImportState, optional): State tracking for circular import prevention
+- `content` (строка): Содержимое для обработки импортов
+- `basePath` (строка): Путь к каталогу, где находится текущий файл
+- `debugMode` (логическое значение, необязательный): Включить ли отладочное логирование (по умолчанию: false)
+- `importState` (ImportState, необязательный): Отслеживание состояния для предотвращения циклических импортов
 
-**Returns:** Promise<ProcessImportsResult> - Object containing processed content and import tree
+**Возвращает:** Promise<ProcessImportsResult> - Объект, содержащий обработанное содержимое и дерево импорта
 
 ### `ProcessImportsResult`
 
 ```typescript
 interface ProcessImportsResult {
-  content: string; // The processed content with imports resolved
-  importTree: MemoryFile; // Tree structure showing the import hierarchy
+  content: string; // Обработанное содержимое с разрешенными импортами
+  importTree: MemoryFile; // Структура дерева, показывающая иерархию импорта
 }
 ```
 
@@ -162,53 +162,53 @@ interface ProcessImportsResult {
 
 ```typescript
 interface MemoryFile {
-  path: string; // The file path
-  imports?: MemoryFile[]; // Direct imports, in the order they were imported
+  path: string; // Путь к файлу
+  imports?: MemoryFile[]; // Прямые импорты, в порядке их импорта
 }
 ```
 
 ### `validateImportPath(importPath, basePath, allowedDirectories)`
 
-Validates import paths to ensure they are safe and within allowed directories.
+Проверяет пути импорта, чтобы убедиться, что они безопасны и находятся в разрешенных каталогах.
 
-**Parameters:**
+**Параметры:**
 
-- `importPath` (string): The import path to validate
-- `basePath` (string): The base directory for resolving relative paths
-- `allowedDirectories` (string[]): Array of allowed directory paths
+- `importPath` (строка): Путь импорта для проверки
+- `basePath` (строка): Базовый каталог для разрешения относительных путей
+- `allowedDirectories` (массив строк): Массив разрешенных путей к каталогам
 
-**Returns:** boolean - Whether the import path is valid
+**Возвращает:** boolean - Является ли путь импорта действительным
 
 ### `findProjectRoot(startDir)`
 
-Finds the project root by searching for a `.git` directory upwards from the given start directory. Implemented as an **async** function using non-blocking file system APIs to avoid blocking the Node.js event loop.
+Находит корень проекта, ища каталог `.git` вверх от заданного начального каталога. Реализована как **асинхронная** функция, использующая неблокирующие API файловой системы, чтобы избежать блокировки цикла событий Node.js.
 
-**Parameters:**
+**Параметры:**
 
-- `startDir` (string): The directory to start searching from
+- `startDir` (строка): Каталог, с которого начинается поиск
 
-**Returns:** Promise<string> - The project root directory (or the start directory if no `.git` is found)
+**Возвращает:** Promise<string> - Корневой каталог проекта (или начальный каталог, если `.git` не найден)
 
-## Best Practices
+## Лучшие практики
 
-1. **Use descriptive file names** for imported components
-2. **Keep imports shallow** - avoid deeply nested import chains
-3. **Document your structure** - maintain a clear hierarchy of imported files
-4. **Test your imports** - ensure all referenced files exist and are accessible
-5. **Use relative paths** when possible for better portability
+1. **Используйте описательные имена файлов** для импортированных компонентов
+2. **Держите импорты неглубокими** - избегайте глубоко вложенных цепочек импорта
+3. **Документируйте свою структуру** - поддерживайте четкую иерархию импортированных файлов
+4. **Тестируйте свои импорты** - убедитесь, что все ссылающиеся файлы существуют и доступны
+5. **Используйте относительные пути**, когда это возможно, для лучшей переносимости
 
-## Troubleshooting
+## Устранение неполадок
 
-### Common Issues
+### Распространенные проблемы
 
-1. **Import not working**: Check that the file exists and the path is correct
-2. **Circular import warnings**: Review your import structure for circular references
-3. **Permission errors**: Ensure the files are readable and within allowed directories
-4. **Path resolution issues**: Use absolute paths if relative paths aren't resolving correctly
+1. **Импорт не работает**: Убедитесь, что файл существует и путь правильный
+2. **Предупреждения о циклических импортах**: Проверьте структуру импорта на наличие циклических ссылок
+3. **Ошибки разрешений**: Убедитесь, что файлы доступны для чтения и находятся в разрешенных каталогах
+4. **Проблемы с разрешением путей**: Используйте абсолютные пути, если относительные пути не разрешаются правильно
 
-### Debug Mode
+### Режим отладки
 
-Enable debug mode to see detailed logging of the import process:
+Включите режим отладки, чтобы увидеть подробное логирование процесса импорта:
 
 ```typescript
 const result = await processImports(content, basePath, true);

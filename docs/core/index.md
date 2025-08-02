@@ -1,55 +1,55 @@
-# Gemini CLI Core
+# Ядро Gemini CLI
 
-Gemini CLI's core package (`packages/core`) is the backend portion of Gemini CLI, handling communication with the Gemini API, managing tools, and processing requests sent from `packages/cli`. For a general overview of Gemini CLI, see the [main documentation page](../index.md).
+Основной пакет Gemini CLI (`packages/core`) является серверной частью Gemini CLI, обрабатывающей связь с Gemini API, управляющей инструментами и обрабатывающей запросы, отправленные из `packages/cli`. Общий обзор Gemini CLI см. на [главной странице документации](../index.md).
 
-## Navigating this section
+## Навигация по этому разделу
 
-- **[Core tools API](./tools-api.md):** Information on how tools are defined, registered, and used by the core.
-- **[Memory Import Processor](./memport.md):** Documentation for the modular GEMINI.md import feature using @file.md syntax.
+- **[API основных инструментов](./tools-api.md):** Информация о том, как инструменты определяются, регистрируются и используются ядром.
+- **[Процессор импорта памяти](./memport.md):** Документация по модульной функции импорта GEMINI.md с использованием синтаксиса @file.md.
 
-## Role of the core
+## Роль ядра
 
-While the `packages/cli` portion of Gemini CLI provides the user interface, `packages/core` is responsible for:
+В то время как часть `packages/cli` Gemini CLI предоставляет пользовательский интерфейс, `packages/core` отвечает за:
 
-- **Gemini API interaction:** Securely communicating with the Google Gemini API, sending user prompts, and receiving model responses.
-- **Prompt engineering:** Constructing effective prompts for the Gemini model, potentially incorporating conversation history, tool definitions, and instructional context from `GEMINI.md` files.
-- **Tool management & orchestration:**
-  - Registering available tools (e.g., file system tools, shell command execution).
-  - Interpreting tool use requests from the Gemini model.
-  - Executing the requested tools with the provided arguments.
-  - Returning tool execution results to the Gemini model for further processing.
-- **Session and state management:** Keeping track of the conversation state, including history and any relevant context required for coherent interactions.
-- **Configuration:** Managing core-specific configurations, such as API key access, model selection, and tool settings.
+- **Взаимодействие с Gemini API:** Безопасное взаимодействие с Google Gemini API, отправка пользовательских запросов и получение ответов модели.
+- **Проектирование запросов:** Создание эффективных запросов для модели Gemini, возможно, включающих историю разговоров, определения инструментов и контекст инструкций из файлов `GEMINI.md`.
+- **Управление и оркестровка инструментов:**
+  - Регистрация доступных инструментов (например, инструментов файловой системы, выполнения команд оболочки).
+  - Интерпретация запросов на использование инструментов от модели Gemini.
+  - Выполнение запрошенных инструментов с предоставленными аргументами.
+  - Возврат результатов выполнения инструментов модели Gemini для дальнейшей обработки.
+- **Управление сеансами и состоянием:** Отслеживание состояния разговора, включая историю и любой соответствующий контекст, необходимый для связных взаимодействий.
+- **Конфигурация:** Управление конфигурациями, специфичными для ядра, такими как доступ к ключу API, выбор модели и настройки инструментов.
 
-## Security considerations
+## Соображения безопасности
 
-The core plays a vital role in security:
+Ядро играет жизненно важную роль в безопасности:
 
-- **API key management:** It handles the `GEMINI_API_KEY` and ensures it's used securely when communicating with the Gemini API.
-- **Tool execution:** When tools interact with the local system (e.g., `run_shell_command`), the core (and its underlying tool implementations) must do so with appropriate caution, often involving sandboxing mechanisms to prevent unintended modifications.
+- **Управление ключами API:** Оно обрабатывает `GEMINI_API_KEY` и обеспечивает его безопасное использование при взаимодействии с Gemini API.
+- **Выполнение инструментов:** Когда инструменты взаимодействуют с локальной системой (например, `run_shell_command`), ядро (и его базовые реализации инструментов) должны делать это с соответствующей осторожностью, часто с использованием механизмов песочницы для предотвращения непреднамеренных изменений.
 
-## Chat history compression
+## Сжатие истории чата
 
-To ensure that long conversations don't exceed the token limits of the Gemini model, the core includes a chat history compression feature.
+Чтобы гарантировать, что длинные разговоры не превышают пределы токенов модели Gemini, ядро включает функцию сжатия истории чата.
 
-When a conversation approaches the token limit for the configured model, the core automatically compresses the conversation history before sending it to the model. This compression is designed to be lossless in terms of the information conveyed, but it reduces the overall number of tokens used.
+Когда разговор приближается к пределу токенов для настроенной модели, ядро автоматически сжимает историю разговора перед отправкой ее модели. Это сжатие предназначено для сохранения информации без потерь, но оно уменьшает общее количество используемых токенов.
 
-You can find the token limits for each model in the [Google AI documentation](https://ai.google.dev/gemini-api/docs/models).
+Вы можете найти пределы токенов для каждой модели в [документации Google AI](https://ai.google.dev/gemini-api/docs/models).
 
-## Model fallback
+## Откат модели
 
-Gemini CLI includes a model fallback mechanism to ensure that you can continue to use the CLI even if the default "pro" model is rate-limited.
+Gemini CLI включает механизм отката модели, чтобы гарантировать, что вы можете продолжать использовать CLI, даже если модель "pro" по умолчанию имеет ограничение скорости.
 
-If you are using the default "pro" model and the CLI detects that you are being rate-limited, it automatically switches to the "flash" model for the current session. This allows you to continue working without interruption.
+Если вы используете модель "pro" по умолчанию и CLI обнаруживает, что у вас есть ограничение скорости, он автоматически переключается на модель "flash" для текущего сеанса. Это позволяет вам продолжать работать без перерыва.
 
-## File discovery service
+## Служба обнаружения файлов
 
-The file discovery service is responsible for finding files in the project that are relevant to the current context. It is used by the `@` command and other tools that need to access files.
+Служба обнаружения файлов отвечает за поиск файлов в проекте, которые относятся к текущему контексту. Она используется командой `@` и другими инструментами, которым нужен доступ к файлам.
 
-## Memory discovery service
+## Служба обнаружения памяти
 
-The memory discovery service is responsible for finding and loading the `GEMINI.md` files that provide context to the model. It searches for these files in a hierarchical manner, starting from the current working directory and moving up to the project root and the user's home directory. It also searches in subdirectories.
+Служба обнаружения памяти отвечает за поиск и загрузку файлов `GEMINI.md`, которые предоставляют контекст модели. Она ищет эти файлы иерархически, начиная с текущего рабочего каталога и перемещаясь вверх к корню проекта и домашнему каталогу пользователя. Она также ищет в подкаталогах.
 
-This allows you to have global, project-level, and component-level context files, which are all combined to provide the model with the most relevant information.
+Это позволяет вам иметь глобальные, проектные и компонентные файлы контекста, которые все объединяются, чтобы предоставить модели наиболее релевантную информацию.
 
-You can use the [`/memory` command](../cli/commands.md) to `show`, `add`, and `refresh` the content of loaded `GEMINI.md` files.
+Вы можете использовать команду [`/memory`](../cli/commands.md) для `показа`, `добавления` и `обновления` содержимого загруженных файлов `GEMINI.md`.

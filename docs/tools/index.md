@@ -1,56 +1,56 @@
-# Gemini CLI tools
+# Инструменты Gemini CLI
 
-The Gemini CLI includes built-in tools that the Gemini model uses to interact with your local environment, access information, and perform actions. These tools enhance the CLI's capabilities, enabling it to go beyond text generation and assist with a wide range of tasks.
+Gemini CLI включает встроенные инструменты, которые модель Gemini использует для взаимодействия с вашей локальной средой, доступа к информации и выполнения действий. Эти инструменты расширяют возможности CLI, позволяя ему выходить за рамки генерации текста и помогать в широком спектре задач.
 
-## Overview of Gemini CLI tools
+## Обзор инструментов Gemini CLI
 
-In the context of the Gemini CLI, tools are specific functions or modules that the Gemini model can request to be executed. For example, if you ask Gemini to "Summarize the contents of `my_document.txt`," the model will likely identify the need to read that file and will request the execution of the `read_file` tool.
+В контексте Gemini CLI инструменты — это специфические функции или модули, которые модель Gemini может запросить для выполнения. Например, если вы попросите Gemini "Обобщить содержимое `my_document.txt`", модель, вероятно, определит необходимость прочитать этот файл и запросит выполнение инструмента `read_file`.
 
-The core component (`packages/core`) manages these tools, presents their definitions (schemas) to the Gemini model, executes them when requested, and returns the results to the model for further processing into a user-facing response.
+Основной компонент (`packages/core`) управляет этими инструментами, представляет их определения (схемы) модели Gemini, выполняет их по запросу и возвращает результаты модели для дальнейшей обработки в ответ, ориентированный на пользователя.
 
-These tools provide the following capabilities:
+Эти инструменты предоставляют следующие возможности:
 
-- **Access local information:** Tools allow Gemini to access your local file system, read file contents, list directories, etc.
-- **Execute commands:** With tools like `run_shell_command`, Gemini can run shell commands (with appropriate safety measures and user confirmation).
-- **Interact with the web:** Tools can fetch content from URLs.
-- **Take actions:** Tools can modify files, write new files, or perform other actions on your system (again, typically with safeguards).
-- **Ground responses:** By using tools to fetch real-time or specific local data, Gemini's responses can be more accurate, relevant, and grounded in your actual context.
+- **Доступ к локальной информации:** Инструменты позволяют Gemini получать доступ к вашей локальной файловой системе, читать содержимое файлов, перечислять каталоги и т. д.
+- **Выполнение команд:** С помощью таких инструментов, как `run_shell_command`, Gemini может выполнять команды оболочки (с соответствующими мерами безопасности и подтверждением пользователя).
+- **Взаимодействие с Интернетом:** Инструменты могут получать содержимое из URL-адресов.
+- **Выполнение действий:** Инструменты могут изменять файлы, записывать новые файлы или выполнять другие действия в вашей системе (опять же, обычно с мерами безопасности).
+- **Обоснование ответов:** Используя инструменты для получения данных в реальном времени или конкретных локальных данных, ответы Gemini могут быть более точными, релевантными и обоснованными в вашем фактическом контексте.
 
-## How to use Gemini CLI tools
+## Как использовать инструменты Gemini CLI
 
-To use Gemini CLI tools, provide a prompt to the Gemini CLI. The process works as follows:
+Чтобы использовать инструменты Gemini CLI, предоставьте запрос Gemini CLI. Процесс работает следующим образом:
 
-1.  You provide a prompt to the Gemini CLI.
-2.  The CLI sends the prompt to the core.
-3.  The core, along with your prompt and conversation history, sends a list of available tools and their descriptions/schemas to the Gemini API.
-4.  The Gemini model analyzes your request. If it determines that a tool is needed, its response will include a request to execute a specific tool with certain parameters.
-5.  The core receives this tool request, validates it, and (often after user confirmation for sensitive operations) executes the tool.
-6.  The output from the tool is sent back to the Gemini model.
-7.  The Gemini model uses the tool's output to formulate its final answer, which is then sent back through the core to the CLI and displayed to you.
+1.  Вы предоставляете запрос Gemini CLI.
+2.  CLI отправляет запрос ядру.
+3.  Ядро, вместе с вашим запросом и историей разговоров, отправляет список доступных инструментов и их описаний/схем в Gemini API.
+4.  Модель Gemini анализирует ваш запрос. Если она определяет, что инструмент необходим, ее ответ будет включать запрос на выполнение определенного инструмента с определенными параметрами.
+5.  Ядро получает этот запрос инструмента, проверяет его и (часто после подтверждения пользователя для конфиденциальных операций) выполняет инструмент.
+6.  Вывод из инструмента отправляется обратно в модель Gemini.
+7.  Модель Gemini использует вывод инструмента для формирования окончательного ответа, который затем отправляется обратно через ядро в CLI и отображается вам.
 
-You will typically see messages in the CLI indicating when a tool is being called and whether it succeeded or failed.
+Вы обычно будете видеть сообщения в CLI, указывающие, когда инструмент вызывается и успешно ли он выполнен или завершился сбоем.
 
-## Security and confirmation
+## Безопасность и подтверждение
 
-Many tools, especially those that can modify your file system or execute commands (`write_file`, `edit`, `run_shell_command`), are designed with safety in mind. The Gemini CLI will typically:
+Многие инструменты, особенно те, которые могут изменять вашу файловую систему или выполнять команды (`write_file`, `edit`, `run_shell_command`), разработаны с учетом безопасности. Gemini CLI обычно будет:
 
-- **Require confirmation:** Prompt you before executing potentially sensitive operations, showing you what action is about to be taken.
-- **Utilize sandboxing:** All tools are subject to restrictions enforced by sandboxing (see [Sandboxing in the Gemini CLI](../sandbox.md)). This means that when operating in a sandbox, any tools (including MCP servers) you wish to use must be available _inside_ the sandbox environment. For example, to run an MCP server through `npx`, the `npx` executable must be installed within the sandbox's Docker image or be available in the `sandbox-exec` environment.
+- **Требовать подтверждения:** Запрашивать у вас подтверждение перед выполнением потенциально конфиденциальных операций, показывая вам, какое действие будет предпринято.
+- **Использовать песочницу:** Все инструменты подлежат ограничениям, налагаемым песочницей (см. [Песочница в Gemini CLI](../sandbox.md)). Это означает, что при работе в песочнице любые инструменты (включая MCP-серверы), которые вы хотите использовать, должны быть доступны _внутри_ среды песочницы. Например, для запуска MCP-сервера через `npx` исполняемый файл `npx` должен быть установлен внутри образа Docker песочницы или быть доступным в среде `sandbox-exec`.
 
-It's important to always review confirmation prompts carefully before allowing a tool to proceed.
+Важно всегда внимательно просматривать запросы на подтверждение, прежде чем разрешить инструменту продолжить.
 
-## Learn more about Gemini CLI's tools
+## Узнайте больше об инструментах Gemini CLI
 
-Gemini CLI's built-in tools can be broadly categorized as follows:
+Встроенные инструменты Gemini CLI можно условно разделить на следующие категории:
 
-- **[File System Tools](./file-system.md):** For interacting with files and directories (reading, writing, listing, searching, etc.).
-- **[Shell Tool](./shell.md) (`run_shell_command`):** For executing shell commands.
-- **[Web Fetch Tool](./web-fetch.md) (`web_fetch`):** For retrieving content from URLs.
-- **[Web Search Tool](./web-search.md) (`web_search`):** For searching the web.
-- **[Multi-File Read Tool](./multi-file.md) (`read_many_files`):** A specialized tool for reading content from multiple files or directories, often used by the `@` command.
-- **[Memory Tool](./memory.md) (`save_memory`):** For saving and recalling information across sessions.
+- **[Инструменты файловой системы](./file-system.md):** Для взаимодействия с файлами и каталогами (чтение, запись, перечисление, поиск и т. д.).
+- **[Инструмент оболочки](./shell.md) (`run_shell_command`):** Для выполнения команд оболочки.
+- **[Инструмент веб-запросов](./web-fetch.md) (`web_fetch`):** Для получения содержимого из URL-адресов.
+- **[Инструмент веб-поиска](./web-search.md) (`web_search`):** Для поиска в Интернете.
+- **[Инструмент чтения нескольких файлов](./multi-file.md) (`read_many_files`):** Специализированный инструмент для чтения содержимого из нескольких файлов или каталогов, часто используемый командой `@`.
+- **[Инструмент памяти](./memory.md) (`save_memory`):** Для сохранения и вызова информации между сеансами.
 
-Additionally, these tools incorporate:
+Кроме того, эти инструменты включают:
 
-- **[MCP servers](./mcp-server.md)**: MCP servers act as a bridge between the Gemini model and your local environment or other services like APIs.
-- **[Sandboxing](../sandbox.md)**: Sandboxing isolates the model and its changes from your environment to reduce potential risk.
+- **[MCP-серверы](./mcp-server.md)**: MCP-серверы действуют как мост между моделью Gemini и вашей локальной средой или другими службами, такими как API.
+- **[Песочница](../sandbox.md)**: Песочница изолирует модель и ее изменения от вашей среды, чтобы снизить потенциальный риск.

@@ -1,62 +1,62 @@
-# Gemini CLI Keyboard Shortcuts
+# Горячие клавиши Gemini CLI
 
-This document lists the available keyboard shortcuts in the Gemini CLI.
+Этот документ содержит список доступных горячих клавиш в Gemini CLI.
 
-## General
+## Общие
 
-| Shortcut | Description                                                                                                           |
+| Сочетание клавиш | Описание                                                                                                           |
 | -------- | --------------------------------------------------------------------------------------------------------------------- |
-| `Esc`    | Close dialogs and suggestions.                                                                                        |
-| `Ctrl+C` | Exit the application. Press twice to confirm.                                                                         |
-| `Ctrl+D` | Exit the application if the input is empty. Press twice to confirm.                                                   |
-| `Ctrl+L` | Clear the screen.                                                                                                     |
-| `Ctrl+O` | Toggle the display of the debug console.                                                                              |
-| `Ctrl+S` | Allows long responses to print fully, disabling truncation. Use your terminal's scrollback to view the entire output. |
-| `Ctrl+T` | Toggle the display of tool descriptions.                                                                              |
-| `Ctrl+Y` | Toggle auto-approval (YOLO mode) for all tool calls.                                                                  |
+| `Esc`    | Закрыть диалоги и предложения.                                                                                        |
+| `Ctrl+C` | Выйти из приложения. Нажмите дважды для подтверждения.                                                                         |
+| `Ctrl+D` | Выйти из приложения, если ввод пуст. Нажмите дважды для подтверждения.                                                   |
+| `Ctrl+L` | Очистить экран.                                                                                                     |
+| `Ctrl+O` | Переключить отображение консоли отладки.                                                                              |
+| `Ctrl+S` | Позволяет длинным ответам печататься полностью, отключая усечение. Используйте прокрутку терминала для просмотра всего вывода. |
+| `Ctrl+T` | Переключить отображение описаний инструментов.                                                                              |
+| `Ctrl+Y` | Переключить автоматическое одобрение (режим YOLO) для всех вызовов инструментов.                                                                  |
 
-## Input Prompt
+## Поле ввода
 
-| Shortcut                                           | Description                                                                                                                         |
+| Сочетание клавиш                                           | Описание                                                                                                                         |
 | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `!`                                                | Toggle shell mode when the input is empty.                                                                                          |
-| `\` (at end of line) + `Enter`                     | Insert a newline.                                                                                                                   |
-| `Down Arrow`                                       | Navigate down through the input history.                                                                                            |
-| `Enter`                                            | Submit the current prompt.                                                                                                          |
-| `Meta+Delete` / `Ctrl+Delete`                      | Delete the word to the right of the cursor.                                                                                         |
-| `Tab`                                              | Autocomplete the current suggestion if one exists.                                                                                  |
-| `Up Arrow`                                         | Navigate up through the input history.                                                                                              |
-| `Ctrl+A` / `Home`                                  | Move the cursor to the beginning of the line.                                                                                       |
-| `Ctrl+B` / `Left Arrow`                            | Move the cursor one character to the left.                                                                                          |
-| `Ctrl+C`                                           | Clear the input prompt                                                                                                              |
-| `Ctrl+D` / `Delete`                                | Delete the character to the right of the cursor.                                                                                    |
-| `Ctrl+E` / `End`                                   | Move the cursor to the end of the line.                                                                                             |
-| `Ctrl+F` / `Right Arrow`                           | Move the cursor one character to the right.                                                                                         |
-| `Ctrl+H` / `Backspace`                             | Delete the character to the left of the cursor.                                                                                     |
-| `Ctrl+K`                                           | Delete from the cursor to the end of the line.                                                                                      |
-| `Ctrl+Left Arrow` / `Meta+Left Arrow` / `Meta+B`   | Move the cursor one word to the left.                                                                                               |
-| `Ctrl+N`                                           | Navigate down through the input history.                                                                                            |
-| `Ctrl+P`                                           | Navigate up through the input history.                                                                                              |
-| `Ctrl+Right Arrow` / `Meta+Right Arrow` / `Meta+F` | Move the cursor one word to the right.                                                                                              |
-| `Ctrl+U`                                           | Delete from the cursor to the beginning of the line.                                                                                |
-| `Ctrl+V`                                           | Paste clipboard content. If the clipboard contains an image, it will be saved and a reference to it will be inserted in the prompt. |
-| `Ctrl+W` / `Meta+Backspace` / `Ctrl+Backspace`     | Delete the word to the left of the cursor.                                                                                          |
-| `Ctrl+X` / `Meta+Enter`                            | Open the current input in an external editor.                                                                                       |
+| `!`                                                | Переключить режим оболочки, когда ввод пуст.                                                                                          |
+| `\` (в конце строки) + `Enter`                     | Вставить новую строку.                                                                                                                   |
+| `Стрелка вниз`                                       | Перемещаться вниз по истории ввода.                                                                                            |
+| `Enter`                                            | Отправить текущий запрос.                                                                                                          |
+| `Meta+Delete` / `Ctrl+Delete`                      | Удалить слово справа от курсора.                                                                                         |
+| `Tab`                                              | Автозаполнение текущего предложения, если оно существует.                                                                                  |
+| `Стрелка вверх`                                         | Перемещаться вверх по истории ввода.                                                                                              |
+| `Ctrl+A` / `Home`                                  | Переместить курсор в начало строки.                                                                                       |
+| `Ctrl+B` / `Стрелка влево`                            | Переместить курсор на один символ влево.                                                                                          |
+| `Ctrl+C`                                           | Очистить поле ввода                                                                                                              |
+| `Ctrl+D` / `Delete`                                | Удалить символ справа от курсора.                                                                                    |
+| `Ctrl+E` / `End`                                   | Переместить курсор в конец строки.                                                                                             |
+| `Ctrl+F` / `Стрелка вправо`                           | Переместить курсор на один символ вправо.                                                                                         |
+| `Ctrl+H` / `Backspace`                             | Удалить символ слева от курсора.                                                                                     |
+| `Ctrl+K`                                           | Удалить от курсора до конца строки.                                                                                      |
+| `Ctrl+Стрелка влево` / `Meta+Стрелка влево` / `Meta+B`   | Переместить курсор на одно слово влево.                                                                                               |
+| `Ctrl+N`                                           | Перемещаться вниз по истории ввода.                                                                                            |
+| `Ctrl+P`                                           | Перемещаться вверх по истории ввода.                                                                                              |
+| `Ctrl+Стрелка вправо` / `Meta+Стрелка вправо` / `Meta+F` | Переместить курсор на одно слово вправо.                                                                                              |
+| `Ctrl+U`                                           | Удалить от курсора до начала строки.                                                                                |
+| `Ctrl+V`                                           | Вставить содержимое буфера обмена. Если буфер обмена содержит изображение, оно будет сохранено, и ссылка на него будет вставлена в запрос. |
+| `Ctrl+W` / `Meta+Backspace` / `Ctrl+Backspace`     | Удалить слово слева от курсора.                                                                                          |
+| `Ctrl+X` / `Meta+Enter`                            | Открыть текущий ввод во внешнем редакторе.                                                                                       |
 
-## Suggestions
+## Предложения
 
-| Shortcut        | Description                            |
+| Сочетание клавиш        | Описание                            |
 | --------------- | -------------------------------------- |
-| `Down Arrow`    | Navigate down through the suggestions. |
-| `Tab` / `Enter` | Accept the selected suggestion.        |
-| `Up Arrow`      | Navigate up through the suggestions.   |
+| `Стрелка вниз`    | Перемещаться вниз по предложениям. |
+| `Tab` / `Enter` | Принять выбранное предложение.        |
+| `Стрелка вверх`      | Перемещаться вверх по предложениям.   |
 
-## Radio Button Select
+## Выбор радиокнопки
 
-| Shortcut           | Description                                                                                                   |
+| Сочетание клавиш           | Описание                                                                                                   |
 | ------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `Down Arrow` / `j` | Move selection down.                                                                                          |
-| `Enter`            | Confirm selection.                                                                                            |
-| `Up Arrow` / `k`   | Move selection up.                                                                                            |
-| `1-9`              | Select an item by its number.                                                                                 |
-| (multi-digit)      | For items with numbers greater than 9, press the digits in quick succession to select the corresponding item. |
+| `Стрелка вниз` / `j` | Переместить выбор вниз.                                                                                          |
+| `Enter`            | Подтвердить выбор.                                                                                            |
+| `Стрелка вверх` / `k`   | Переместить выбор вверх.                                                                                            |
+| `1-9`              | Выбрать элемент по его номеру.                                                                                 |
+| (многозначный)      | Для элементов с номерами больше 9, нажимайте цифры быстро подряд, чтобы выбрать соответствующий элемент. |

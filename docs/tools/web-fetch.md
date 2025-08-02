@@ -1,44 +1,44 @@
-# Web Fetch Tool (`web_fetch`)
+# Инструмент веб-запросов (`web_fetch`)
 
-This document describes the `web_fetch` tool for the Gemini CLI.
+Этот документ описывает инструмент `web_fetch` для Gemini CLI.
 
-## Description
+## Описание
 
-Use `web_fetch` to summarize, compare, or extract information from web pages. The `web_fetch` tool processes content from one or more URLs (up to 20) embedded in a prompt. `web_fetch` takes a natural language prompt and returns a generated response.
+Используйте `web_fetch` для обобщения, сравнения или извлечения информации с веб-страниц. Инструмент `web_fetch` обрабатывает содержимое одного или нескольких URL-адресов (до 20), встроенных в запрос. `web_fetch` принимает запрос на естественном языке и возвращает сгенерированный ответ.
 
-### Arguments
+### Аргументы
 
-`web_fetch` takes one argument:
+`web_fetch` принимает один аргумент:
 
-- `prompt` (string, required): A comprehensive prompt that includes the URL(s) (up to 20) to fetch and specific instructions on how to process their content. For example: `"Summarize https://example.com/article and extract key points from https://another.com/data"`. The prompt must contain at least one URL starting with `http://` or `https://`.
+- `prompt` (строка, обязательный): Подробный запрос, который включает URL-адреса (до 20) для получения и конкретные инструкции по обработке их содержимого. Например: `"Summarize https://example.com/article and extract key points from https://another.com/data"`. Запрос должен содержать хотя бы один URL-адрес, начинающийся с `http://` или `https://`.
 
-## How to use `web_fetch` with the Gemini CLI
+## Как использовать `web_fetch` с Gemini CLI
 
-To use `web_fetch` with the Gemini CLI, provide a natural language prompt that contains URLs. The tool will ask for confirmation before fetching any URLs. Once confirmed, the tool will process URLs through Gemini API's `urlContext`.
+Чтобы использовать `web_fetch` с Gemini CLI, предоставьте запрос на естественном языке, содержащий URL-адреса. Инструмент запросит подтверждение перед получением любых URL-адресов. После подтверждения инструмент обработает URL-адреса через `urlContext` Gemini API.
 
-If the Gemini API cannot access the URL, the tool will fall back to fetching content directly from the local machine. The tool will format the response, including source attribution and citations where possible. The tool will then provide the response to the user.
+Если Gemini API не может получить доступ к URL-адресу, инструмент вернется к получению содержимого непосредственно с локальной машины. Инструмент отформатирует ответ, включая атрибуцию источника и цитаты, где это возможно. Затем инструмент предоставит ответ пользователю.
 
-Usage:
-
-```
-web_fetch(prompt="Your prompt, including a URL such as https://google.com.")
-```
-
-## `web_fetch` examples
-
-Summarize a single article:
+Использование:
 
 ```
-web_fetch(prompt="Can you summarize the main points of https://example.com/news/latest")
+web_fetch(prompt="Ваш запрос, включая URL, такой как https://google.com.")
 ```
 
-Compare two articles:
+## Примеры `web_fetch`
+
+Обобщить одну статью:
 
 ```
-web_fetch(prompt="What are the differences in the conclusions of these two papers: https://arxiv.org/abs/2401.0001 and https://arxiv.org/abs/2401.0002?")
+web_fetch(prompt="Можете ли вы обобщить основные положения https://example.com/news/latest")
 ```
 
-## Important notes
+Сравнить две статьи:
 
-- **URL processing:** `web_fetch` relies on the Gemini API's ability to access and process the given URLs.
-- **Output quality:** The quality of the output will depend on the clarity of the instructions in the prompt.
+```
+web_fetch(prompt="В чем различия в выводах этих двух статей: https://arxiv.org/abs/2401.0001 и https://arxiv.org/abs/2401.0002?")
+```
+
+## Важные примечания
+
+- **Возвращаемый ответ:** `web_fetch` возвращает обработанную сводку, а не необработанный список результатов поиска.
+- **Качество вывода:** Качество вывода будет зависеть от ясности инструкций в запросе.

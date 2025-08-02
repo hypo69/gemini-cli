@@ -1,68 +1,68 @@
-# Multi File Read Tool (`read_many_files`)
+# Инструмент чтения нескольких файлов (`read_many_files`)
 
-This document describes the `read_many_files` tool for the Gemini CLI.
+Этот документ описывает инструмент `read_many_files` для Gemini CLI.
 
-## Description
+## Описание
 
-Use `read_many_files` to read content from multiple files specified by paths or glob patterns. The behavior of this tool depends on the provided files:
+Используйте `read_many_files` для чтения содержимого из нескольких файлов, указанных путями или шаблонами glob. Поведение этого инструмента зависит от предоставленных файлов:
 
-- For text files, this tool concatenates their content into a single string.
-- For image (e.g., PNG, JPEG), PDF, audio (MP3, WAV), and video (MP4, MOV) files, it reads and returns them as base64-encoded data, provided they are explicitly requested by name or extension.
+- Для текстовых файлов этот инструмент объединяет их содержимое в одну строку.
+- Для файлов изображений (например, PNG, JPEG), PDF, аудио (MP3, WAV) и видео (MP4, MOV) он считывает и возвращает их в виде данных, закодированных в base64, при условии, что они явно запрошены по имени или расширению.
 
-`read_many_files` can be used to perform tasks such as getting an overview of a codebase, finding where specific functionality is implemented, reviewing documentation, or gathering context from multiple configuration files.
+`read_many_files` может использоваться для выполнения таких задач, как получение обзора кодовой базы, поиск места реализации определенной функциональности, просмотр документации или сбор контекста из нескольких файлов конфигурации.
 
-**Note:** `read_many_files` looks for files following the provided paths or glob patterns. A directory path such as `"/docs"` will return an empty result; the tool requires a pattern such as `"/docs/*"` or `"/docs/*.md"` to identify the relevant files.
+**Примечание:** `read_many_files` ищет файлы, соответствующие предоставленным путям или шаблонам glob. Путь к каталогу, такой как `"/docs"`, вернет пустой результат; инструменту требуется шаблон, такой как `"/docs/*"` или `"/docs/*.md"`, чтобы идентифицировать соответствующие файлы.
 
-### Arguments
+### Аргументы
 
-`read_many_files` takes the following arguments:
+`read_many_files` принимает следующие аргументы:
 
-- `paths` (list[string], required): An array of glob patterns or paths relative to the tool's target directory (e.g., `["src/**/*.ts"]`, `["README.md", "docs/*", "assets/logo.png"]`).
-- `exclude` (list[string], optional): Glob patterns for files/directories to exclude (e.g., `["**/*.log", "temp/"]`). These are added to default excludes if `useDefaultExcludes` is true.
-- `include` (list[string], optional): Additional glob patterns to include. These are merged with `paths` (e.g., `["*.test.ts"]` to specifically add test files if they were broadly excluded, or `["images/*.jpg"]` to include specific image types).
-- `recursive` (boolean, optional): Whether to search recursively. This is primarily controlled by `**` in glob patterns. Defaults to `true`.
-- `useDefaultExcludes` (boolean, optional): Whether to apply a list of default exclusion patterns (e.g., `node_modules`, `.git`, non image/pdf binary files). Defaults to `true`.
-- `respect_git_ignore` (boolean, optional): Whether to respect .gitignore patterns when finding files. Defaults to true.
+- `paths` (список[строка], обязательный): Массив шаблонов glob или путей относительно целевого каталога инструмента (например, `["src/**/*.ts"]`, `["README.md", "docs/*", "assets/logo.png"]`).
+- `exclude` (список[строка], необязательный): Шаблоны glob для файлов/каталогов, которые нужно исключить (например, `["**/*.log", "temp/"]`). Они добавляются к исключениям по умолчанию, если `useDefaultExcludes` равно true.
+- `include` (список[строка], необязательный): Дополнительные шаблоны glob для включения. Они объединяются с `paths` (например, `["*.test.ts"]` для явного добавления тестовых файлов, если они были широко исключены, или `["images/*.jpg"]` для включения определенных типов изображений).
+- `recursive` (логическое значение, необязательный): Искать ли рекурсивно. Это в основном контролируется `**` в шаблонах glob. По умолчанию `true`.
+- `useDefaultExcludes` (логическое значение, необязательный): Применять ли список шаблонов исключений по умолчанию (например, `node_modules`, `.git`, неизобразительные/не-pdf бинарные файлы). По умолчанию `true`.
+- `respect_git_ignore` (логическое значение, необязательный): Учитывать ли шаблоны .gitignore при поиске файлов. По умолчанию true.
 
-## How to use `read_many_files` with the Gemini CLI
+## Как использовать `read_many_files` с Gemini CLI
 
-`read_many_files` searches for files matching the provided `paths` and `include` patterns, while respecting `exclude` patterns and default excludes (if enabled).
+`read_many_files` ищет файлы, соответствующие предоставленным шаблонам `paths` и `include`, при этом учитывая шаблоны `exclude` и исключения по умолчанию (если включены).
 
-- For text files: it reads the content of each matched file (attempting to skip binary files not explicitly requested as image/PDF) and concatenates it into a single string, with a separator `--- {filePath} ---` between the content of each file. Uses UTF-8 encoding by default.
-- For image and PDF files: if explicitly requested by name or extension (e.g., `paths: ["logo.png"]` or `include: ["*.pdf"]`), the tool reads the file and returns its content as a base64 encoded string.
-- The tool attempts to detect and skip other binary files (those not matching common image/PDF types or not explicitly requested) by checking for null bytes in their initial content.
+- Для текстовых файлов: он считывает содержимое каждого найденного файла (пытаясь пропустить бинарные файлы, явно не запрошенные как изображения/PDF) и объединяет его в одну строку с разделителем `--- {filePath} ---` между содержимым каждого файла. По умолчанию используется кодировка UTF-8.
+- Для файлов изображений и PDF: если явно запрошены по имени или расширению (например, `paths: ["logo.png"]` или `include: ["*.pdf"]`), инструмент считывает файл и возвращает его содержимое в виде строки, закодированной в base64.
+- Инструмент пытается обнаружить и пропустить другие бинарные файлы (те, которые не соответствуют общим типам изображений/PDF или не были явно запрошены), проверяя наличие нулевых байтов в их исходном содержимом.
 
-Usage:
+Использование:
 
 ```
-read_many_files(paths=["Your files or paths here."], include=["Additional files to include."], exclude=["Files to exclude."], recursive=False, useDefaultExcludes=false, respect_git_ignore=true)
+read_many_files(paths=["Ваши файлы или пути здесь."], include=["Дополнительные файлы для включения."], exclude=["Файлы для исключения."], recursive=False, useDefaultExcludes=false, respect_git_ignore=true)
 ```
 
-## `read_many_files` examples
+## Примеры `read_many_files`
 
-Read all TypeScript files in the `src` directory:
+Прочитать все файлы TypeScript в каталоге `src`:
 
 ```
 read_many_files(paths=["src/**/*.ts"])
 ```
 
-Read the main README, all Markdown files in the `docs` directory, and a specific logo image, excluding a specific file:
+Прочитать основной README, все файлы Markdown в каталоге `docs` и конкретное изображение логотипа, исключая определенный файл:
 
 ```
 read_many_files(paths=["README.md", "docs/**/*.md", "assets/logo.png"], exclude=["docs/OLD_README.md"])
 ```
 
-Read all JavaScript files but explicitly including test files and all JPEGs in an `images` folder:
+Прочитать все файлы JavaScript, но явно включить тестовые файлы и все JPEG в папке `images`:
 
 ```
 read_many_files(paths=["**/*.js"], include=["**/*.test.js", "images/**/*.jpg"], useDefaultExcludes=False)
 ```
 
-## Important notes
+## Важные примечания
 
-- **Binary file handling:**
-  - **Image/PDF/Audio/Video files:** The tool can read common image types (PNG, JPEG, etc.), PDF, audio (mp3, wav), and video (mp4, mov) files, returning them as base64 encoded data. These files _must_ be explicitly targeted by the `paths` or `include` patterns (e.g., by specifying the exact filename like `video.mp4` or a pattern like `*.mov`).
-  - **Other binary files:** The tool attempts to detect and skip other types of binary files by examining their initial content for null bytes. The tool excludes these files from its output.
-- **Performance:** Reading a very large number of files or very large individual files can be resource-intensive.
-- **Path specificity:** Ensure paths and glob patterns are correctly specified relative to the tool's target directory. For image/PDF files, ensure the patterns are specific enough to include them.
-- **Default excludes:** Be aware of the default exclusion patterns (like `node_modules`, `.git`) and use `useDefaultExcludes=False` if you need to override them, but do so cautiously.
+- **Обработка бинарных файлов:**
+  - **Файлы изображений/PDF/аудио/видео:** Инструмент может считывать распространенные типы изображений (PNG, JPEG и т. д.), PDF, аудио (mp3, wav) и видео (mp4, mov) файлы, возвращая их в виде данных, закодированных в base64. Эти файлы _должны_ быть явно указаны в шаблонах `paths` или `include` (например, путем указания точного имени файла, такого как `video.mp4`, или шаблона, такого как `*.mov`).
+  - **Другие бинарные файлы:** Инструмент пытается обнаружить и пропустить другие типы бинарных файлов, исследуя их исходное содержимое на наличие нулевых байтов. Инструмент исключает эти файлы из своего вывода.
+- **Производительность:** Чтение очень большого количества файлов или очень больших отдельных файлов может быть ресурсоемким.
+- **Специфика пути:** Убедитесь, что пути и шаблоны glob правильно указаны относительно целевого каталога инструмента. Для файлов изображений/PDF убедитесь, что шаблоны достаточно специфичны, чтобы их включить.
+- **Исключения по умолчанию:** Помните о шаблонах исключений по умолчанию (таких как `node_modules`, `.git`) и используйте `useDefaultExcludes=False`, если вам нужно их переопределить, но делайте это осторожно.

@@ -56,7 +56,8 @@ Slash commands provide meta-level control over the CLI itself.
   - **Description:** Lists all active extensions in the current Gemini CLI session. See [Gemini CLI Extensions](../extension.md).
 
 - **`/help`** (or **`/?`**)
-  - **Description:** Display help information about Gemini CLI, including available commands and their usage.
+  - **Description:** Отображает справочную информацию о Gemini CLI, включая доступные команды и их использование.
+
 
 - **`/mcp`**
   - **Description:** List configured Model Context Protocol (MCP) servers, their connection status, server details, and available tools.

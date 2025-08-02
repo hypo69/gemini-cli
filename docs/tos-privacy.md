@@ -27,8 +27,100 @@ For each of these four methods of authentication, different Terms of Service and
 
 For users who use their Google account to access [Gemini Code Assist for Individuals](https://developers.google.com/gemini-code-assist/docs/overview#supported-features-gca), these Terms of Service and Privacy Notice documents apply:
 
-- **Terms of Service:** Your use of the Gemini CLI is governed by the [Google Terms of Service](https://policies.google.com/terms?hl=en-US).
-- **Privacy Notice:** The collection and use of your data is described in the [Gemini Code Assist Privacy Notice for Individuals](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals).
+# Gemini CLI: Условия обслуживания и Уведомление о конфиденциальности
+
+Gemini CLI — это инструмент с открытым исходным кодом, который позволяет вам взаимодействовать с мощными языковыми моделями Google непосредственно из интерфейса командной строки. Условия обслуживания и Уведомления о конфиденциальности, применимые к использованию вами Gemini CLI, зависят от типа учетной записи, которую вы используете для аутентификации в Google.
+
+В этой статье изложены конкретные условия и политики конфиденциальности, применимые для различных типов учетных записей и методов аутентификации. Примечание: См. [квоты и цены](./quota-and-pricing.md) для получения подробной информации о квотах и ценах, применимых к использованию вами Gemini CLI.
+
+## Как определить ваш метод аутентификации
+
+Ваш метод аутентификации относится к методу, который вы используете для входа и доступа к Gemini CLI. Существует четыре способа аутентификации:
+
+- Вход с вашей учетной записью Google в Gemini Code Assist для частных лиц
+- Вход с вашей учетной записью Google в Gemini Code Assist для пользователей Workspace, Standard или Enterprise
+- Использование ключа API с Gemini Developer
+- Использование ключа API с Vertex AI GenAI API
+
+Для каждого из этих четырех методов аутентификации могут применяться различные Условия обслуживания и Уведомления о конфиденциальности.
+
+| Аутентификация                | Учетная запись             | Условия обслуживания                                                                                        | Уведомление о конфиденциальности                                                                                                                                                                                   |
+| :---------------------------- | :------------------ | :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Gemini Code Assist через Google | Индивидуальный          | [Условия обслуживания Google](https://policies.google.com/terms?hl=en-US)                                   | [Уведомление о конфиденциальности Gemini Code Assist для частных лиц](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals)                                    |
+| Gemini Code Assist через Google | Стандартный/Корпоративный | [Условия обслуживания Google Cloud Platform](https://cloud.google.com/terms)                                | [Уведомление о конфиденциальности Gemini Code Assist для стандартных и корпоративных пользователей](https://cloud.google.com/gemini/docs/codeassist/security-privacy-compliance#standard_and_enterprise_data_protection_and_privacy) |
+| Gemini Developer API          | Бесплатный              | [Условия обслуживания Gemini API - Бесплатные услуги](https://ai.google.dev/gemini-api/terms#unpaid-services) | [Политика конфиденциальности Google](https://policies.google.com/privacy)                                                                                                                                     |
+| Gemini Developer API          | Платный                | [Условия обслуживания Gemini API - Платные услуги](https://ai.google.dev/gemini-api/terms#paid-services)     | [Политика конфиденциальности Google](https://policies.google.com/privacy)                                                                                                                                     |
+| Vertex AI Gen API             |                     | [Условия обслуживания Google Cloud Platform](https://cloud.google.com/terms/service-terms/)                    | [Уведомление о конфиденциальности Google Cloud](https://cloud.google.com/terms/cloud-privacy-notice)                                                                                                               |
+
+## 1. Если вы вошли в систему с помощью своей учетной записи Google в Gemini Code Assist для частных лиц
+
+Для пользователей, которые используют свою учетную запись Google для доступа к [Gemini Code Assist для частных лиц](https://developers.google.com/gemini-code-assist/docs/overview#supported-features-gca), применяются следующие документы Условий обслуживания и Уведомления о конфиденциальности:
+
+- **Условия обслуживания:** Использование вами Gemini CLI регулируется [Условиями обслуживания Google](https://policies.google.com/terms?hl=en-US).
+- **Уведомление о конфиденциальности:** Сбор и использование ваших данных описаны в [Уведомлении о конфиденциальности Gemini Code Assist для частных лиц](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals).
+
+## 2. Если вы вошли в систему с помощью своей учетной записи Google в Gemini Code Assist для пользователей Workspace, Standard или Enterprise
+
+Для пользователей, которые используют свою учетную запись Google для доступа к [стандартной или корпоративной версии](https://cloud.google.com/gemini/docs/codeassist/overview#editions-overview) Gemini Code Assist, применяются следующие документы Условий обслуживания и Уведомления о конфиденциальности:
+
+- **Условия обслуживания:** Использование вами Gemini CLI регулируется [Условиями обслуживания Google Cloud Platform](https://cloud.google.com/terms).
+- **Уведомление о конфиденциальности:** Сбор и использование ваших данных описаны в [Уведомлениях о конфиденциальности Gemini Code Assist для стандартных и корпоративных пользователей](https://cloud.google.com/gemini/docs/codeassist/security-privacy-compliance#standard_and_enterprise_data_protection_and_privacy).
+
+## 3. Если вы вошли в систему с помощью ключа Gemini API в Gemini Developer API
+
+Если вы используете ключ Gemini API для аутентификации с [Gemini Developer API](https://ai.google.dev/gemini-api/docs), применяются следующие документы Условий обслуживания и Уведомления о конфиденциальности:
+
+- **Условия обслуживания:** Использование вами Gemini CLI регулируется [Условиями обслуживания Gemini API](https://ai.google.dev/gemini-api/terms). Эти условия могут отличаться в зависимости от того, используете ли вы бесплатную или платную услугу:
+  - Для бесплатных услуг см. [Условия обслуживания Gemini API - Бесплатные услуги](https://ai.google.dev/gemini-api/terms#unpaid-services).
+  - Для платных услуг см. [Условия обслуживания Gemini API - Платные услуги](https://ai.google.dev/gemini-api/terms#paid-services).
+- **Уведомление о конфиденциальности:** Сбор и использование ваших данных описаны в [Политике конфиденциальности Google](https://policies.google.com/privacy).
+
+## 4. Если вы вошли в систему с помощью ключа Gemini API в Vertex AI GenAI API
+
+Если вы используете ключ Gemini API для аутентификации с бэкендом [Vertex AI GenAI API](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest), применяются следующие документы Условий обслуживания и Уведомления о конфиденциальности:
+
+- **Условия обслуживания:** Использование вами Gemini CLI регулируется [Условиями обслуживания Google Cloud Platform](https://cloud.google.com/terms/service-terms/).
+- **Уведомление о конфиденциальности:** Сбор и использование ваших данных описаны в [Уведомлении о конфиденциальности Google Cloud](https://cloud.google.com/terms/cloud-privacy-notice).
+
+### Отказ от статистики использования
+
+Вы можете отказаться от отправки статистики использования в Google, следуя инструкциям, доступным здесь: [Конфигурация статистики использования](./cli/configuration.md#usage-statistics).
+
+## Часто задаваемые вопросы (FAQ) по Gemini CLI
+
+### 1. Используется ли мой код, включая запросы и ответы, для обучения моделей Google?
+
+Используется ли ваш код, включая запросы и ответы, для обучения моделей Google, зависит от типа используемого вами метода аутентификации и типа вашей учетной записи.
+
+По умолчанию (если вы не отказались):
+
+- **Учетная запись Google с Gemini Code Assist для частных лиц**: Да. Когда вы используете свою личную учетную запись Google, применяется [Уведомление о конфиденциальности Gemini Code Assist для частных лиц](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals). Согласно этому уведомлению,
+  ваши **запросы, ответы и связанный код собираются** и могут использоваться для улучшения продуктов Google, включая обучение моделей.
+- **Учетная запись Google с Gemini Code Assist для Workspace, Standard или Enterprise**: Нет. Для этих учетных записей ваши данные регулируются условиями [Уведомлений о конфиденциальности Gemini Code Assist](https://cloud.google.com/gemini/docs/codeassist/security-privacy-compliance#standard_and_enterprise_data_protection_and_privacy), которые рассматривают ваши входные данные как конфиденциальные. Ваши **запросы, ответы и связанный код не собираются** и не используются для обучения моделей.
+- **Ключ Gemini API через Gemini Developer API**: Собирается ли ваш код или используется, зависит от того, используете ли вы бесплатную или платную услугу.
+  - **Бесплатные услуги**: Да. Когда вы используете ключ Gemini API через Gemini Developer API с бесплатной услугой, применяются условия [Условий обслуживания Gemini API - Бесплатные услуги](https://ai.google.dev/gemini-api/terms#unpaid-services). Согласно этому уведомлению, ваши **запросы, ответы и связанный код собираются** и могут использоваться для улучшения продуктов Google, включая обучение моделей.
+  - **Платные услуги**: Нет. Когда вы используете ключ Gemini API через Gemini Developer API с платной услугой, применяются условия [Условий обслуживания Gemini API - Платные услуги](https://ai.google.dev/gemini-api/terms#paid-services), которые рассматривают ваши входные данные как конфиденциальные. Ваши **запросы, ответы и связанный код не собираются** и не используются для обучения моделей.
+- **Ключ Gemini API через Vertex AI GenAI API**: Нет. Для этих учетных записей ваши данные регулируются условиями [Уведомления о конфиденциальности Google Cloud](https://cloud.google.com/terms/cloud-privacy-notice), которые рассматривают ваши входные данные как конфиденциальные. Ваши **запросы, ответы и связанный код не собираются** и не используются для обучения моделей.
+
+Для получения дополнительной информации об отказе см. следующий вопрос.
+
+### 2. Что такое статистика использования и что контролирует отказ?
+
+Настройка **Статистика использования** является единственным элементом управления для всего необязательного сбора данных в Gemini CLI.
+
+Собираемые данные зависят от вашей учетной записи и типа аутентификации:
+
+- **Учетная запись Google с Gemini Code Assist для частных лиц**: При включении эта настройка позволяет Google собирать как анонимную телеметрию (например, выполненные команды и метрики производительности), так и **ваши запросы и ответы, включая код,** для улучшения модели.
+- **Учетная запись Google с Gemini Code Assist для Workspace, Standard или Enterprise**: Эта настройка контролирует только сбор анонимной телеметрии. Ваши запросы и ответы, включая код, никогда не собираются, независимо от этой настройки.
+- **Ключ Gemini API через Gemini Developer API**:
+  **Бесплатные услуги**: При включении эта настройка позволяет Google собирать как анонимную телеметрию (например, выполненные команды и метрики производительности), так и **ваши запросы и ответы, включая код,** для улучшения модели. При отключении мы будем использовать ваши данные, как описано в [Как Google использует ваши данные](https://ai.google.dev/gemini-api/terms#data-use-unpaid).
+  **Платные услуги**: Эта настройка контролирует только сбор анонимной телеметрии. Google регистрирует запросы и ответы в течение ограниченного периода времени исключительно для целей выявления нарушений Политики запрещенного использования и любых требуемых юридических или нормативных раскрытий.
+- **Ключ Gemini API через Vertex AI GenAI API:** Эта настройка контролирует только сбор анонимной телеметрии. Ваши запросы и ответы, включая код, никогда не собираются, независимо от этой настройки.
+
+Пожалуйста, обратитесь к Уведомлению о конфиденциальности, применимому к вашему методу аутентификации, для получения дополнительной информации о том, какие данные собираются и как эти данные используются.
+
+Вы можете отключить статистику использования для любого типа учетной записи, следуя инструкциям в документации [Конфигурация статистики использования](./cli/configuration.md#usage-statistics).
+
 
 ## 2. If you have logged in with your Google account to Gemini Code Assist for Workspace, Standard, or Enterprise Users
 

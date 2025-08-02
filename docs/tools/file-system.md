@@ -1,143 +1,144 @@
-# Gemini CLI file system tools
+# Инструменты файловой системы Gemini CLI
 
-The Gemini CLI provides a comprehensive suite of tools for interacting with the local file system. These tools allow the Gemini model to read from, write to, list, search, and modify files and directories, all under your control and typically with confirmation for sensitive operations.
+Gemini CLI предоставляет полный набор инструментов для взаимодействия с локальной файловой системой. Эти инструменты позволяют модели Gemini читать, записывать, перечислять, искать и изменять файлы и каталоги, все под вашим контролем и, как правило, с подтверждением для конфиденциальных операций.
 
-**Note:** All file system tools operate within a `rootDirectory` (usually the current working directory where you launched the CLI) for security. Paths that you provide to these tools are generally expected to be absolute or are resolved relative to this root directory.
+**Примечание:** Все инструменты файловой системы работают в пределах `rootDirectory` (обычно текущий рабочий каталог, из которого вы запустили CLI) для обеспечения безопасности. Пути, которые вы предоставляете этим инструментам, как правило, должны быть абсолютными или разрешаться относительно этого корневого каталога.
 
 ## 1. `list_directory` (ReadFolder)
 
-`list_directory` lists the names of files and subdirectories directly within a specified directory path. It can optionally ignore entries matching provided glob patterns.
+`list_directory` перечисляет имена файлов и подкаталогов непосредственно в указанном пути к каталогу. Он может опционально игнорировать записи, соответствующие предоставленным шаблонам glob.
 
-- **Tool name:** `list_directory`
-- **Display name:** ReadFolder
-- **File:** `ls.ts`
-- **Parameters:**
-  - `path` (string, required): The absolute path to the directory to list.
-  - `ignore` (array of strings, optional): A list of glob patterns to exclude from the listing (e.g., `["*.log", ".git"]`).
-  - `respect_git_ignore` (boolean, optional): Whether to respect `.gitignore` patterns when listing files. Defaults to `true`.
-- **Behavior:**
-  - Returns a list of file and directory names.
-  - Indicates whether each entry is a directory.
-  - Sorts entries with directories first, then alphabetically.
-- **Output (`llmContent`):** A string like: `Directory listing for /path/to/your/folder:\n[DIR] subfolder1\nfile1.txt\nfile2.png`
-- **Confirmation:** No.
+- **Имя инструмента:** `list_directory`
+- **Отображаемое имя:** ReadFolder
+- **Файл:** `ls.ts`
+- **Параметры:**
+  - `path` (строка, обязательный): Абсолютный путь к каталогу для перечисления.
+  - `ignore` (массив строк, необязательный): Список шаблонов glob для исключения из списка (например, `["*.log", ".git"]`).
+  - `respect_git_ignore` (логическое значение, необязательный): Учитывать ли шаблоны `.gitignore` при перечислении файлов. По умолчанию `true`.
+- **Поведение:**
+  - Возвращает список имен файлов и каталогов.
+  - Указывает, является ли каждая запись каталогом.
+  - Сортирует записи: сначала каталоги, затем по алфавиту.
+- **Вывод (`llmContent`):** Строка типа: `Список каталогов для /path/to/your/folder:\n[DIR] subfolder1\nfile1.txt\nfile2.png`
+- **Подтверждение:** Нет.
 
 ## 2. `read_file` (ReadFile)
 
-`read_file` reads and returns the content of a specified file. This tool handles text, images (PNG, JPG, GIF, WEBP, SVG, BMP), and PDF files. For text files, it can read specific line ranges. Other binary file types are generally skipped.
+`read_file` читает и возвращает содержимое указанного файла. Этот инструмент обрабатывает текстовые файлы, изображения (PNG, JPG, GIF, WEBP, SVG, BMP) и PDF-файлы. Для текстовых файлов он может читать определенные диапазоны строк. Другие типы бинарных файлов обычно пропускаются.
 
-- **Tool name:** `read_file`
-- **Display name:** ReadFile
-- **File:** `read-file.ts`
-- **Parameters:**
-  - `path` (string, required): The absolute path to the file to read.
-  - `offset` (number, optional): For text files, the 0-based line number to start reading from. Requires `limit` to be set.
-  - `limit` (number, optional): For text files, the maximum number of lines to read. If omitted, reads a default maximum (e.g., 2000 lines) or the entire file if feasible.
-- **Behavior:**
-  - For text files: Returns the content. If `offset` and `limit` are used, returns only that slice of lines. Indicates if content was truncated due to line limits or line length limits.
-  - For image and PDF files: Returns the file content as a base64-encoded data structure suitable for model consumption.
-  - For other binary files: Attempts to identify and skip them, returning a message indicating it's a generic binary file.
-- **Output:** (`llmContent`):
-  - For text files: The file content, potentially prefixed with a truncation message (e.g., `[File content truncated: showing lines 1-100 of 500 total lines...]\nActual file content...`).
-  - For image/PDF files: An object containing `inlineData` with `mimeType` and base64 `data` (e.g., `{ inlineData: { mimeType: 'image/png', data: 'base64encodedstring' } }`).
-  - For other binary files: A message like `Cannot display content of binary file: /path/to/data.bin`.
-- **Confirmation:** No.
+- **Имя инструмента:** `read_file`
+- **Отображаемое имя:** ReadFile
+- **Файл:** `read-file.ts`
+- **Параметры:**
+  - `path` (строка, обязательный): Абсолютный путь к файлу для чтения.
+  - `offset` (число, необязательный): Для текстовых файлов, 0-базовый номер строки, с которой начинается чтение. Требует установки `limit`.
+  - `limit` (число, необязательный): Для текстовых файлов, максимальное количество строк для чтения. Если опущено, читает максимальное количество по умолчанию (например, 2000 строк) или весь файл, если это возможно.
+- **Поведение:**
+  - Для текстовых файлов: Возвращает содержимое. Если используются `offset` и `limit`, возвращает только этот фрагмент строк. Указывает, было ли содержимое усечено из-за ограничений по строкам или длине строк.
+  - Для файлов изображений и PDF: Возвращает содержимое файла в виде структуры данных, закодированной в base64, подходящей для использования моделью.
+  - Для других бинарных файлов: Пытается идентифицировать и пропустить их, возвращая сообщение, указывающее, что это общий бинарный файл.
+- **Вывод:** (`llmContent`):
+  - Для текстовых файлов: Содержимое файла, возможно, с префиксом сообщения об усечении (например, `[Содержимое файла усечено: показаны строки 1-100 из 500 общих строк...]
+Фактическое содержимое файла...`).
+  - Для файлов изображений/PDF: Объект, содержащий `inlineData` с `mimeType` и base64 `data` (например, `{ inlineData: { mimeType: 'image/png', data: 'base64encodedstring' } }`).
+  - Для других бинарных файлов: Сообщение типа `Невозможно отобразить содержимое бинарного файла: /path/to/data.bin`.
+- **Подтверждение:** Нет.
 
 ## 3. `write_file` (WriteFile)
 
-`write_file` writes content to a specified file. If the file exists, it will be overwritten. If the file doesn't exist, it (and any necessary parent directories) will be created.
+`write_file` записывает содержимое в указанный файл. Если файл существует, он будет перезаписан. Если файл не существует, он (и любые необходимые родительские каталоги) будет создан.
 
-- **Tool name:** `write_file`
-- **Display name:** WriteFile
-- **File:** `write-file.ts`
-- **Parameters:**
-  - `file_path` (string, required): The absolute path to the file to write to.
-  - `content` (string, required): The content to write into the file.
-- **Behavior:**
-  - Writes the provided `content` to the `file_path`.
-  - Creates parent directories if they don't exist.
-- **Output (`llmContent`):** A success message, e.g., `Successfully overwrote file: /path/to/your/file.txt` or `Successfully created and wrote to new file: /path/to/new/file.txt`.
-- **Confirmation:** Yes. Shows a diff of changes and asks for user approval before writing.
+- **Имя инструмента:** `write_file`
+- **Отображаемое имя:** WriteFile
+- **Файл:** `write-file.ts`
+- **Параметры:**
+  - `file_path` (строка, обязательный): Абсолютный путь к файлу для записи.
+  - `content` (строка, обязательный): Содержимое для записи в файл.
+- **Поведение:**
+  - Записывает предоставленное `content` в `file_path`.
+  - Создает родительские каталоги, если они не существуют.
+- **Вывод (`llmContent`):** Сообщение об успехе, например, `Файл успешно перезаписан: /path/to/your/file.txt` или `Новый файл успешно создан и записан: /path/to/new/file.txt`.
+- **Подтверждение:** Да. Показывает разницу изменений и запрашивает подтверждение пользователя перед записью.
 
 ## 4. `glob` (FindFiles)
 
-`glob` finds files matching specific glob patterns (e.g., `src/**/*.ts`, `*.md`), returning absolute paths sorted by modification time (newest first).
+`glob` находит файлы, соответствующие определенным шаблонам glob (например, `src/**/*.ts`, `*.md`), возвращая абсолютные пути, отсортированные по времени изменения (сначала самые новые).
 
-- **Tool name:** `glob`
-- **Display name:** FindFiles
-- **File:** `glob.ts`
-- **Parameters:**
-  - `pattern` (string, required): The glob pattern to match against (e.g., `"*.py"`, `"src/**/*.js"`).
-  - `path` (string, optional): The absolute path to the directory to search within. If omitted, searches the tool's root directory.
-  - `case_sensitive` (boolean, optional): Whether the search should be case-sensitive. Defaults to `false`.
-  - `respect_git_ignore` (boolean, optional): Whether to respect .gitignore patterns when finding files. Defaults to `true`.
-- **Behavior:**
-  - Searches for files matching the glob pattern within the specified directory.
-  - Returns a list of absolute paths, sorted with the most recently modified files first.
-  - Ignores common nuisance directories like `node_modules` and `.git` by default.
-- **Output (`llmContent`):** A message like: `Found 5 file(s) matching "*.ts" within src, sorted by modification time (newest first):\nsrc/file1.ts\nsrc/subdir/file2.ts...`
-- **Confirmation:** No.
+- **Имя инструмента:** `glob`
+- **Отображаемое имя:** FindFiles
+- **Файл:** `glob.ts`
+- **Параметры:**
+  - `pattern` (строка, обязательный): Шаблон glob для сопоставления (например, `"*.py"`, `"src/**/*.js"`).
+  - `path` (строка, необязательный): Абсолютный путь к каталогу для поиска. Если опущено, ищет в корневом каталоге инструмента.
+  - `case_sensitive` (логическое значение, необязательный): Должен ли поиск быть чувствительным к регистру. По умолчанию `false`.
+  - `respect_git_ignore` (логическое значение, необязательный): Учитывать ли шаблоны .gitignore при поиске файлов. По умолчанию `true`.
+- **Поведение:**
+  - Ищет файлы, соответствующие шаблону glob, в указанном каталоге.
+  - Возвращает список абсолютных путей, отсортированных по дате последнего изменения (сначала самые новые).
+  - По умолчанию игнорирует распространенные каталоги, такие как `node_modules` и `.git`.
+- **Вывод (`llmContent`):** Сообщение типа: `Найдено 5 файлов, соответствующих "*.ts" в src, отсортированных по времени изменения (сначала самые новые):\nsrc/file1.ts\nsrc/subdir/file2.ts...`
+- **Подтверждение:** Нет.
 
 ## 5. `search_file_content` (SearchText)
 
-`search_file_content` searches for a regular expression pattern within the content of files in a specified directory. Can filter files by a glob pattern. Returns the lines containing matches, along with their file paths and line numbers.
+`search_file_content` ищет шаблон регулярного выражения в содержимом файлов в указанном каталоге. Может фильтровать файлы по шаблону glob. Возвращает строки, содержащие совпадения, а также их пути к файлам и номера строк.
 
-- **Tool name:** `search_file_content`
-- **Display name:** SearchText
-- **File:** `grep.ts`
-- **Parameters:**
-  - `pattern` (string, required): The regular expression (regex) to search for (e.g., `"function\s+myFunction"`).
-  - `path` (string, optional): The absolute path to the directory to search within. Defaults to the current working directory.
-  - `include` (string, optional): A glob pattern to filter which files are searched (e.g., `"*.js"`, `"src/**/*.{ts,tsx}"`). If omitted, searches most files (respecting common ignores).
-- **Behavior:**
-  - Uses `git grep` if available in a Git repository for speed; otherwise, falls back to system `grep` or a JavaScript-based search.
-  - Returns a list of matching lines, each prefixed with its file path (relative to the search directory) and line number.
-- **Output (`llmContent`):** A formatted string of matches, e.g.:
+- **Имя инструмента:** `search_file_content`
+- **Отображаемое имя:** SearchText
+- **Файл:** `grep.ts`
+- **Параметры:**
+  - `pattern` (строка, обязательный): Регулярное выражение (regex) для поиска (например, `"function\s+myFunction"`).
+  - `path` (строка, необязательный): Абсолютный путь к каталогу для поиска. По умолчанию текущий рабочий каталог.
+  - `include` (строка, необязательный): Шаблон glob для фильтрации файлов, которые будут искаться (например, `"*.js"`, `"src/**/*.{ts,tsx}"`). Если опущено, ищет большинство файлов (с учетом общих исключений).
+- **Поведение:**
+  - Использует `git grep`, если доступен в репозитории Git, для скорости; в противном случае возвращается к системному `grep` или поиску на основе JavaScript.
+  - Возвращает список совпадающих строк, каждая из которых имеет префикс с путем к файлу (относительно каталога поиска) и номером строки.
+- **Вывод (`llmContent`):** Отформатированная строка совпадений, например:
   ```
-  Found 3 matches for pattern "myFunction" in path "." (filter: "*.ts"):
+  Найдено 3 совпадения для шаблона "myFunction" в пути "." (фильтр: "*.ts"):
   ---
-  File: src/utils.ts
+  Файл: src/utils.ts
   L15: export function myFunction() {
   L22:   myFunction.call();
   ---
-  File: src/index.ts
+  Файл: src/index.ts
   L5: import { myFunction } from './utils';
   ---
   ```
-- **Confirmation:** No.
+- **Подтверждение:** Нет.
 
 ## 6. `replace` (Edit)
 
-`replace` replaces text within a file. By default, replaces a single occurrence, but can replace multiple occurrences when `expected_replacements` is specified. This tool is designed for precise, targeted changes and requires significant context around the `old_string` to ensure it modifies the correct location.
+`replace` заменяет текст в файле. По умолчанию заменяет одно вхождение, но может заменять несколько вхождений, если указано `expected_replacements`. Этот инструмент предназначен для точных, целевых изменений и требует значительного контекста вокруг `old_string`, чтобы гарантировать изменение правильного места.
 
-- **Tool name:** `replace`
-- **Display name:** Edit
-- **File:** `edit.ts`
-- **Parameters:**
-  - `file_path` (string, required): The absolute path to the file to modify.
-  - `old_string` (string, required): The exact literal text to replace.
+- **Имя инструмента:** `replace`
+- **Отображаемое имя:** Edit
+- **Файл:** `edit.ts`
+- **Параметры:**
+  - `file_path` (строка, обязательный): Абсолютный путь к файлу для изменения.
+  - `old_string` (строка, обязательный): Точный буквальный текст для замены.
 
-    **CRITICAL:** This string must uniquely identify the single instance to change. It should include at least 3 lines of context _before_ and _after_ the target text, matching whitespace and indentation precisely. If `old_string` is empty, the tool attempts to create a new file at `file_path` with `new_string` as content.
+    **ВАЖНО:** Эта строка должна однозначно идентифицировать единственное вхождение для изменения. Она должна включать не менее 3 строк контекста _до_ и _после_ целевого текста, точно соответствуя пробелам и отступам. Если `old_string` пуст, инструмент пытается создать новый файл по `file_path` с `new_string` в качестве содержимого.
 
-  - `new_string` (string, required): The exact literal text to replace `old_string` with.
-  - `expected_replacements` (number, optional): The number of occurrences to replace. Defaults to `1`.
+  - `new_string` (строка, обязательный): Точный буквальный текст для замены `old_string`.
+  - `expected_replacements` (число, необязательный): Количество ожидаемых замен. По умолчанию `1`.
 
-- **Behavior:**
-  - If `old_string` is empty and `file_path` does not exist, creates a new file with `new_string` as content.
-  - If `old_string` is provided, it reads the `file_path` and attempts to find exactly one occurrence of `old_string`.
-  - If one occurrence is found, it replaces it with `new_string`.
-  - **Enhanced Reliability (Multi-Stage Edit Correction):** To significantly improve the success rate of edits, especially when the model-provided `old_string` might not be perfectly precise, the tool incorporates a multi-stage edit correction mechanism.
-    - If the initial `old_string` isn't found or matches multiple locations, the tool can leverage the Gemini model to iteratively refine `old_string` (and potentially `new_string`).
-    - This self-correction process attempts to identify the unique segment the model intended to modify, making the `replace` operation more robust even with slightly imperfect initial context.
-- **Failure conditions:** Despite the correction mechanism, the tool will fail if:
-  - `file_path` is not absolute or is outside the root directory.
-  - `old_string` is not empty, but the `file_path` does not exist.
-  - `old_string` is empty, but the `file_path` already exists.
-  - `old_string` is not found in the file after attempts to correct it.
-  - `old_string` is found multiple times, and the self-correction mechanism cannot resolve it to a single, unambiguous match.
-- **Output (`llmContent`):**
-  - On success: `Successfully modified file: /path/to/file.txt (1 replacements).` or `Created new file: /path/to/new_file.txt with provided content.`
-  - On failure: An error message explaining the reason (e.g., `Failed to edit, 0 occurrences found...`, `Failed to edit, expected 1 occurrences but found 2...`).
-- **Confirmation:** Yes. Shows a diff of the proposed changes and asks for user approval before writing to the file.
+- **Поведение:**
+  - Если `old_string` пуст и `file_path` не существует, создает новый файл с `new_string` в качестве содержимого.
+  - Если `old_string` предоставлен, он читает `file_path` и пытается найти ровно одно вхождение `old_string`.
+  - Если найдено одно вхождение, оно заменяется на `new_string`.
+  - **Улучшенная надежность (многоэтапная коррекция редактирования):** Для значительного повышения успешности редактирования, особенно когда предоставленная моделью `old_string` может быть не идеально точной, инструмент включает механизм многоэтапной коррекции редактирования.
+    - Если исходная `old_string` не найдена или соответствует нескольким местам, инструмент может использовать модель Gemini для итеративного уточнения `old_string` (и, возможно, `new_string`).
+    - Этот процесс самокоррекции пытается идентифицировать уникальный сегмент, который модель намеревалась изменить, делая операцию `replace` более надежной даже при слегка неточном исходном контексте.
+- **Условия отказа:** Несмотря на механизм коррекции, инструмент завершится сбоем, если:
+  - `file_path` не является абсолютным или находится за пределами корневого каталога.
+  - `old_string` не пуст, но `file_path` не существует.
+  - `old_string` пуст, но `file_path` уже существует.
+  - `old_string` не найден в файле после попыток его исправить.
+  - `old_string` найден несколько раз, и механизм самокоррекции не может разрешить его до одного, однозначного совпадения.
+- **Вывод (`llmContent`):**
+  - При успехе: `Файл успешно изменен: /path/to/file.txt (1 замена).` или `Создан новый файл: /path/to/new_file.txt с предоставленным содержимым.`
+  - При сбое: Сообщение об ошибке, объясняющее причину (например, `Не удалось отредактировать, найдено 0 вхождений...`, `Не удалось отредактировать, ожидалось 1 вхождение, но найдено 2...`).
+- **Подтверждение:** Да. Показывает разницу предлагаемых изменений и запрашивает подтверждение пользователя перед записью в файл.
 
-These file system tools provide a foundation for the Gemini CLI to understand and interact with your local project context.
+Эти инструменты файловой системы обеспечивают основу для Gemini CLI, чтобы понимать и взаимодействовать с контекстом вашего локального проекта.

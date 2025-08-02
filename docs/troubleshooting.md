@@ -1,75 +1,75 @@
-# Troubleshooting Guide
+# Руководство по устранению неполадок
 
-This guide provides solutions to common issues and debugging tips.
+Это руководство содержит решения распространенных проблем и советы по отладке.
 
-## Authentication
+## Аутентификация
 
-- **Error: `Failed to login. Message: Request contains an invalid argument`**
-  - Users with Google Workspace accounts, or users with Google Cloud accounts
-    associated with their Gmail accounts may not be able to activate the free
-    tier of the Google Code Assist plan.
-  - For Google Cloud accounts, you can work around this by setting
-    `GOOGLE_CLOUD_PROJECT` to your project ID.
-  - You can also grab an API key from [AI Studio](https://aistudio.google.com/app/apikey), which also includes a
-    separate free tier.
+- **Ошибка: `Failed to login. Message: Request contains an invalid argument`**
+  - Пользователи с учетными записями Google Workspace или пользователи с учетными записями Google Cloud,
+    связанными с их учетными записями Gmail, могут не иметь возможности активировать бесплатный
+    уровень плана Google Code Assist.
+  - Для учетных записей Google Cloud вы можете обойти это, установив
+    `GOOGLE_CLOUD_PROJECT` на идентификатор вашего проекта.
+  - Вы также можете получить ключ API из [AI Studio](https://aistudio.google.com/app/apikey), который также включает
+    отдельный бесплатный уровень.
 
-## Frequently asked questions (FAQs)
+## Часто задаваемые вопросы (FAQ)
 
-- **Q: How do I update Gemini CLI to the latest version?**
-  - A: If installed globally via npm, update Gemini CLI using the command `npm install -g @google/gemini-cli@latest`. If run from source, pull the latest changes from the repository and rebuild using `npm run build`.
+- **В: Как обновить Gemini CLI до последней версии?**
+  - О: Если установлено глобально через npm, обновите Gemini CLI с помощью команды `npm install -g @google/gemini-cli@latest`. Если запускается из исходного кода, получите последние изменения из репозитория и перестройте с помощью `npm run build`.
 
-- **Q: Where are Gemini CLI configuration files stored?**
-  - A: The CLI configuration is stored within two `settings.json` files: one in your home directory and one in your project's root directory. In both locations, `settings.json` is found in the `.gemini/` folder. Refer to [CLI Configuration](./cli/configuration.md) for more details.
+- **В: Где хранятся файлы конфигурации Gemini CLI?**
+  - О: Конфигурация CLI хранится в двух файлах `settings.json`: один в вашем домашнем каталоге и один в корневом каталоге вашего проекта. В обоих местах `settings.json` находится в папке `.gemini/`. Дополнительные сведения см. в разделе [Конфигурация CLI](./cli/configuration.md).
 
-- **Q: Why don't I see cached token counts in my stats output?**
-  - A: Cached token information is only displayed when cached tokens are being used. This feature is available for API key users (Gemini API key or Vertex AI) but not for OAuth users (Google Personal/Enterprise accounts) at this time, as the Code Assist API does not support cached content creation. You can still view your total token usage with the `/stats` command.
+- **В: Почему я не вижу количество кэшированных токенов в выводе статистики?**
+  - О: Информация о кэшированных токенах отображается только при использовании кэшированных токенов. Эта функция доступна для пользователей ключей API (ключ Gemini API или Vertex AI), но в настоящее время недоступна для пользователей OAuth (личные/корпоративные учетные записи Google), так как API Code Assist не поддерживает создание кэшированного контента. Вы по-прежнему можете просмотреть общее использование токенов с помощью команды `/stats`.
 
-## Common error messages and solutions
+## Распространенные сообщения об ошибках и их решения
 
-- **Error: `EADDRINUSE` (Address already in use) when starting an MCP server.**
-  - **Cause:** Another process is already using the port that the MCP server is trying to bind to.
-  - **Solution:**
-    Either stop the other process that is using the port or configure the MCP server to use a different port.
+- **Ошибка: `EADDRINUSE` (Адрес уже используется) при запуске сервера MCP.**
+  - **Причина:** Другой процесс уже использует порт, к которому пытается привязаться сервер MCP.
+  - **Решение:**
+    Либо остановите другой процесс, использующий порт, либо настройте сервер MCP на использование другого порта.
 
-- **Error: Command not found (when attempting to run Gemini CLI).**
-  - **Cause:** Gemini CLI is not correctly installed or not in your system's PATH.
-  - **Solution:**
-    1.  Ensure Gemini CLI installation was successful.
-    2.  If installed globally, check that your npm global binary directory is in your PATH.
-    3.  If running from source, ensure you are using the correct command to invoke it (e.g., `node packages/cli/dist/index.js ...`).
+- **Ошибка: Команда не найдена (при попытке запустить Gemini CLI).**
+  - **Причина:** Gemini CLI установлен неправильно или отсутствует в PATH вашей системы.
+  - **Решение:**
+    1.  Убедитесь, что установка Gemini CLI прошла успешно.
+    2.  Если установлено глобально, проверьте, что каталог глобальных бинарных файлов npm находится в вашем PATH.
+    3.  Если запускается из исходного кода, убедитесь, что вы используете правильную команду для его вызова (например, `node packages/cli/dist/index.js ...`).
 
-- **Error: `MODULE_NOT_FOUND` or import errors.**
-  - **Cause:** Dependencies are not installed correctly, or the project hasn't been built.
-  - **Solution:**
-    1.  Run `npm install` to ensure all dependencies are present.
-    2.  Run `npm run build` to compile the project.
+- **Ошибка: `MODULE_NOT_FOUND` или ошибки импорта.**
+  - **Причина:** Зависимости установлены неправильно или проект не был собран.
+  - **Решение:**
+    1.  Запустите `npm install`, чтобы убедиться, что все зависимости присутствуют.
+    2.  Запустите `npm run build`, чтобы скомпилировать проект.
 
-- **Error: "Operation not permitted", "Permission denied", or similar.**
-  - **Cause:** If sandboxing is enabled, then the application is likely attempting an operation restricted by your sandbox, such as writing outside the project directory or system temp directory.
-  - **Solution:** See [Sandboxing](./cli/configuration.md#sandboxing) for more information, including how to customize your sandbox configuration.
+- **Ошибка: "Операция не разрешена", "Доступ запрещен" или аналогичные.**
+  - **Причина:** Если включена песочница, то приложение, вероятно, пытается выполнить операцию, ограниченную вашей песочницей, например, запись за пределами каталога проекта или системного временного каталога.
+  - **Решение:** Дополнительную информацию, включая настройку конфигурации песочницы, см. в разделе [Песочница](./cli/configuration.md#sandboxing).
 
-- **CLI is not interactive in "CI" environments**
-  - **Issue:** The CLI does not enter interactive mode (no prompt appears) if an environment variable starting with `CI_` (e.g., `CI_TOKEN`) is set. This is because the `is-in-ci` package, used by the underlying UI framework, detects these variables and assumes a non-interactive CI environment.
-  - **Cause:** The `is-in-ci` package checks for the presence of `CI`, `CONTINUOUS_INTEGRATION`, or any environment variable with a `CI_` prefix. When any of these are found, it signals that the environment is non-interactive, which prevents the CLI from starting in its interactive mode.
-  - **Solution:** If the `CI_` prefixed variable is not needed for the CLI to function, you can temporarily unset it for the command. e.g., `env -u CI_TOKEN gemini`
+- **CLI не интерактивен в средах "CI"**
+  - **Проблема:** CLI не переходит в интерактивный режим (не появляется приглашение), если установлена переменная среды, начинающаяся с `CI_` (например, `CI_TOKEN`). Это связано с тем, что пакет `is-in-ci`, используемый базовым фреймворком пользовательского интерфейса, обнаруживает эти переменные и предполагает неинтерактивную среду CI.
+  - **Причина:** Пакет `is-in-ci` проверяет наличие `CI`, `CONTINUOUS_INTEGRATION` или любой переменной среды с префиксом `CI_`. При обнаружении любой из них он сигнализирует, что среда неинтерактивна, что препятствует запуску CLI в интерактивном режиме.
+  - **Решение:** Если переменная с префиксом `CI_` не нужна для работы CLI, вы можете временно отменить ее для команды. Например, `env -u CI_TOKEN gemini`
 
-## Debugging Tips
+## Советы по отладке
 
-- **CLI debugging:**
-  - Use the `--verbose` flag (if available) with CLI commands for more detailed output.
-  - Check the CLI logs, often found in a user-specific configuration or cache directory.
+- **Отладка CLI:**
+  - Используйте флаг `--verbose` (если доступен) с командами CLI для более подробного вывода.
+  - Проверьте журналы CLI, часто находящиеся в каталоге пользовательской конфигурации или кэша.
 
-- **Core debugging:**
-  - Check the server console output for error messages or stack traces.
-  - Increase log verbosity if configurable.
-  - Use Node.js debugging tools (e.g., `node --inspect`) if you need to step through server-side code.
+- **Отладка ядра:**
+  - Проверьте вывод консоли сервера на наличие сообщений об ошибках или трассировок стека.
+  - Увеличьте детализацию журнала, если это возможно.
+  - Используйте инструменты отладки Node.js (например, `node --inspect`), если вам нужно пошагово отладить код на стороне сервера.
 
-- **Tool issues:**
-  - If a specific tool is failing, try to isolate the issue by running the simplest possible version of the command or operation the tool performs.
-  - For `run_shell_command`, check that the command works directly in your shell first.
-  - For file system tools, double-check paths and permissions.
+- **Проблемы с инструментами:**
+  - Если конкретный инструмент не работает, попробуйте изолировать проблему, запустив максимально простую версию команды или операции, которую выполняет инструмент.
+  - Для `run_shell_command` сначала проверьте, работает ли команда непосредственно в вашей оболочке.
+  - Для инструментов файловой системы дважды проверьте пути и разрешения.
 
-- **Pre-flight checks:**
-  - Always run `npm run preflight` before committing code. This can catch many common issues related to formatting, linting, and type errors.
+- **Предварительные проверки:**
+  - Всегда запускайте `npm run preflight` перед фиксацией кода. Это может выявить многие распространенные проблемы, связанные с форматированием, линтингом и ошибками типов.
 
-If you encounter an issue not covered here, consider searching the project's issue tracker on GitHub or reporting a new issue with detailed information.
+Если вы столкнулись с проблемой, не описанной здесь, рассмотрите возможность поиска в трекере проблем проекта на GitHub или сообщите о новой проблеме с подробной информацией.

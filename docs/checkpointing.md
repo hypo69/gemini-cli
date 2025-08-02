@@ -1,40 +1,40 @@
-# Checkpointing
+# Контрольные точки
 
-The Gemini CLI includes a Checkpointing feature that automatically saves a snapshot of your project's state before any file modifications are made by AI-powered tools. This allows you to safely experiment with and apply code changes, knowing you can instantly revert back to the state before the tool was run.
+Gemini CLI включает функцию контрольных точек, которая автоматически сохраняет снимок состояния вашего проекта перед любыми изменениями файлов, сделанными инструментами на базе ИИ. Это позволяет безопасно экспериментировать и применять изменения кода, зная, что вы можете мгновенно вернуться к состоянию до запуска инструмента.
 
-## How It Works
+## Как это работает
 
-When you approve a tool that modifies the file system (like `write_file` or `replace`), the CLI automatically creates a "checkpoint." This checkpoint includes:
+Когда вы одобряете инструмент, который изменяет файловую систему (например, `write_file` или `replace`), CLI автоматически создает "контрольную точку". Эта контрольная точка включает:
 
-1.  **A Git Snapshot:** A commit is made in a special, shadow Git repository located in your home directory (`~/.gemini/history/<project_hash>`). This snapshot captures the complete state of your project files at that moment. It does **not** interfere with your own project's Git repository.
-2.  **Conversation History:** The entire conversation you've had with the agent up to that point is saved.
-3.  **The Tool Call:** The specific tool call that was about to be executed is also stored.
+1.  **Снимок Git:** Коммит делается в специальном теневом репозитории Git, расположенном в вашем домашнем каталоге (`~/.gemini/history/<project_hash>`). Этот снимок фиксирует полное состояние файлов вашего проекта в этот момент. Он **не** вмешивается в собственный репозиторий Git вашего проекта.
+2.  **История разговоров:** Вся беседа, которую вы вели с агентом до этого момента, сохраняется.
+3.  **Вызов инструмента:** Также сохраняется конкретный вызов инструмента, который должен был быть выполнен.
 
-If you want to undo the change or simply go back, you can use the `/restore` command. Restoring a checkpoint will:
+Если вы хотите отменить изменение или просто вернуться назад, вы можете использовать команду `/restore`. Восстановление контрольной точки:
 
-- Revert all files in your project to the state captured in the snapshot.
-- Restore the conversation history in the CLI.
-- Re-propose the original tool call, allowing you to run it again, modify it, or simply ignore it.
+- Вернет все файлы в вашем проекте к состоянию, зафиксированному в снимке.
+- Восстановит историю разговоров в CLI.
+- Повторно предложит исходный вызов инструмента, позволяя вам запустить его снова, изменить его или просто проигнорировать.
 
-All checkpoint data, including the Git snapshot and conversation history, is stored locally on your machine. The Git snapshot is stored in the shadow repository while the conversation history and tool calls are saved in a JSON file in your project's temporary directory, typically located at `~/.gemini/tmp/<project_hash>/checkpoints`.
+Все данные контрольных точек, включая снимок Git и историю разговоров, хранятся локально на вашей машине. Снимок Git хранится в теневом репозитории, а история разговоров и вызовы инструментов сохраняются в файле JSON во временном каталоге вашего проекта, обычно расположенном по адресу `~/.gemini/tmp/<project_hash>/checkpoints`.
 
-## Enabling the Feature
+## Включение функции
 
-The Checkpointing feature is disabled by default. To enable it, you can either use a command-line flag or edit your `settings.json` file.
+Функция контрольных точек по умолчанию отключена. Чтобы включить ее, вы можете использовать флаг командной строки или отредактировать файл `settings.json`.
 
-### Using the Command-Line Flag
+### Использование флага командной строки
 
-You can enable checkpointing for the current session by using the `--checkpointing` flag when starting the Gemini CLI:
+Вы можете включить контрольные точки для текущего сеанса, используя флаг `--checkpointing` при запуске Gemini CLI:
 
 ```bash
 gemini --checkpointing
 ```
 
-### Using the `settings.json` File
+### Использование файла `settings.json`
 
-To enable checkpointing by default for all sessions, you need to edit your `settings.json` file.
+Чтобы включить контрольные точки по умолчанию для всех сеансов, вам необходимо отредактировать файл `settings.json`.
 
-Add the following key to your `settings.json`:
+Добавьте следующий ключ в ваш `settings.json`:
 
 ```json
 {
@@ -44,32 +44,32 @@ Add the following key to your `settings.json`:
 }
 ```
 
-## Using the `/restore` Command
+## Использование команды `/restore`
 
-Once enabled, checkpoints are created automatically. To manage them, you use the `/restore` command.
+После включения контрольные точки создаются автоматически. Для управления ими используется команда `/restore`.
 
-### List Available Checkpoints
+### Список доступных контрольных точек
 
-To see a list of all saved checkpoints for the current project, simply run:
+Чтобы просмотреть список всех сохраненных контрольных точек для текущего проекта, просто выполните:
 
 ```
 /restore
 ```
 
-The CLI will display a list of available checkpoint files. These file names are typically composed of a timestamp, the name of the file being modified, and the name of the tool that was about to be run (e.g., `2025-06-22T10-00-00_000Z-my-file.txt-write_file`).
+CLI отобразит список доступных файлов контрольных точек. Эти имена файлов обычно состоят из метки времени, имени изменяемого файла и имени инструмента, который должен был быть запущен (например, `2025-06-22T10-00-00_000Z-my-file.txt-write_file`).
 
-### Restore a Specific Checkpoint
+### Восстановление конкретной контрольной точки
 
-To restore your project to a specific checkpoint, use the checkpoint file from the list:
+Чтобы восстановить ваш проект до определенной контрольной точки, используйте файл контрольной точки из списка:
 
 ```
 /restore <checkpoint_file>
 ```
 
-For example:
+Например:
 
 ```
 /restore 2025-06-22T10-00-00_000Z-my-file.txt-write_file
 ```
 
-After running the command, your files and conversation will be immediately restored to the state they were in when the checkpoint was created, and the original tool prompt will reappear.
+После выполнения команды ваши файлы и разговор будут немедленно восстановлены до состояния, в котором они находились при создании контрольной точки, и появится исходный запрос инструмента.

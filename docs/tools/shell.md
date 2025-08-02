@@ -1,87 +1,87 @@
-# Shell Tool (`run_shell_command`)
+# Инструмент оболочки (`run_shell_command`)
 
-This document describes the `run_shell_command` tool for the Gemini CLI.
+Этот документ описывает инструмент `run_shell_command` для Gemini CLI.
 
-## Description
+## Описание
 
-Use `run_shell_command` to interact with the underlying system, run scripts, or perform command-line operations. `run_shell_command` executes a given shell command. On Windows, the command will be executed with `cmd.exe /c`. On other platforms, the command will be executed with `bash -c`.
+Используйте `run_shell_command` для взаимодействия с базовой системой, запуска скриптов или выполнения операций командной строки. `run_shell_command` выполняет заданную команду оболочки. В Windows команда будет выполняться с помощью `cmd.exe /c`. На других платформах команда будет выполняться с помощью `bash -c`.
 
-### Arguments
+### Аргументы
 
-`run_shell_command` takes the following arguments:
+`run_shell_command` принимает следующие аргументы:
 
-- `command` (string, required): The exact shell command to execute.
-- `description` (string, optional): A brief description of the command's purpose, which will be shown to the user.
-- `directory` (string, optional): The directory (relative to the project root) in which to execute the command. If not provided, the command runs in the project root.
+- `command` (строка, обязательный): Точная команда оболочки для выполнения.
+- `description` (строка, необязательный): Краткое описание назначения команды, которое будет показано пользователю.
+- `directory` (строка, необязательный): Каталог (относительно корня проекта), в котором будет выполняться команда. Если не указано, команда выполняется в корне проекта.
 
-## How to use `run_shell_command` with the Gemini CLI
+## Как использовать `run_shell_command` с Gemini CLI
 
-When using `run_shell_command`, the command is executed as a subprocess. `run_shell_command` can start background processes using `&`. The tool returns detailed information about the execution, including:
+При использовании `run_shell_command` команда выполняется как подпроцесс. `run_shell_command` может запускать фоновые процессы с помощью `&`. Инструмент возвращает подробную информацию о выполнении, включая:
 
-- `Command`: The command that was executed.
-- `Directory`: The directory where the command was run.
-- `Stdout`: Output from the standard output stream.
-- `Stderr`: Output from the standard error stream.
-- `Error`: Any error message reported by the subprocess.
-- `Exit Code`: The exit code of the command.
-- `Signal`: The signal number if the command was terminated by a signal.
-- `Background PIDs`: A list of PIDs for any background processes started.
+- `Command`: Выполненная команда.
+- `Directory`: Каталог, в котором была выполнена команда.
+- `Stdout`: Вывод из стандартного потока вывода.
+- `Stderr`: Вывод из стандартного потока ошибок.
+- `Error`: Любое сообщение об ошибке, сообщенное подпроцессом.
+- `Exit Code`: Код выхода команды.
+- `Signal`: Номер сигнала, если команда была завершена сигналом.
+- `Background PIDs`: Список PID для любых запущенных фоновых процессов.
 
-Usage:
+Использование:
 
 ```
-run_shell_command(command="Your commands.", description="Your description of the command.", directory="Your execution directory.")
+run_shell_command(command="Ваши команды.", description="Ваше описание команды.", directory="Ваш каталог выполнения.")
 ```
 
-## `run_shell_command` examples
+## Примеры `run_shell_command`
 
-List files in the current directory:
+Вывести список файлов в текущем каталоге:
 
 ```
 run_shell_command(command="ls -la")
 ```
 
-Run a script in a specific directory:
+Запустить скрипт в определенном каталоге:
 
 ```
-run_shell_command(command="./my_script.sh", directory="scripts", description="Run my custom script")
+run_shell_command(command="./my_script.sh", directory="scripts", description="Запустить мой пользовательский скрипт")
 ```
 
-Start a background server:
+Запустить фоновый сервер:
 
 ```
-run_shell_command(command="npm run dev &", description="Start development server in background")
+run_shell_command(command="npm run dev &", description="Запустить сервер разработки в фоновом режиме")
 ```
 
-## Important notes
+## Важные примечания
 
-- **Security:** Be cautious when executing commands, especially those constructed from user input, to prevent security vulnerabilities.
-- **Interactive commands:** Avoid commands that require interactive user input, as this can cause the tool to hang. Use non-interactive flags if available (e.g., `npm init -y`).
-- **Error handling:** Check the `Stderr`, `Error`, and `Exit Code` fields to determine if a command executed successfully.
-- **Background processes:** When a command is run in the background with `&`, the tool will return immediately and the process will continue to run in the background. The `Background PIDs` field will contain the process ID of the background process.
+- **Безопасность:** Будьте осторожны при выполнении команд, особенно тех, которые формируются из пользовательского ввода, чтобы предотвратить уязвимости безопасности.
+- **Интерактивные команды:** Избегайте команд, требующих интерактивного ввода пользователя, так как это может привести к зависанию инструмента. Используйте неинтерактивные флаги, если они доступны (например, `npm init -y`).
+- **Обработка ошибок:** Проверяйте поля `Stderr`, `Error` и `Exit Code`, чтобы определить, успешно ли выполнена команда.
+- **Фоновые процессы:** Когда команда запускается в фоновом режиме с `&`, инструмент немедленно вернется, и процесс продолжит выполняться в фоновом режиме. Поле `Background PIDs` будет содержать идентификатор процесса фонового процесса.
 
-## Environment Variables
+## Переменные среды
 
-When `run_shell_command` executes a command, it sets the `GEMINI_CLI=1` environment variable in the subprocess's environment. This allows scripts or tools to detect if they are being run from within the Gemini CLI.
+Когда `run_shell_command` выполняет команду, он устанавливает переменную среды `GEMINI_CLI=1` в среде подпроцесса. Это позволяет скриптам или инструментам определять, запускаются ли они из Gemini CLI.
 
-## Command Restrictions
+## Ограничения команд
 
-You can restrict the commands that can be executed by the `run_shell_command` tool by using the `coreTools` and `excludeTools` settings in your configuration file.
+Вы можете ограничить команды, которые могут быть выполнены инструментом `run_shell_command`, используя настройки `coreTools` и `excludeTools` в вашем файле конфигурации.
 
-- `coreTools`: To restrict `run_shell_command` to a specific set of commands, add entries to the `coreTools` list in the format `run_shell_command(<command>)`. For example, `"coreTools": ["run_shell_command(git)"]` will only allow `git` commands. Including the generic `run_shell_command` acts as a wildcard, allowing any command not explicitly blocked.
-- `excludeTools`: To block specific commands, add entries to the `excludeTools` list in the format `run_shell_command(<command>)`. For example, `"excludeTools": ["run_shell_command(rm)"]` will block `rm` commands.
+- `coreTools`: Чтобы ограничить `run_shell_command` определенным набором команд, добавьте записи в список `coreTools` в формате `run_shell_command(<command>)`. Например, `"coreTools": ["run_shell_command(git)"]` разрешит только команды `git`. Включение универсального `run_shell_command` действует как подстановочный знак, разрешая любую команду, не заблокированную явно.
+- `excludeTools`: Чтобы заблокировать определенные команды, добавьте записи в список `excludeTools` в формате `run_shell_command(<command>)`. Например, `"excludeTools": ["run_shell_command(rm)"]` заблокирует команды `rm`.
 
-The validation logic is designed to be secure and flexible:
+Логика проверки разработана таким образом, чтобы быть безопасной и гибкой:
 
-1.  **Command Chaining Disabled**: The tool automatically splits commands chained with `&&`, `||`, or `;` and validates each part separately. If any part of the chain is disallowed, the entire command is blocked.
-2.  **Prefix Matching**: The tool uses prefix matching. For example, if you allow `git`, you can run `git status` or `git log`.
-3.  **Blocklist Precedence**: The `excludeTools` list is always checked first. If a command matches a blocked prefix, it will be denied, even if it also matches an allowed prefix in `coreTools`.
+1.  **Отключение цепочки команд**: Инструмент автоматически разделяет команды, связанные с `&&`, `||` или `;`, и проверяет каждую часть отдельно. Если какая-либо часть цепочки запрещена, вся команда блокируется.
+2.  **Сопоставление префиксов**: Инструмент использует сопоставление префиксов. Например, если вы разрешаете `git`, вы можете запустить `git status` или `git log`.
+3.  **Приоритет черного списка**: Список `excludeTools` всегда проверяется первым. Если команда соответствует заблокированному префиксу, она будет отклонена, даже если она также соответствует разрешенному префиксу в `coreTools`.
 
-### Command Restriction Examples
+### Примеры ограничений команд
 
-**Allow only specific command prefixes**
+**Разрешить только определенные префиксы команд**
 
-To allow only `git` and `npm` commands, and block all others:
+Чтобы разрешить только команды `git` и `npm` и заблокировать все остальные:
 
 ```json
 {
@@ -89,13 +89,13 @@ To allow only `git` and `npm` commands, and block all others:
 }
 ```
 
-- `git status`: Allowed
-- `npm install`: Allowed
-- `ls -l`: Blocked
+- `git status`: Разрешено
+- `npm install`: Разрешено
+- `ls -l`: Заблокировано
 
-**Block specific command prefixes**
+**Заблокировать определенные префиксы команд**
 
-To block `rm` and allow all other commands:
+Чтобы заблокировать `rm` и разрешить все остальные команды:
 
 ```json
 {
@@ -104,13 +104,13 @@ To block `rm` and allow all other commands:
 }
 ```
 
-- `rm -rf /`: Blocked
-- `git status`: Allowed
-- `npm install`: Allowed
+- `rm -rf /`: Заблокировано
+- `git status`: Разрешено
+- `npm install`: Разрешено
 
-**Blocklist takes precedence**
+**Приоритет черного списка**
 
-If a command prefix is in both `coreTools` and `excludeTools`, it will be blocked.
+Если префикс команды находится как в `coreTools`, так и в `excludeTools`, он будет заблокирован.
 
 ```json
 {
@@ -119,12 +119,12 @@ If a command prefix is in both `coreTools` and `excludeTools`, it will be blocke
 }
 ```
 
-- `git push origin main`: Blocked
-- `git status`: Allowed
+- `git push origin main`: Заблокировано
+- `git status`: Разрешено
 
-**Block all shell commands**
+**Заблокировать все команды оболочки**
 
-To block all shell commands, add the `run_shell_command` wildcard to `excludeTools`:
+Чтобы заблокировать все команды оболочки, добавьте подстановочный знак `run_shell_command` в `excludeTools`:
 
 ```json
 {
@@ -132,11 +132,11 @@ To block all shell commands, add the `run_shell_command` wildcard to `excludeToo
 }
 ```
 
-- `ls -l`: Blocked
-- `any other command`: Blocked
+- `ls -l`: Заблокировано
+- `любая другая команда`: Заблокировано
 
-## Security Note for `excludeTools`
+## Примечание по безопасности для `excludeTools`
 
-Command-specific restrictions in
-`excludeTools` for `run_shell_command` are based on simple string matching and can be easily bypassed. This feature is **not a security mechanism** and should not be relied upon to safely execute untrusted code. It is recommended to use `coreTools` to explicitly select commands
-that can be executed.
+Ограничения для конкретных команд в
+`excludeTools` для `run_shell_command` основаны на простом сопоставлении строк и могут быть легко обойдены. Эта функция **не является механизмом безопасности** и не должна использоваться для безопасного выполнения недоверенного кода. Рекомендуется использовать `coreTools` для явного выбора команд,
+которые могут быть выполнены.

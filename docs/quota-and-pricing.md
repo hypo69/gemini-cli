@@ -1,70 +1,70 @@
-# Gemini CLI: Quotas and Pricing
+# Gemini CLI: Квоты и цены
 
-Your Gemini CLI quotas and pricing depend on the type of account you use to authenticate with Google. Additionally, both quotas and pricing may be calculated differently based on the model version, requests, and tokens used. A summary of model usage is available through the `/stats` command and presented on exit at the end of a session. See [privacy and terms](./tos-privacy.md) for details on Privacy policy and Terms of Service. Note: published prices are list price; additional negotiated commercial discounting may apply.
+Квоты и цены Gemini CLI зависят от типа учетной записи, которую вы используете для аутентификации в Google. Кроме того, как квоты, так и цены могут рассчитываться по-разному в зависимости от версии модели, запросов и используемых токенов. Сводка использования модели доступна через команду `/stats` и отображается при выходе в конце сеанса. Подробности о политике конфиденциальности и условиях обслуживания см. в разделе [конфиденциальность и условия](./tos-privacy.md). Примечание: опубликованные цены являются прейскурантными; могут применяться дополнительные согласованные коммерческие скидки.
 
-This article outlines the specific quotas and pricing applicable to the Gemini CLI when using different authentication methods.
+В этой статье описываются конкретные квоты и цены, применимые к Gemini CLI при использовании различных методов аутентификации.
 
-## 1. Log in with Google (Gemini Code Assist Free Tier)
+## 1. Вход через Google (бесплатный уровень Gemini Code Assist)
 
-For users who authenticate by using their Google account to access Gemini Code Assist for individuals:
+Для пользователей, которые аутентифицируются с помощью своей учетной записи Google для доступа к Gemini Code Assist для частных лиц:
 
-- **Quota:**
-  - 60 requests per minute
-  - 1000 requests per day
-  - Token usage is not applicable
-- **Cost:** Free
-- **Details:** [Gemini Code Assist Quotas](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli)
-- **Notes:** A specific quota for different models is not specified; model fallback may occur to preserve shared experience quality.
+- **Квота:**
+  - 60 запросов в минуту
+  - 1000 запросов в день
+  - Использование токенов не применимо
+- **Стоимость:** Бесплатно
+- **Подробности:** [Квоты Gemini Code Assist](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli)
+- **Примечания:** Конкретная квота для разных моделей не указана; может произойти откат модели для сохранения качества общего опыта.
 
-## 2. Gemini API Key (Unpaid)
+## 2. Ключ Gemini API (бесплатный)
 
-If you are using a Gemini API key for the free tier:
+Если вы используете ключ Gemini API для бесплатного уровня:
 
-- **Quota:**
-  - Flash model only
-  - 10 requests per minute
-  - 250 requests per day
-- **Cost:** Free
-- **Details:** [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits)
+- **Квота:**
+  - Только модель Flash
+  - 10 запросов в минуту
+  - 250 запросов в день
+- **Стоимость:** Бесплатно
+- **Подробности:** [Ограничения скорости Gemini API](https://ai.google.dev/gemini-api/docs/rate-limits)
 
-## 3. Gemini API Key (Paid)
+## 3. Ключ Gemini API (платный)
 
-If you are using a Gemini API key with a paid plan:
+Если вы используете ключ Gemini API с платным планом:
 
-- **Quota:** Varies by pricing tier.
-- **Cost:** Varies by pricing tier and model/token usage.
-- **Details:** [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits), [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+- **Квота:** Варьируется в зависимости от ценового уровня.
+- **Стоимость:** Варьируется в зависимости от ценового уровня и использования модели/токенов.
+- **Подробности:** [Ограничения скорости Gemini API](https://ai.google.dev/gemini-api/docs/rate-limits), [Цены Gemini API](https://ai.google.dev/gemini-api/docs/pricing)
 
-## 4. Login with Google (for Workspace or Licensed Code Assist users)
+## 4. Вход через Google (для пользователей Workspace или лицензированных пользователей Code Assist)
 
-For users of Standard or Enterprise editions of Gemini Code Assist, quotas and pricing are based on a fixed price subscription with assigned license seats:
+Для пользователей стандартных или корпоративных версий Gemini Code Assist квоты и цены основаны на подписке с фиксированной ценой и назначенными лицензионными местами:
 
-- **Standard Tier:**
-  - **Quota:** 120 requests per minute, 1500 per day
-- **Enterprise Tier:**
-  - **Quota:** 120 requests per minute, 2000 per day
-- **Cost:** Fixed price included with your Gemini for Google Workspace or Gemini Code Assist subscription.
-- **Details:** [Gemini Code Assist Quotas](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli), [Gemini Code Assist Pricing](https://cloud.google.com/products/gemini/pricing)
-- **Notes:**
-  - Specific quota for different models is not specified; model fallback may occur to preserve shared experience quality.
-  - Members of the Google Developer Program may have Gemini Code Assist licenses through their membership.
+- **Стандартный уровень:**
+  - **Квота:** 120 запросов в минуту, 1500 в день
+- **Корпоративный уровень:**
+  - **Квота:** 120 запросов в минуту, 2000 в день
+- **Стоимость:** Фиксированная цена, включенная в вашу подписку Gemini for Google Workspace или Gemini Code Assist.
+- **Подробности:** [Квоты Gemini Code Assist](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli), [Цены Gemini Code Assist](https://cloud.google.com/products/gemini/pricing)
+- **Примечания:**
+  - Конкретная квота для разных моделей не указана; может произойти откат модели для сохранения качества общего опыта.
+  - Участники программы Google Developer Program могут иметь лицензии Gemini Code Assist через свое членство.
 
-## 5. Vertex AI (Express Mode)
+## 5. Vertex AI (экспресс-режим)
 
-If you are using Vertex AI in Express Mode:
+Если вы используете Vertex AI в экспресс-режиме:
 
-- **Quota:** Quotas are variable and specific to your account. See the source for more details.
-- **Cost:** After your Express Mode usage is consumed and you enable billing for your project, cost is based on standard [Vertex AI Pricing](https://cloud.google.com/vertex-ai/pricing).
-- **Details:** [Vertex AI Express Mode Quotas](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas)
+- **Квота:** Квоты переменные и специфичны для вашей учетной записи. Подробнее см. в источнике.
+- **Стоимость:** После использования экспресс-режима и включения оплаты для вашего проекта стоимость рассчитывается на основе стандартных [цен Vertex AI](https://cloud.google.com/vertex-ai/pricing).
+- **Подробности:** [Квоты экспресс-режима Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas)
 
-## 6. Vertex AI (Regular Mode)
+## 6. Vertex AI (обычный режим)
 
-If you are using the standard Vertex AI service:
+Если вы используете стандартную службу Vertex AI:
 
-- **Quota:** Governed by a dynamic shared quota system or pre-purchased provisioned throughput.
-- **Cost:** Based on model and token usage. See [Vertex AI Pricing](https://cloud.google.com/vertex-ai/pricing).
-- **Details:** [Vertex AI Dynamic Shared Quota](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota)
+- **Квота:** Регулируется динамической системой общих квот или предварительно приобретенной выделенной пропускной способностью.
+- **Стоимость:** Основана на использовании модели и токенов. См. [Цены Vertex AI](https://cloud.google.com/vertex-ai/pricing).
+- **Подробности:** [Динамическая общая квота Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota)
 
-## 7. Google One and Ultra plans, Gemini for Workspace plans
+## 7. Планы Google One и Ultra, планы Gemini for Workspace
 
-These plans currently apply only to the use of Gemini web-based products provided by Google-based experiences (for example, the Gemini web app or the Flow video editor). These plans do not apply to the API usage which powers the Gemini CLI. Supporting these plans is under active consideration for future support.
+Эти планы в настоящее время применяются только к использованию веб-продуктов Gemini, предоставляемых Google (например, веб-приложение Gemini или видеоредактор Flow). Эти планы не применяются к использованию API, который обеспечивает работу Gemini CLI. Поддержка этих планов активно рассматривается для будущей поддержки.

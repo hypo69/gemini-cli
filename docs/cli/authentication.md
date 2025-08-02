@@ -1,143 +1,143 @@
-# Authentication Setup
+# Настройка аутентификации
 
-The Gemini CLI requires you to authenticate with Google's AI services. On initial startup you'll need to configure **one** of the following authentication methods:
+Gemini CLI требует аутентификации в службах Google AI. При первом запуске вам потребуется настроить **один** из следующих методов аутентификации:
 
-1.  **Login with Google (Gemini Code Assist):**
-    - Use this option to log in with your google account.
-    - During initial startup, Gemini CLI will direct you to a webpage for authentication. Once authenticated, your credentials will be cached locally so the web login can be skipped on subsequent runs.
-    - Note that the web login must be done in a browser that can communicate with the machine Gemini CLI is being run from. (Specifically, the browser will be redirected to a localhost url that Gemini CLI will be listening on).
-    - <a id="workspace-gca">Users may have to specify a GOOGLE_CLOUD_PROJECT if:</a>
-      1. You have a Google Workspace account. Google Workspace is a paid service for businesses and organizations that provides a suite of productivity tools, including a custom email domain (e.g. your-name@your-company.com), enhanced security features, and administrative controls. These accounts are often managed by an employer or school.
-      1. You have received a Gemini Code Assist license through the [Google Developer Program](https://developers.google.com/program/plans-and-pricing) (including qualified Google Developer Experts)
-      1. You have been assigned a license to a current Gemini Code Assist standard or enterprise subscription.
-      1. You are using the product outside the [supported regions](https://developers.google.com/gemini-code-assist/resources/available-locations) for free individual usage.
-      1. You are a Google account holder under the age of 18
-      - If you fall into one of these categories, you must first configure a Google Cloud Project ID to use, [enable the Gemini for Cloud API](https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api) and [configure access permissions](https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam).
+1.  **Вход через Google (Gemini Code Assist):**
+    - Используйте эту опцию для входа с вашей учетной записью Google.
+    - Во время первого запуска Gemini CLI направит вас на веб-страницу для аутентификации. После аутентификации ваши учетные данные будут кэшированы локально, чтобы веб-вход можно было пропустить при последующих запусках.
+    - Обратите внимание, что веб-вход должен быть выполнен в браузере, который может взаимодействовать с машиной, на которой запущен Gemini CLI. (В частности, браузер будет перенаправлен на локальный URL-адрес, который будет прослушивать Gemini CLI).
+    - <a id="workspace-gca">Пользователям, возможно, придется указать GOOGLE_CLOUD_PROJECT, если:</a>
+      1. У вас есть учетная запись Google Workspace. Google Workspace — это платная услуга для предприятий и организаций, которая предоставляет набор инструментов для повышения производительности, включая собственный домен электронной почты (например, your-name@your-company.com), расширенные функции безопасности и административные элементы управления. Эти учетные записи часто управляются работодателем или школой.
+      1. Вы получили лицензию Gemini Code Assist через [Программу Google для разработчиков](https://developers.google.com/program/plans-and-pricing) (включая квалифицированных экспертов Google Developer Experts)
+      1. Вам была назначена лицензия на текущую стандартную или корпоративную подписку Gemini Code Assist.
+      1. Вы используете продукт за пределами [поддерживаемых регионов](https://developers.google.com/gemini-code-assist/resources/available-locations) для бесплатного индивидуального использования.
+      1. Вы являетесь владельцем учетной записи Google в возрасте до 18 лет
+      - Если вы относитесь к одной из этих категорий, вы должны сначала настроить идентификатор проекта Google Cloud для использования, [включить Gemini for Cloud API](https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api) и [настроить разрешения доступа](https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam).
 
-      You can temporarily set the environment variable in your current shell session using the following command:
+      Вы можете временно установить переменную среды в текущем сеансе оболочки с помощью следующей команды:
 
       ```bash
-      export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
+      export GOOGLE_CLOUD_PROJECT="ВАШ_ИДЕНТИФИКАТОР_ПРОЕКТА"
       ```
-      - For repeated use, you can add the environment variable to your [.env file](#persisting-environment-variables-with-env-files) or your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following command adds the environment variable to a `~/.bashrc` file:
+      - Для повторного использования вы можете добавить переменную среды в свой файл [.env](#persisting-environment-variables-with-env-files) или в файл конфигурации вашей оболочки (например, `~/.bashrc`, `~/.zshrc` или `~/.profile`). Например, следующая команда добавляет переменную среды в файл `~/.bashrc`:
 
       ```bash
-      echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
+      echo 'export GOOGLE_CLOUD_PROJECT="ВАШ_ИДЕНТИФИКАТОР_ПРОЕКТА"' >> ~/.bashrc
       source ~/.bashrc
       ```
 
-2.  **<a id="gemini-api-key"></a>Gemini API key:**
-    - Obtain your API key from Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-    - Set the `GEMINI_API_KEY` environment variable. In the following methods, replace `YOUR_GEMINI_API_KEY` with the API key you obtained from Google AI Studio:
-      - You can temporarily set the environment variable in your current shell session using the following command:
+2.  **<a id="gemini-api-key"></a>Ключ Gemini API:**
+    - Получите свой ключ API в Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+    - Установите переменную среды `GEMINI_API_KEY`. В следующих методах замените `ВАШ_КЛЮЧ_GEMINI_API` на ключ API, полученный вами в Google AI Studio:
+      - Вы можете временно установить переменную среды в текущем сеансе оболочки с помощью следующей команды:
         ```bash
-        export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+        export GEMINI_API_KEY="ВАШ_КЛЮЧ_GEMINI_API"
         ```
-      - For repeated use, you can add the environment variable to your [.env file](#persisting-environment-variables-with-env-files).
+      - Для повторного использования вы можете добавить переменную среды в свой файл [.env](#persisting-environment-variables-with-env-files).
 
-      - Alternatively you can export the API key from your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following command adds the environment variable to a `~/.bashrc` file:
+      - Альтернативно вы можете экспортировать ключ API из файла конфигурации вашей оболочки (например, `~/.bashrc`, `~/.zshrc` или `~/.profile`). Например, следующая команда добавляет переменную среды в файл `~/.bashrc`:
 
         ```bash
-        echo 'export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"' >> ~/.bashrc
+        echo 'export GEMINI_API_KEY="ВАШ_КЛЮЧ_GEMINI_API"' >> ~/.bashrc
         source ~/.bashrc
         ```
 
-        :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+        :warning: Имейте в виду, что при экспорте вашего ключа API в файл конфигурации вашей оболочки любой другой процесс, запущенный из оболочки, может его прочитать.
 
 3.  **Vertex AI:**
-    - Obtain your Google Cloud API key: [Get an API Key](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser)
-      - Set the `GOOGLE_API_KEY` environment variable. In the following methods, replace `YOUR_GOOGLE_API_KEY` with your Vertex AI API key:
-        - You can temporarily set these environment variables in your current shell session using the following commands:
+    - Получите свой ключ Google Cloud API: [Получить ключ API](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser)
+      - Установите переменную среды `GOOGLE_API_KEY`. В следующих методах замените `ВАШ_КЛЮЧ_GOOGLE_API` на ваш ключ Vertex AI API:
+        - Вы можете временно установить эти переменные среды в текущем сеансе оболочки с помощью следующих команд:
           ```bash
-          export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"
+          export GOOGLE_API_KEY="ВАШ_КЛЮЧ_GOOGLE_API"
           ```
-        - For repeated use, you can add the environment variables to your [.env file](#persisting-environment-variables-with-env-files) or your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following commands add the environment variables to a `~/.bashrc` file:
+        - Для повторного использования вы можете добавить переменные среды в свой файл [.env](#persisting-environment-variables-with-env-files) или в файл конфигурации вашей оболочки (например, `~/.bashrc`, `~/.zshrc` или `~/.profile`). Например, следующие команды добавляют переменные среды в файл `~/.bashrc`:
           ```bash
-          echo 'export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"' >> ~/.bashrc
+          echo 'export GOOGLE_API_KEY="ВАШ_КЛЮЧ_GOOGLE_API"' >> ~/.bashrc
           source ~/.bashrc
           ```
-    - To use Application Default Credentials (ADC), use the following command:
-      - Ensure you have a Google Cloud project and have enabled the Vertex AI API.
+    - Чтобы использовать учетные данные приложения по умолчанию (ADC), используйте следующую команду:
+      - Убедитесь, что у вас есть проект Google Cloud и вы включили Vertex AI API.
         ```bash
         gcloud auth application-default login
         ```
-        For more information, see [Set up Application Default Credentials for Google Cloud](https://cloud.google.com/docs/authentication/provide-credentials-adc).
-      - Set the `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` environment variables. In the following methods, replace `YOUR_PROJECT_ID` and `YOUR_PROJECT_LOCATION` with the relevant values for your project:
-        - You can temporarily set these environment variables in your current shell session using the following commands:
+        Дополнительную информацию см. в разделе [Настройка учетных данных приложения по умолчанию для Google Cloud](https://cloud.google.com/docs/authentication/provide-credentials-adc).
+      - Установите переменные среды `GOOGLE_CLOUD_PROJECT` и `GOOGLE_CLOUD_LOCATION`. В следующих методах замените `ВАШ_ИДЕНТИФИКАТОР_ПРОЕКТА` и `ВАШ_РАСПОЛОЖЕНИЕ_ПРОЕКТА` на соответствующие значения для вашего проекта:
+        - Вы можете временно установить эти переменные среды в текущем сеансе оболочки с помощью следующих команд:
           ```bash
-          export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
-          export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION" # e.g., us-central1
+          export GOOGLE_CLOUD_PROJECT="ВАШ_ИДЕНТИФИКАТОР_ПРОЕКТА"
+          export GOOGLE_CLOUD_LOCATION="ВАШ_РАСПОЛОЖЕНИЕ_ПРОЕКТА" # например, us-central1
           ```
-        - For repeated use, you can add the environment variables to your [.env file](#persisting-environment-variables-with-env-files)
+        - Для повторного использования вы можете добавить переменные среды в свой файл [.env](#persisting-environment-variables-with-env-files)
 
-        - Alternatively you can export the environment variables from your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following commands add the environment variables to a `~/.bashrc` file:
+        - Альтернативно вы можете экспортировать переменные среды из файла конфигурации вашей оболочки (например, `~/.bashrc`, `~/.zshrc` или `~/.profile`). Например, следующие команды добавляют переменные среды в файл `~/.bashrc`:
 
           ```bash
-          echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
-          echo 'export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"' >> ~/.bashrc
+          echo 'export GOOGLE_CLOUD_PROJECT="ВАШ_ИДЕНТИФИКАТОР_ПРОЕКТА"' >> ~/.bashrc
+          echo 'export GOOGLE_CLOUD_LOCATION="ВАШ_РАСПОЛОЖЕНИЕ_ПРОЕКТА"' >> ~/.bashrc
           source ~/.bashrc
           ```
 
-          :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+          :warning: Имейте в виду, что при экспорте вашего ключа API в файл конфигурации вашей оболочки любой другой процесс, запущенный из оболочки, может его прочитать.
 
 4.  **Cloud Shell:**
-    - This option is only available when running in a Google Cloud Shell environment.
-    - It automatically uses the credentials of the logged-in user in the Cloud Shell environment.
-    - This is the default authentication method when running in Cloud Shell and no other method is configured.
+    - Эта опция доступна только при запуске в среде Google Cloud Shell.
+    - Она автоматически использует учетные данные вошедшего в систему пользователя в среде Cloud Shell.
+    - Это метод аутентификации по умолчанию при запуске в Cloud Shell, если не настроен другой метод.
 
-          :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+          :warning: Имейте в виду, что при экспорте вашего ключа API в файл конфигурации вашей оболочки любой другой процесс, запущенный из оболочки, может его прочитать.
 
-### Persisting Environment Variables with `.env` Files
+### Сохранение переменных среды с помощью файлов `.env`
 
-You can create a **`.gemini/.env`** file in your project directory or in your home directory. Creating a plain **`.env`** file also works, but `.gemini/.env` is recommended to keep Gemini variables isolated from other tools.
+Вы можете создать файл **`.gemini/.env`** в каталоге вашего проекта или в вашем домашнем каталоге. Создание обычного файла **`.env`** также работает, но `.gemini/.env` рекомендуется для изоляции переменных Gemini от других инструментов.
 
-Gemini CLI automatically loads environment variables from the **first** `.env` file it finds, using the following search order:
+Gemini CLI автоматически загружает переменные среды из **первого** файла `.env`, который он находит, используя следующий порядок поиска:
 
-1. Starting in the **current directory** and moving upward toward `/`, for each directory it checks:
+1. Начиная с **текущего каталога** и двигаясь вверх к `/`, для каждого каталога он проверяет:
    1. `.gemini/.env`
    2. `.env`
-2. If no file is found, it falls back to your **home directory**:
+2. Если файл не найден, он возвращается к вашему **домашнему каталогу**:
    - `~/.gemini/.env`
    - `~/.env`
 
-> **Important:** The search stops at the **first** file encountered—variables are **not merged** across multiple files.
+> **Важно:** Поиск останавливается на **первом** найденном файле — переменные **не объединяются** из нескольких файлов.
 
-#### Examples
+#### Примеры
 
-**Project-specific overrides** (take precedence when you are inside the project):
+**Переопределения для конкретного проекта** (имеют приоритет, когда вы находитесь внутри проекта):
 
 ```bash
 mkdir -p .gemini
-echo 'GOOGLE_CLOUD_PROJECT="your-project-id"' >> .gemini/.env
+echo 'GOOGLE_CLOUD_PROJECT="ваш-идентификатор-проекта"' >> .gemini/.env
 ```
 
-**User-wide settings** (available in every directory):
+**Настройки для всего пользователя** (доступны в каждом каталоге):
 
 ```bash
 mkdir -p ~/.gemini
 cat >> ~/.gemini/.env <<'EOF'
-GOOGLE_CLOUD_PROJECT="your-project-id"
-GEMINI_API_KEY="your-gemini-api-key"
+GOOGLE_CLOUD_PROJECT="ваш-идентификатор-проекта"
+GEMINI_API_KEY="ваш-ключ-gemini-api"
 EOF
 ```
 
-## Non-Interactive Mode / Headless Environments
+## Неинтерактивный режим / Безголовые среды
 
-When running the Gemini CLI in a non-interactive environment, you cannot use the interactive login flow.
-Instead, you must configure authentication using environment variables.
+При запуске Gemini CLI в неинтерактивной среде вы не можете использовать интерактивный поток входа.
+Вместо этого вы должны настроить аутентификацию с помощью переменных среды.
 
-The CLI will automatically detect if it is running in a non-interactive terminal and will use one of the
-following authentication methods if available:
+CLI автоматически определит, работает ли он в неинтерактивном терминале, и будет использовать один из
+следующих методов аутентификации, если доступен:
 
-1.  **Gemini API Key:**
-    - Set the `GEMINI_API_KEY` environment variable.
-    - The CLI will use this key to authenticate with the Gemini API.
+1.  **Ключ Gemini API:**
+    - Установите переменную среды `GEMINI_API_KEY`.
+    - CLI будет использовать этот ключ для аутентификации в Gemini API.
 
 2.  **Vertex AI:**
-    - Set the `GOOGLE_GENAI_USE_VERTEXAI=true` environment variable.
-    - **Using an API Key:** Set the `GOOGLE_API_KEY` environment variable.
-    - **Using Application Default Credentials (ADC):**
-      - Run `gcloud auth application-default login` in your environment to configure ADC.
-      - Ensure the `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` environment variables are set.
+    - Установите переменную среды `GOOGLE_GENAI_USE_VERTEXAI=true`.
+    - **Использование ключа API:** Установите переменную среды `GOOGLE_API_KEY`.
+    - **Использование учетных данных приложения по умолчанию (ADC):**
+      - Запустите `gcloud auth application-default login` в вашей среде для настройки ADC.
+      - Убедитесь, что установлены переменные среды `GOOGLE_CLOUD_PROJECT` и `GOOGLE_CLOUD_LOCATION`.
 
-If none of these environment variables are set in a non-interactive session, the CLI will exit with an error.
+Если ни одна из этих переменных среды не установлена в неинтерактивном сеансе, CLI завершит работу с ошибкой.

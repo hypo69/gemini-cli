@@ -1,19 +1,19 @@
-# Themes
+# Темы
 
-Gemini CLI supports a variety of themes to customize its color scheme and appearance. You can change the theme to suit your preferences via the `/theme` command or `"theme":` configuration setting.
+Gemini CLI поддерживает различные темы для настройки цветовой схемы и внешнего вида. Вы можете изменить тему в соответствии со своими предпочтениями с помощью команды `/theme` или параметра конфигурации `"theme":`.
 
-## Available Themes
+## Доступные темы
 
-Gemini CLI comes with a selection of pre-defined themes, which you can list using the `/theme` command within Gemini CLI:
+Gemini CLI поставляется с набором предопределенных тем, которые вы можете перечислить с помощью команды `/theme` в Gemini CLI:
 
-- **Dark Themes:**
+- **Темные темы:**
   - `ANSI`
   - `Atom One`
   - `Ayu`
   - `Default`
   - `Dracula`
   - `GitHub`
-- **Light Themes:**
+- **Светлые темы:**
   - `ANSI Light`
   - `Ayu Light`
   - `Default Light`
@@ -21,26 +21,26 @@ Gemini CLI comes with a selection of pre-defined themes, which you can list usin
   - `Google Code`
   - `Xcode`
 
-### Changing Themes
+### Изменение тем
 
-1.  Enter `/theme` into Gemini CLI.
-2.  A dialog or selection prompt appears, listing the available themes.
-3.  Using the arrow keys, select a theme. Some interfaces might offer a live preview or highlight as you select.
-4.  Confirm your selection to apply the theme.
+1.  Введите `/theme` в Gemini CLI.
+2.  Появится диалоговое окно или запрос выбора, перечисляющий доступные темы.
+3.  Используя клавиши со стрелками, выберите тему. Некоторые интерфейсы могут предлагать предварительный просмотр в реальном времени или выделение при выборе.
+4.  Подтвердите свой выбор, чтобы применить тему.
 
-### Theme Persistence
+### Сохранение темы
 
-Selected themes are saved in Gemini CLI's [configuration](./configuration.md) so your preference is remembered across sessions.
+Выбранные темы сохраняются в [конфигурации](./configuration.md) Gemini CLI, поэтому ваши предпочтения запоминаются между сеансами.
 
 ---
 
-## Custom Color Themes
+## Пользовательские цветовые темы
 
-Gemini CLI allows you to create your own custom color themes by specifying them in your `settings.json` file. This gives you full control over the color palette used in the CLI.
+Gemini CLI позволяет создавать собственные цветовые темы, указывая их в файле `settings.json`. Это дает вам полный контроль над цветовой палитрой, используемой в CLI.
 
-### How to Define a Custom Theme
+### Как определить пользовательскую тему
 
-Add a `customThemes` block to your user, project, or system `settings.json` file. Each custom theme is defined as an object with a unique name and a set of color keys. For example:
+Добавьте блок `customThemes` в файл `settings.json` пользователя, проекта или системы. Каждая пользовательская тема определяется как объект с уникальным именем и набором цветовых ключей. Например:
 
 ```json
 {
@@ -64,7 +64,7 @@ Add a `customThemes` block to your user, project, or system `settings.json` file
 }
 ```
 
-**Color keys:**
+**Цветовые ключи:**
 
 - `Background`
 - `Foreground`
@@ -78,10 +78,10 @@ Add a `customThemes` block to your user, project, or system `settings.json` file
 - `Comment`
 - `Gray`
 
-**Required Properties:**
+**Обязательные свойства:**
 
-- `name` (must match the key in the `customThemes` object and be a string)
-- `type` (must be the string `"custom"`)
+- `name` (должно соответствовать ключу в объекте `customThemes` и быть строкой)
+- `type` (должно быть строкой `"custom"`)
 - `Background`
 - `Foreground`
 - `LightBlue`
@@ -94,70 +94,70 @@ Add a `customThemes` block to your user, project, or system `settings.json` file
 - `Comment`
 - `Gray`
 
-You can use either hex codes (e.g., `#FF0000`) **or** standard CSS color names (e.g., `coral`, `teal`, `blue`) for any color value. See [CSS color names](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) for a full list of supported names.
+Вы можете использовать либо шестнадцатеричные коды (например, `#FF0000`), **либо** стандартные названия цветов CSS (например, `coral`, `teal`, `blue`) для любого значения цвета. Полный список поддерживаемых названий см. в разделе [Названия цветов CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords).
 
-You can define multiple custom themes by adding more entries to the `customThemes` object.
+Вы можете определить несколько пользовательских тем, добавив больше записей в объект `customThemes`.
 
-### Example Custom Theme
+### Пример пользовательской темы
 
-<img src="../assets/theme-custom.png" alt="Custom theme example" width="600" />
+<img src="../assets/theme-custom.png" alt="Пример пользовательской темы" width="600" />
 
-### Using Your Custom Theme
+### Использование вашей пользовательской темы
 
-- Select your custom theme using the `/theme` command in Gemini CLI. Your custom theme will appear in the theme selection dialog.
-- Or, set it as the default by adding `"theme": "MyCustomTheme"` to your `settings.json`.
-- Custom themes can be set at the user, project, or system level, and follow the same [configuration precedence](./configuration.md) as other settings.
+- Выберите свою пользовательскую тему с помощью команды `/theme` в Gemini CLI. Ваша пользовательская тема появится в диалоговом окне выбора темы.
+- Или установите ее по умолчанию, добавив `"theme": "MyCustomTheme"` в ваш `settings.json`.
+- Пользовательские темы могут быть установлены на уровне пользователя, проекта или системы и следуют тому же [приоритету конфигурации](./configuration.md), что и другие настройки.
 
 ---
 
-## Dark Themes
+## Темные темы
 
 ### ANSI
 
-<img src="../assets/theme-ansi.png" alt="ANSI theme" width="600" />
+<img src="../assets/theme-ansi.png" alt="Тема ANSI" width="600" />
 
 ### Atom OneDark
 
-<img src="../assets/theme-atom-one.png" alt="Atom One theme" width="600">
+<img src="../assets/theme-atom-one.png" alt="Тема Atom One" width="600">
 
 ### Ayu
 
-<img src="../assets/theme-ayu.png" alt="Ayu theme" width="600">
+<img src="../assets/theme-ayu.png" alt="Тема Ayu" width="600">
 
 ### Default
 
-<img src="../assets/theme-default.png" alt="Default theme" width="600">
+<img src="../assets/theme-default.png" alt="Тема Default" width="600">
 
 ### Dracula
 
-<img src="../assets/theme-dracula.png" alt="Dracula theme" width="600">
+<img src="../assets/theme-dracula.png" alt="Тема Dracula" width="600">
 
 ### GitHub
 
-<img src="../assets/theme-github.png" alt="GitHub theme" width="600">
+<img src="../assets/theme-github.png" alt="Тема GitHub" width="600">
 
-## Light Themes
+## Светлые темы
 
 ### ANSI Light
 
-<img src="../assets/theme-ansi-light.png" alt="ANSI Light theme" width="600">
+<img src="../assets/theme-ansi-light.png" alt="Тема ANSI Light" width="600">
 
 ### Ayu Light
 
-<img src="../assets/theme-ayu-light.png" alt="Ayu Light theme" width="600">
+<img src="../assets/theme-ayu-light.png" alt="Тема Ayu Light" width="600">
 
 ### Default Light
 
-<img src="../assets/theme-default-light.png" alt="Default Light theme" width="600">
+<img src="../assets/theme-default-light.png" alt="Тема Default Light" width="600">
 
 ### GitHub Light
 
-<img src="../assets/theme-github-light.png" alt="GitHub Light theme" width="600">
+<img src="../assets/theme-github-light.png" alt="Тема GitHub Light" width="600">
 
 ### Google Code
 
-<img src="../assets/theme-google-light.png" alt="Google Code theme" width="600">
+<img src="../assets/theme-google-light.png" alt="Тема Google Code" width="600">
 
 ### Xcode
 
-<img src="../assets/theme-xcode-light.png" alt="Xcode Light theme" width="600">
+<img src="../assets/theme-xcode-light.png" alt="Тема Xcode Light" width="600">
